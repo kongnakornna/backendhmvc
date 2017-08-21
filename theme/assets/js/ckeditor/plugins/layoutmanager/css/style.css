@@ -1,0 +1,25 @@
+.layoutmanager {}
+.layoutmanager .layout-container {
+
+    margin: 1px;
+    margin-top: 20px;
+
+}
+
+.layoutmanager .layout-column {
+  
+    /*border: 1px dashed #999;*/
+    word-wrap: break-word;
+    padding-top:10px;
+}
+
+
+.layoutmanager .btn .btn-default{
+  display:none;
+}
+
+figure.image img{
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
