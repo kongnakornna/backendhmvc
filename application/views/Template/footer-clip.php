@@ -127,21 +127,59 @@ $segment10=$this->uri->segment(10);
 						<div class="users-list">
 							<h5 class="sidebar-title"><?php echo $this->lang->line('notify');?></h5>
 							<ul class="media">
+							<?php  $nowurl=base_url(uri_string()); ?>						
+							<a href="<?php echo $nowurl; ?>"> <?php echo $nowurl; ?> </a>
 								<?php ################
-								$url=base_url();
-								$json_string=$url.'api/jsonfile/sd_email_lists.json';
+								$url=base_url();  
+								$json_string=$url.'apirest/sendmailalertlog';
 								$jsondata=file_get_contents($json_string);
 								$data_ret=json_decode($jsondata,true);
 								$count=count($data_ret);
-								$arr =$data_ret;
-								//Debug($data_ret);Die();
-								if($count > 0){
-								 for($i=0; $i<$count; $i++){
-									$email_username[$i]=$arr[$i]['email_username'];
-									$email_account[$i]=$arr[$i]['email_account'];
+								$arr=$data_ret;
+								$code=$arr['code'];
+								$data=$arr['data'];
+								 //echo '<pre> code=>'; print_r($code); echo '</pre>';
+								// echo '<pre> data=>'; print_r($data); echo '</pre>';
+								//Debug($data); //Die();
+		if($count > 0){	
+						foreach ($data as $key=> $value) {
+										$id_sensor=$value['mail_id'];
+										$id_sensor=$value['id_sensor'];
+										$sensor_name=$value['sensor_name'];
+										 $status=$value['status'];
+										 $to1=$value['to1'];
+										 $to2=$value['to2'];
+										 $to3=$value['to3'];
+										 $date=$value['date'];
+										 $values=$value['value'];
+										 //echo '<pre> value'; print_r($value); echo '</pre>';
+							?>
+								<hr/>
+								<i class="ace-icon fa fa-square bigger-110"></i>
+								<?php echo $this->lang->line('name'); ?> <?php  echo "<b><font color='Red'> $sensor_name  </font></b>";?>
+								<br/>
+								<i class="ace-icon fa fa-square bigger-110"></i>
+								<?php echo $this->lang->line('alert'); ?> <?php  echo "<b><font color='Red'> $values  </font></b>";?>
+								<br/>
+								<i class="ace-icon fa fa-square bigger-110"></i>
+								<?php echo $this->lang->line('date'); ?> <?php  echo "<b><font color='Red'> $date  </font></b>";?>
+								
+								<?php /*?>
+								<i class="ace-icon fa fa-bullseye bigger-110"></i>
+								<?php echo $this->lang->line('email'); ?>1 <?php  echo "<font color='Green'> $to1 </font>";?>
+								<br/>
+								<i class="ace-icon fa fa-bullseye bigger-110"></i>
+								<?php echo $this->lang->line('email'); ?>2 <?php  echo "<font color='Green'> $to2 </font>";?>
+								<br/>
+								<i class="ace-icon fa fa-bullseye bigger-110"></i>
+								<?php echo $this->lang->line('email'); ?>3 <?php  echo "<font color='Green'> $to3 </font>";?>
+								<br/>
+								<?php
+								*/
 								 }
 								}else{
 								echo 'Error 200';
+								/*
 								   $urlsend=base_url().'api/sd_email_lists.php';
 									// Get cURL resource
 									$curl = curl_init();
@@ -155,18 +193,9 @@ $segment10=$this->uri->segment(10);
 									$resp = curl_exec($curl);
 									// Close request to clear up some resources
 									curl_close($curl);
-								
+								*/
 								}	
-											   for($i=0; $i<$count; $i++){
-								?>
-								<hr/>
-								<i class="ace-icon fa fa-square bigger-110"></i>
-								<?php echo $this->lang->line('name'); ?><?php  echo "<b><font color='Red'> $email_username[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('email'); ?><?php  echo "<font color='Green'> $email_account[$i] </font>";?>
-								<br/>
-								<?php }?>		
+							?>	
 							</ul>
 						</div>
 					</div>
@@ -178,33 +207,45 @@ $segment10=$this->uri->segment(10);
 							<ul class="media">
 								<?php ################
 								$url=base_url();
-								$json_string=$url.'api/jsonfile/sd_hardware.json';
+								$json_string=$url.'apirest/sendsmsalertlog';
 								$jsondata=file_get_contents($json_string);
 								$data_ret=json_decode($jsondata,true);
 								$count=count($data_ret);
-								$arr =$data_ret;
-								//Debug($data_ret);Die();
+								$arr=$data_ret;
+								$code=$arr['code'];
+								$data=$arr['data'];
+								//Debug($data_ret); //Die();
 								if($count > 0){
-								 for($i=0; $i<$count; $i++){
-									$hardware_id[$i]=$arr[$i]['hardware_id'];
-									$hardware_type_id[$i]=$arr[$i]['hardware_type_id'];
-									$hardware_name[$i]=$arr[$i]['hardware_name'];
-									$hardware_decription[$i]=$arr[$i]['hardware_decription'];
-									$hardgroup_name[$i]=$arr[$i]['hardgroup_name'];
-									$hardware_ip[$i]=$arr[$i]['hardware_ip'];
-									$port[$i]=$arr[$i]['port'];
-									$location_id[$i]=$arr[$i]['location_id'];
-									$date[$i]=$arr[$i]['date'];
-									$vendor[$i]=$arr[$i]['vendor'];
-									$sn[$i]=$arr[$i]['sn'];
-									$model[$i]=$arr[$i]['model'];
-									$status[$i]=$arr[$i]['status'];
-									$hardware_type_name[$i]=$arr[$i]['hardware_type_name'];
-									$location_name[$i]=$arr[$i]['location_name'];
-									$location_address[$i]=$arr[$i]['location_address'];
-								 }
-								}else{
+								foreach ($data as $key=> $value) {
+										$sms_id=$value['sms_id'];
+										$id_sensor=$value['id_sensor'];
+										$sensor_name=$value['sensor_name'];
+										$sms_value=$value['value'];
+										$sms_status=$value['status'];
+										$sms_to=$value['to'];
+										$sms_date=$value['date'];
+								?>
+								<div class="sidebar-content"><label>
+								<i class="ace-icon fa fa-square bigger-110"></i>
+								<?php echo $this->lang->line('name'); ?><?php  echo "<b><fontfont color='Red'> $sensor_name </font></b>";?>
+								<br/>
+								<i class="ace-icon fa fa-bullseye bigger-110"></i>
+								<?php echo $this->lang->line('value'); ?><?php  echo "<font color='Green'> $sms_value </font>";?>
+								<br/>
+								<i class="ace-icon fa fa-bullseye bigger-110"></i>
+								<?php echo $this->lang->line('status'); ?><?php  echo "<b><font color='Green'> $sms_status </font></b>";?>
+								<br/>
+								<i class="ace-icon fa fa-bullseye bigger-110"></i>
+								<?php echo $this->lang->line('mobile'); ?><?php  echo "<b><font color='Red'> $sms_to </font></b>";?>
+								<br/>
+								<i class="ace-icon fa fa-bullseye bigger-110"></i>
+								<?php echo $this->lang->line('date');?><?php  echo "<b><font color='Blue'> $sms_date </font></b>";?>
+								<br/>
+								</label></div><hr/>
+								<?php  }
+								 }else{
 								echo 'Error 200';
+								/*
 								   $urlsend=base_url().'api/sd_hardware.php';
 									// Get cURL resource
 									$curl = curl_init();
@@ -218,47 +259,9 @@ $segment10=$this->uri->segment(10);
 									$resp = curl_exec($curl);
 									// Close request to clear up some resources
 									curl_close($curl);
-								
+								*/
 								}	
-											   for($i=0; $i<$count; $i++){
-								?>
-								<div class="sidebar-content"><label>
-								<i class="ace-icon fa fa-square bigger-110"></i>
-								<?php echo $this->lang->line('hardware'); ?><?php  echo "<b><fontfont color='Red'> $hardware_name[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('description'); ?><?php  echo "<font color='Green'> $hardware_decription[$i] </font>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('name'); ?><?php  echo "<b><font color='Green'> $hardgroup_name[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('ipaddress'); ?><?php  echo "<b><font color='Red'> $hardware_ip[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo 'Port :';?><?php  echo "<b><font color='Blue'> $port[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('date'); ?><?php  echo "<font color='Green'> $date[$i] </font>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('vendor'); ?><?php  echo "<b><font color='Green'> $vendor[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('sn'); ?><?php  echo "<b><font color='Red'> $sn[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('model'); ?><?php  echo "<b><font color='Red'> $model[$i] </font></b>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('locationmonitor'); ?><?php  echo "<font color='Green'> $location_name[$i] </font>";?>
-								<br/>
-								<i class="ace-icon fa fa-bullseye bigger-110"></i>
-								<?php echo $this->lang->line('address'); ?><?php  echo "<font color='Green'> $location_address[$i] </font>";?>
-								</label></div>
-								<?php
-								}
-								?>		
+							?>	
 							</ul>
 						</div>
 					</div>
@@ -521,7 +524,14 @@ if(preg_match('~\b(charttmon|flot)\b~i', strtolower($this->uri->segment(1)))){}e
         
         <?php }?>
         
-
+<?php
+if(preg_match('~\b(activity_logsna|setingworktime)\b~i', strtolower($this->uri->segment(1)))){
+?>
+<!-- ###############################################################################-->
+<!-- ###############################################################################--> 
+<!-- ###############################################################################-->		
+<!-- ###############################################################################-->
+<?php }?>
 
 <script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='<?php echo base_url('theme/assets/js/jquery.mobile.custom.min.js'); ?>'>"+"<"+"/script>");
@@ -675,36 +685,61 @@ jQuery(function($) {
 				//echo js_asset('morris/chart-data-morris.js');	//data morris.js Charts panel-primary
 				//echo js_asset('morris/morris-demo.js');		//data Charts panel-default
 				//echo js_asset('morris/morris-ready.js');
-	}else if(preg_match('~\b(overview)\b~i', strtolower($this->uri->segment(1)))){
+	}else if(preg_match('~\b(sensor|sensorreport)\b~i', strtolower($this->uri->segment(1)))){
 ?>
-
-
-	
-		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-		<!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE overview ONLY -->
-		<script src="<?php echo base_url('theme');?>/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
-		<script src="<?php echo base_url('theme');?>/assets/plugins/jQRangeSlider/jQAllRangeSliders-min.js"></script>
-		<script src="<?php echo base_url('theme');?>/assets/plugins/jQuery-Knob/js/jquery.knob.js"></script>
-		<script src="<?php echo base_url('theme');?>/assets/js/ui-sliders.js"></script>
-		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE overview ONLY -->
-		<script>
-			jQuery(document).ready(function() {
-				Index.init();
-				//Main.init();
-				UISliders.init();
-			});
-		</script>
+<?php	$this->load->view('hardware/sensor'); ?>
+<?php }elseif(preg_match('~\b(sensor_config)\b~i', strtolower($this->uri->segment(1)))){ ?>
+<?php	$this->load->view('hardware/sensor_config'); ?>
+<?php }elseif(preg_match('~\b(email_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/email_config');?>
+<?php }elseif(preg_match('~\b(sms_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sms_config');?>
 <?php }elseif(preg_match('~\b(backupdb)\b~i', strtolower($this->uri->segment(1)))){?>
 <?php	$this->load->view('hardware/backupdb');?>
+<?php }elseif(preg_match('~\b(workflow)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/workflow');?>
+<?php }elseif(preg_match('~\b(sms_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sms_log');?>
+<?php }elseif(preg_match('~\b(email_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/email_log');?>
+<?php }elseif(preg_match('~\b(hardware_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/hardware_config');?>
+<?php }elseif(preg_match('~\b(access_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/access_log');?>
+<?php }elseif(preg_match('~\b(alert_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/alert_log');?>
 <?php }elseif(preg_match('~\b(members)\b~i', strtolower($this->uri->segment(1)))){?>
 <?php   $this->load->view('hardware/members');?>
+<?php }elseif(preg_match('~\b(event_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/event_log');?> 
 <?php }elseif(preg_match('~\b(profile)\b~i', strtolower($this->uri->segment(1)))){?>
 <?php   $this->load->view('hardware/profile');?> 
+<?php }elseif(preg_match('~\b(sensorreport)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/sensorreport');?> 
 <?php }else{
 				//echo js_asset('index.js'); 
 		}
 ?>
- 
+		<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<?php 
+		//echo css_asset('ace.onpage-help.css'); 
+?>
+		<!-- <link rel="stylesheet" href="<?php echo base_url('docs/assets/js/themes/sunburst.css'); ?>" /> -->
+
+		<!-- <script type="text/javascript"> ace.vars['base'] = '..'; </script> -->
+<?php 
+		//echo js_asset('ace/elements.onpage-help.js'); 
+		//echo js_asset('ace/ace.onpage-help.js'); 		
+?>
+
+<?php
+		/*if((strtolower($this->uri->segment(1)) == "dara") && (strtolower($this->uri->segment(2)) == "edit")){
+			echo '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>';
+			echo js_asset('jquery.tagbox.js'); 
+		}else
+			echo js_asset('chosen.jquery.min.js');*/
+
+?>
 
 		<!-- ace scripts -->
 <?php 
@@ -718,9 +753,40 @@ jQuery(function($) {
 ?>
 
 <?php }#charttmon?>	
- 
+<!-- ###############################################################################-->
+<!-- ###############################################################################-->
+<!-- ###############################################################################-->
+<!-- ###############################################################################-->
+
+<!-- ###############################################################################-->
+<!-- ###############################################################################-->
+<!-- ###############################################################################-->
+<!-- ###############################################################################-->
 
 
+
+		<!-- Your GOOGLE ANALYTICS CODE Below -->
+<!--
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+
+		</script>
+-->
+
+<?php 
+$this->load->view('template/tmonjs');
+?>
 
 	</body>
 	<!-- end: BODY -->

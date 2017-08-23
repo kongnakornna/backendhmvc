@@ -483,8 +483,224 @@ $(document).ready(function(){
 						</li>
 				</ul>
 		</li>
- 
- 
+<?php
+/*****************notification_birthday*********************/
+if(isset($notification_birthday)){
+		$dara_brithday=count($notification_birthday);
+		$opentask=($dara_brithday > 0) ? '' : 'style="display:none;"';
+?>
+						<!-- Task Mail -->
+						<li class="green" <?php echo $opentask ?>>
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-gift icon-animated-vertical"></i>
+								<span class="badge badge-success"><?php echo $dara_brithday?></span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-gift"></i>
+									<?php echo $language['birthday'].' '.$dara_brithday?> คน 
+								</li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+<?php for($i=0;$i<$dara_brithday;$i++){
+
+			$dara_name='('.$notification_birthday[$i]->nick_name.') '.$notification_birthday[$i]->first_name.' '.$notification_birthday[$i]->last_name;
+
+			//$picture='uploads/thumb/dara/'.$notification_birthday[$i]->avatar;
+			$picture='uploads/thumb3/dara/'.$notification_birthday[$i]->avatar;
+
+			$birth_date=RenDateTime($notification_birthday[$i]->birth_date);
+			$lnk=base_url('dara/edit/'.$notification_birthday[$i]->dara_profile_id);
+?>
+										<li>
+											<a href="<?php echo $lnk ?>">
+												<?php
+														if(file_exists($picture)){
+												?>
+												<img src="<?php echo base_url($picture); ?>" class="msg-photo" alt="<?php echo $dara_name?>'s Avatar" />
+												<?php }else{ ?>
+												<i class="ace-icon fa fa-gift"></i>
+												<?php } ?>
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue"><?php echo $dara_name?></span>
+													</span>
+
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span><?php echo $birth_date?></span>
+													</span>
+												</span>
+											</a>
+										</li>
+<?		 } ?>
+									</ul>
+								</li>
+
+								<!-- <li class="dropdown-footer">
+									<a href="inbox.html">
+										See all messages
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li> -->
+							</ul>
+						</li>
+<? } //end notification_birthday
+
+/*****************notification_msg*********************/
+if(isset($notification_news)){
+
+		$notification_msg=$notification_news + $notification_column + $notification_gallery + $notification_vdo + $notification_dara;
+		//$all_alert=count($notification_msg);
+		$opentask=($notification_msg > 0) ? '' : 'style="display:none;"';
+?>
+						<!-- Task Mail -->
+						<li class="red" <?php echo $opentask ?>>
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
+								<span class="badge badge-success"><?php echo $notification_msg?></span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-exclamation-triangle"></i>
+									<?php echo $language['no_approve'].' '.$notification_msg?> record 
+								</li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+<?php 
+/*********************news***************************/
+		if($notification_news > 0){
+					
+					//$link=base_url('news?approve=4');
+					if(isset($notification_news_list[0]->news_id2))
+						$link=base_url('news/edit/'.$notification_news_list[0]->news_id2);
+					else
+						$link=base_url('news?approve=4');
+?>
+										<li>
+											<a href="<?php echo $link ?>">
+
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-info fa fa-list"></i>
+														<?php echo $language['no_approve'].' '.$language['news'] ?>
+													</span>
+													<span class="pull-right badge badge-info">+<?php echo $notification_news?></span>
+												</div>
+
+											</a>
+										</li>
+<?php
+		}
+
+		if($notification_column > 0){
+					//$link=base_url('column?approve=4');
+					if(isset($notification_column_list[0]->column_id2))
+						$link=base_url('column/edit/'.$notification_column_list[0]->column_id2);
+					else
+						$link=base_url('column?approve=4');
+?>
+										<li>
+											<a href="<?php echo $link; ?>">
+
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-pink fa fa-pencil-square-o"></i>
+														<?php echo $language['no_approve'].' '.$language['column'] ?>
+													</span>
+													<span class="pull-right badge badge-pink">+<?php echo $notification_column?></span>
+												</div>
+
+											</a>
+										</li>
+<?php
+		}
+
+		if($notification_gallery > 0){
+					//$link=base_url('gallery?approve=4');
+					if(isset($notification_gallery_list[0]->gallery_id2))
+						$link=base_url('gallery/edit/'.$notification_gallery_list[0]->gallery_id2);
+					else
+						$link=base_url('gallery?approve=4');
+?>
+										<li>
+											<a href="<?php echo $link ?>">
+
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-primary fa fa-picture-o"></i>
+														<?php echo $language['no_approve'].' '.$language['gallery'] ?>
+													</span>
+													<span class="pull-right badge badge-primary">+<?php echo $notification_gallery?></span>
+												</div>
+
+											</a>
+										</li>
+<?php
+		}
+
+		if($notification_vdo > 0){
+					//$link=base_url('vdo?approve=4');
+					if(isset($notification_vdo_list[0]->video_id2))
+						$link=base_url('vdo/edit/'.$notification_vdo_list[0]->video_id2);
+					else
+						$link=base_url('vdo?approve=4');
+?>
+										<li>
+											<a href="<?php echo $link; ?>">
+
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-success fa fa-film"></i>
+														<?php echo $language['no_approve'].' '.$language['vdo'] ?>
+													</span>
+													<span class="pull-right badge badge-success">+<?php echo $notification_vdo?></span>
+												</div>
+
+											</a>
+										</li>
+<?php
+		}
+
+		if($notification_dara > 0){
+					//$link=base_url('dara?approve=4');
+					if(isset($notification_dara_list[0]->dara_profile_id))
+						$link=base_url('dara/edit/'.$notification_dara_list[0]->dara_profile_id);
+					else
+						$link=base_url('dara?approve=4');
+?>
+										<li>
+											<a href="<?php echo $link; ?>">
+
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-warning fa fa-user"></i>
+														<?php echo $language['no_approve'].' '.$language['dara'] ?>
+													</span>
+													<span class="pull-right badge badge-warning">+<?php echo $notification_dara?></span>
+												</div>
+
+											</a>
+										</li>
+<?php
+		}
+?>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer">
+									<a href="<?php echo base_url('userlogs/approve') ?>">
+										See all approve
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+<? } ?>
 						<!-- #section:basics/navbar.user_menu -->
 						<?php
 						//Debug($this->session->userdata);
@@ -556,6 +772,17 @@ $(document).ready(function(){
 										<i class="ace-icon fa fa-user"></i><?php echo $this->lang->line('help');;?> 
 									</a>
 								</li> 
+
+
+								<li class="divider"></li>
+								<li>
+									<!-- <a href="<?php echo base_url('hwdata'); ?>"target="_blank">  --->
+										<a href="http://127.0.0.1/tmonci/hwdata/index.php"target="_blank">
+										<i class="fa fa-tint"></i>
+										</i><?php echo'&nbsp;';?><?php echo $this->lang->line('hwdata');?> 
+									</a>
+								</li> 
+
 
 								<li class="divider"></li>
 								<li>
@@ -636,9 +863,9 @@ $(document).ready(function(){
 <?php
 		//echo "total_execution_time_start=".$total_execution_time_start;
 		if(function_exists('Debug')){
-	 
+			//Debug($notification_birthday) ;
 			//Debug($this->session->all_userdata());
-		 
+			//Debug($this->benchmark->marker) ;
 		}
 		//die();
 ?>

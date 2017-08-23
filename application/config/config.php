@@ -552,6 +552,10 @@ $config['rewrite_short_tags'] = TRUE;
 */
 $config['proxy_ips'] = '';
 
+//notification
+$config['notification'] = '1'; // 1=Enable  0=disable
+$config['notificationtest'] = '1'; // 1=Enable  0=disable
+$config['notificationtime'] = '3000'; // 1=Enable  0=disable
 ######################################################
 #echo '<pre>config=>'; print_r($config); echo '</pre>'; 
 

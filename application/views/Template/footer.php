@@ -228,8 +228,36 @@ $segment10=$this->uri->segment(10);
 		}else if(preg_match('~\b(order)\b~i', strtolower($this->uri->segment(1)))){
 
 				echo js_asset('jquery.nestable.js'); 
-}elseif(preg_match('~\b(xml)\b~i', strtolower($this->uri->segment(1)))){?>
-<?php	$this->load->view('xml/xml'); ?>
+}elseif(preg_match('~\b(sensor)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sensor'); ?>
+<?php }elseif(preg_match('~\b(sensor_config)\b~i', strtolower($this->uri->segment(1)))){ ?>
+<?php	$this->load->view('hardware/sensor_config'); ?>
+<?php }elseif(preg_match('~\b(email_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/email_config');?>
+<?php }elseif(preg_match('~\b(sms_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sms_config');?>
+<?php }elseif(preg_match('~\b(backupdb)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/backupdb');?>
+<?php }elseif(preg_match('~\b(workflow)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/workflow');?>
+<?php }elseif(preg_match('~\b(sms_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sms_log');?>
+<?php }elseif(preg_match('~\b(email_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/email_log');?>
+<?php }elseif(preg_match('~\b(hardware_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/hardware_config');?>
+<?php }elseif(preg_match('~\b(access_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/access_log');?>
+<?php }elseif(preg_match('~\b(alert_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/alert_log');?>
+<?php }elseif(preg_match('~\b(members)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/members');?>
+<?php }elseif(preg_match('~\b(event_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/event_log');?> 
+<?php }elseif(preg_match('~\b(profile)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/profile');?> 
+<?php }elseif(preg_match('~\b(sensorreport)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/sensorreport');?> 
 <?php }else{//index
 				
 				echo js_asset('jquery.easypiechart.min.js'); 
@@ -282,6 +310,101 @@ jQuery(function($) {
 						return false;
 					});
 				});
+					
+				/*$("#bootbox-confirm").on(ace.click_event, function() {
+					bootbox.confirm("Are you sure?", function(result) {
+						if(result) {
+							//
+						}
+						return false;
+					});
+				});*/
+
+				/*$('#gritter-regular').on(ace.click_event, function(){
+					$.gritter.add({
+						title: 'This is a regular notice!',
+						text: 'This will fade out after a certain amount of time. Vivamus eget tincidunt velit. Cum sociis natoque penatibus et <a href="#" class="blue">magnis dis parturient</a> montes, nascetur ridiculus mus.',
+						image: $path_assets+'/avatars/avatar1.png',
+						sticky: false,
+						time: '',
+						class_name: (!$('#gritter-light').get(0).checked ? 'gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+				$('#gritter-sticky').on(ace.click_event, function(){
+					var unique_id = $.gritter.add({
+						title: 'This is a sticky notice!',
+						text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget tincidunt velit. Cum sociis natoque penatibus et <a href="#" class="red">magnis dis parturient</a> montes, nascetur ridiculus mus.',
+						image: $path_assets+'/avatars/avatar.png',
+						sticky: true,
+						time: '',
+						class_name: 'gritter-info' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+			
+				$('#gritter-without-image').on(ace.click_event, function(){
+					$.gritter.add({
+						// (string | mandatory) the heading of the notification
+						title: 'This is a notice without an image!',
+						// (string | mandatory) the text inside the notification
+						text: 'This will fade out after a certain amount of time. Vivamus eget tincidunt velit. Cum sociis natoque penatibus et <a href="#" class="orange">magnis dis parturient</a> montes, nascetur ridiculus mus.',
+						class_name: 'gritter-success' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+			
+				$('#gritter-max3').on(ace.click_event, function(){
+					$.gritter.add({
+						title: 'This is a notice with a max of 3 on screen at one time!',
+						text: 'This will fade out after a certain amount of time. Vivamus eget tincidunt velit. Cum sociis natoque penatibus et <a href="#" class="green">magnis dis parturient</a> montes, nascetur ridiculus mus.',
+						image: $path_assets+'/avatars/avatar3.png',
+						sticky: false,
+						before_open: function(){
+							if($('.gritter-item-wrapper').length >= 3)
+							{
+								return false;
+							}
+						},
+						class_name: 'gritter-warning' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+			
+				$('#gritter-center').on(ace.click_event, function(){
+					$.gritter.add({
+						title: 'This is a centered notification',
+						text: 'Just add a "gritter-center" class_name to your $.gritter.add or globally to $.gritter.options.class_name',
+						class_name: 'gritter-info gritter-center' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+				
+				$('#gritter-error').on(ace.click_event, function(){
+					$.gritter.add({
+						title: 'This is a warning notification',
+						text: 'Just add a "gritter-light" class_name to your $.gritter.add or globally to $.gritter.options.class_name',
+						class_name: 'gritter-error' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+					
+			
+				$("#gritter-remove").on(ace.click_event, function(){
+					$.gritter.removeAll();
+					return false;
+				});*/
+
 });
 </script>
 
@@ -319,5 +442,44 @@ jQuery(function($) {
 				}
 		}
 ?>
+		<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<?php 
+		//echo css_asset('ace.onpage-help.css'); 
+?>
+		<!-- <link rel="stylesheet" href="<?php echo base_url('docs/assets/js/themes/sunburst.css'); ?>" /> -->
+
+		<!-- <script type="text/javascript"> ace.vars['base'] = '..'; </script> -->
+<?php 
+		//echo js_asset('ace/elements.onpage-help.js'); 
+		//echo js_asset('ace/ace.onpage-help.js'); 		
+?>
+
+<?php
+		/*if((strtolower($this->uri->segment(1)) == "dara") && (strtolower($this->uri->segment(2)) == "edit")){
+			echo '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>';
+			echo js_asset('jquery.tagbox.js'); 
+		}else
+			echo js_asset('chosen.jquery.min.js');*/
+
+?>
+<!-- ###############################################################################-->
+		<!-- Your GOOGLE ANALYTICS CODE Below -->
+<!--
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+
+		</script>
+-->
 </body>
 </html>

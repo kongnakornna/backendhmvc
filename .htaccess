@@ -3,7 +3,7 @@
 
 RewriteEngine on
 
-RewriteCond $1 !^(index\.php|img|hwdata|api|rest|json|jsna|logs|assets|theme|user_guide|uploads|file|files|user-data|documentation|images|json|lang|logs|plugins|mfm_013|robots\.txt|ckfinder\.html)
+RewriteCond $1 !^(index\.php|img|hwdata|api|rest|json|jsna|logs|plugins|assets|theme|user_guide|uploads|file|files|user-data|documentation|images|json|lang|logs|plugins|mfm_013|robots\.txt|ckfinder\.html)
 RewriteRule ^(.*)$ index.php/$1 [L]
 
 

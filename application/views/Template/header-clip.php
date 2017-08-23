@@ -1,8 +1,8 @@
 <?php
-$nowurl=base_url(uri_string());
+ob_end_flush();
 $setting=GetConfig1();
-#echo'<hr><pre>  $setting=>';print_r($setting);echo'<pre> <hr>'; #die();
 $object=json_decode(json_encode($setting), TRUE);
+#echo'<hr><pre>  $object=>';print_r($object);echo'<pre> <hr>';  Die();
 $systemname_crna=$object['systemname'];
 $description_crna=$object['description'];
 $address_crna=$object['address'];
@@ -28,7 +28,8 @@ $google_crna=$object['google'];
 # File THAI --> application\language\thai\app_lang.php
 # File English --> application\language\english\app_lang.php	
 $admin_id=0;# 0=>เห็นทุกเมนู
-$navbar_fix=$breadcrumb_fix='';
+$navbar_fix='';
+$breadcrumb_fix='';
 $language=$this->lang->language;
 $lang=$this->lang->line('lang');
 $langs=$this->lang->line('langs');
@@ -100,7 +101,7 @@ if(!isset($ListSelect)) $ListSelect=null;
        $date7am12daysago=strtotime("7am 12 days ago");
        $yesterday =date("Y-m-d", $yesterday); 
        $time=date('H:i:s');
-	   $strDate=date('Y-m-d H:i:s');
+	      $strDate=date('Y-m-d H:i:s');
 		function DateThai($strDate){
 		$strYear=date("Y",strtotime($strDate))+543;
 		$strMonth= date("n",strtotime($strDate));
@@ -115,11 +116,11 @@ if(!isset($ListSelect)) $ListSelect=null;
 		$strMonth1= date("n",strtotime($strDate));
 		$strMonthCut1=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai1=$strMonthCut1[$strMonth1];
-	    $strYear2=date("Y",strtotime($strDate))+543;
+	 $strYear2=date("Y",strtotime($strDate))+543;
 		$strHour3= date("H",strtotime($strDate));
 		$strMinute3= date("i",strtotime($strDate));
 		$strSeconds3= date("s",strtotime($strDate));
-        $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
+  $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
 		$strYear4=date("Y",strtotime($strDate))+543;
 		$strMonth4= date("n",strtotime($strDate));
 		$strDay4= date("j",strtotime($strDate));
@@ -130,7 +131,6 @@ if(!isset($ListSelect)) $ListSelect=null;
 $navbar_fix='navbar-fixed-top';
 $breadcrumb_fix='breadcrumbs-fixed';
 	//echo $segment1.':'.$web_title.':'.$userinput;
-
 	if(!$this->session->userdata('user_name')) {					
 		redirect('login/login');
 		die();
@@ -150,17 +150,13 @@ $breadcrumb_fix='breadcrumbs-fixed';
 	$attr=array();
 ?>
 <!DOCTYPE html>
-<!-- Template Name: Clip-One - Responsive Admin Template build with Twitter Bootstrap 3.x Version: 1.4 Author: ClipTheme -->
-<!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
-<!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
-<!--[if !IE]><!-->
 <html lang="<?php echo $lang;?>" class="no-js">
-	<!--<![endif]-->
 	<!-- start: HEAD -->
 	<head>
 		<title><?php echo $this->lang->line('titleweb');?></title>
+
 		<!-- start: META -->
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -170,16 +166,30 @@ $breadcrumb_fix='breadcrumbs-fixed';
 		<meta name="keyword" content="tmon,monitoring,hardware,control,acms,sensor,adruno" />
 		<!-- end: META -->
 		<!-- start: MAIN CSS -->
- 
 <!-- Basic Styles -->
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url('theme');?>/assets/css/bootstrap.min.css">
-<!--
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url('theme');?>/assets/css/font-awesome.min.css">
--->
-
+<?php
+if(preg_match('~\b(charttmon|flot)\b~i', strtolower($this->uri->segment(1)))){ 
+#charttmon
+?>
+<!-- start: Charttmon MAIN CSS -->
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/fonts/style.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/css/main.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/css/main-responsive.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/iCheck/skins/all.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/bootstrap-colorpalette/css/bootstrap-colorpalette.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/css/theme_light.css" type="text/css" id="skin_color">
+<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/css/print.css" type="text/css" media="print"/>
+<?php
+}else{  
+# not is charttmon
+?>
 <!-- sweetalert -->
 <script src="<?php echo base_url('theme');?>/assets/js/sweetalert/jquery-2.1.3.min.js"></script>
- 
+<?php }?>
 <script src="<?php echo base_url('theme');?>/assets/js/sweetalert/sweetalert-dev.js"></script>
 <link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/js/sweetalert/sweetalert.css">
 <link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css">
@@ -217,7 +227,23 @@ $breadcrumb_fix='breadcrumbs-fixed';
 	<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/css/theme_navy.css" type="text/css" id="skin_color">
 	-->
 	
-	
+	<!-- End: MAIN CSS TMON-->
+	<!-- end: MAIN CSS -->
+ <?php 	if(preg_match('~\b(sensor|sensorreport)\b~i', strtolower($this->uri->segment(1)))){?>
+		<!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('theme');?>/assets/plugins/select2/select2.css" />
+		<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/DataTables/media/css/DT_bootstrap.css" />
+		<!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+ 
+<?php }else if(preg_match('~\b(sensor|sensorreport)\b~i', strtolower($this->uri->segment(1)))){?>
+		<!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
+		<link rel="stylesheet" href="<?php echo base_url('theme');?>/assets/plugins/colorbox/example2/colorbox.css">
+<?php }else if(preg_match('~\b(overview)\b~i', strtolower($this->uri->segment(1)))){?>
+
+		<!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url('theme');?>/assets/css/smartadmin-production.css">
+ 
+<?php }?>
 <!-- bootstrap & fontawesome -->
 <?php 
 		//echo css_asset('bootstrap.min.css'); 
@@ -250,7 +276,6 @@ $breadcrumb_fix='breadcrumbs-fixed';
 			echo js_asset('date-time/bootstrap-datetimepicker.min.js');
 */
 ?>
-
 <?php }else if(preg_match('~\b(activity_logsna|setingworktime)\b~i', strtolower($this->uri->segment(1)))){?>
 <!-- ###############################################################################-->
 <!-- ###############################################################################--> 
@@ -368,6 +393,7 @@ $(document).ready(function(){
 </head>
 	<!-- end: HEAD -->
 	<!-- start: BODY -->
+	<!--  <body class="">-->
 	<body class="navigation-small">
 		<!-- start: HEADER -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
@@ -381,18 +407,10 @@ $(document).ready(function(){
 					<!-- end: RESPONSIVE MENU TOGGLER -->
 					<!-- start: LOGO -->
 					<a class="navbar-brand" href="<?php echo base_url('dashboard');?>">
-					<img src="<?=base_url('images/logobloe.png')?>" height="40"/> 
-                 <!-- 
-				  <i class="clip-clip"></i> 
-				  -->
+					<img src="<?php echo base_url('images/logobloe.png');?>" height="40"/> 
 					</a>
 					<!-- end: LOGO -->
 				</div>
-				
-				
-				
-				
-				
 				<div class="navbar-tools">
 					<!-- start: TOP NAVIGATION MENU -->
 					<ul class="nav navbar-right">
@@ -404,7 +422,7 @@ $(document).ready(function(){
 						<li class="dropdown">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
 								<i class="clip-list-5"></i>
-								<span class="badge"> url</span>
+								<span class="badge"> URI</span>
 							</a>
 							<ul class="dropdown-menu todo">
 <?php							
@@ -422,26 +440,112 @@ $(document).ready(function(){
 		 echo '</li>';
 */
 ?>
+
+										<?php ################################ ?>
 										<li>
 											<a href="#">
 												<!-- <img src="<?php echo base_url(); ?>assets/avatars/avatar.png" class="msg-photo" alt="" /> -->
 												<span class="msg-body">
 													<span class="msg-title">
-														<span class="blue">Segments <?php echo $num?> :</span>
-														<?php echo $HeadTitle?>
-														$this->uri->segment(<?php echo $num?>)
+<?php ######################################################?>
+													<?php if($num==1){?>
+														<!-- <i class="clip-seven-segment-0"></i> -->
+														<span class="blue">URI<i class="clip-seven-segment-1"></i>:</span>
+													<?php }elseif($num==2){?>	
+														<span class="blue">URI <i class="clip-seven-segment-2"></i>:</span>
+													<?php }elseif($num==3){?>	
+														<span class="blue">URI <i class="clip-seven-segment-3"></i>:</span>
+													<?php }elseif($num==4){?>	
+														<span class="blue">URI <i class="clip-seven-segment-4"></i>:</span>
+													<?php }elseif($num==5){?>	
+														<span class="blue">URI <i class="clip-seven-segment-5"></i>:</span>
+													<?php }elseif($num==6){?>	
+														<span class="blue">URI <i class="clip-seven-segment-6"></i>:</span>
+													<?php }elseif($num==7){?>	
+														<span class="blue">URI <i class="clip-seven-segment-7"></i>:</span>
+													<?php }elseif($num==8){?>	
+														<span class="blue">URI <i class="clip-seven-segment-8"></i>:</span>
+													<?php }elseif($num==9){?>	
+														<span class="blue">URI <i class="clip-seven-segment-9"></i>:</span>
+													<?php }elseif($num==10){?>	
+														<span class="blue">URI <i class="clip-seven-segment-1"></i><i class="clip-seven-segment-0"></i>:</span>
+													<?php }else{?>
+													<span class="blue">Segments <?php echo $num;?> :</span>
+<?php }######################################################?>
+														
+														<?php echo $HeadTitle;?>
+														$this->uri->segment(<?php echo $num;?>)
 													</span>
-
-													<span class="msg-time">
-														 <hr>
-													</span>
+													<!-- <span class="msg-time"><hr></span>-->
 												</span>
 											</a>
 										</li>
+										<?php ################################ ?>
 <?php
 	 }
  }
 ?>
+<?php
+$this->load->library('user_agent');
+if ($this->agent->is_browser()){
+        $agent = $this->agent->browser().' '.$this->agent->version();
+}elseif ($this->agent->is_robot()){
+        $agent = $this->agent->robot();
+}elseif ($this->agent->is_mobile()){
+        $agent = $this->agent->mobile();
+}else{
+        $agent = 'Unidentified User Agent';
+}
+$platform=$this->agent->platform();
+?>
+<?php ################################ ?>
+										<li>
+											<a href="#"> 
+											<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Agent :</span>
+														<?php echo $agent; ?>
+													</span>
+												</span>
+											</a>
+										</li>
+<?php ################################ ?>
+										<li>
+											<a href="#"> 
+											<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Platform :</span>
+														<?php echo $platform; ?>
+													</span>
+												</span>
+											</a>
+										</li>
+<?php ################################ 
+$post=@$this->input->post();
+$get=@$this->input->get();
+?>
+<li>
+ <a href="#"> 
+   <span class="msg-body">
+			   <span class="msg-title">
+														<span class="blue">$this->input->get():</span>
+														<?php if($get==null){}else{echo '<pre> data=>'; print_r($get); echo '</pre>'; } ?>
+			   </span>
+   </span>
+ </a>
+</li>
+<?php ################################ ?>
+<li>
+ <a href="#"> 
+   <span class="msg-body">
+			   <span class="msg-title">
+														<span class="blue">$this->input->post():</span>
+														<?php if($post==null){}else{echo '<pre> data=>'; print_r($post); echo '</pre>'; } ?>
+			   </span>
+   </span>
+ </a>
+</li>
+<?php ################################ ?>
 							</ul>
 						</li>
 						<!-- end: TO-DO DROPDOWN-->
@@ -449,13 +553,19 @@ $(document).ready(function(){
 						<!-- start: NOTIFICATION DROPDOWN -->
 						<li class="dropdown">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-								<i class="clip-notification-2"></i>
+								<i class="clip-database"></i>
 								<span class="badge">SQL</span>
 							</a>
 							<ul class="dropdown-menu notifications">
 								<li>
+									<a href="<?php echo base_url('cachetool'); ?>">
+										<i class="clip-database"></i>
+										&nbsp; <?php echo $this->lang->line('cachetool');?>
+									</a>
+								</li>
+								<li>
 									<span class="dropdown-menu-title"> 
-<code><?php echo "total_execution_time_start=".$total_execution_time_start?></code>
+									<code><?php echo "total_execution_time_start=".$total_execution_time_start?></code>
 									</span>
 								</li>
 <?php
@@ -471,12 +581,13 @@ $(document).ready(function(){
 				if(function_exists('Debug')){
 						//Debug($this->db->queries) ;
 				}
-?> 
+?> 							<!--
 								<li class="view-all">
 									<a href="javascript:void(0)">
 										See all notifications <i class="fa fa-arrow-circle-o-right"></i>
 									</a>
 								</li>
+							-->
 							</ul>
 						</li>
 <?php } //$this->session->userdata('admin_id') 1,3  ?>
@@ -535,15 +646,7 @@ if($this->session->userdata['avatar'] != ''){
 							<ul class="dropdown-menu">
 								<li>
 								
-										<a href="<?php echo $this->config->config['www']; ?>"target="_blank">
-										<i class="clip-screen"></i>
-										 <?php echo $this->lang->line('website'); ?> 
-										</a>
-								
-								</li>
-								<li>
-								
-										<a href="<?php echo base_url('overview'); ?>">
+										<a href="<?php echo base_url('tmon/overview'); ?>">
 										<i class="clip-screen"></i>
 										 <?php echo $this->lang->line('overview'); ?> 
 										</a>
@@ -555,7 +658,7 @@ if($this->session->userdata['avatar'] != ''){
 								</li>
 								
 								<li>
-									<a href="<?php echo base_url('userlogs'); ?>">
+									<a href="<?php echo base_url('activity_logsna'); ?>">
 										<i class="clip-calendar"></i>
 										&nbsp; <?php echo $this->lang->line('userlogs'); ?>
 									</a>
@@ -572,36 +675,48 @@ if($this->session->userdata['avatar'] != ''){
 										&nbsp;<?php echo $this->lang->line('access_menu'); ?>
 									</a>
 								</li>
+								<li class="divider"></li>
 								<li>
 									<a href="<?php echo base_url('user_guide'); ?>"target="_blank">
 										<i class="clip-book"></i>
-										&nbsp; <?php echo $this->lang->line('help');?>
+										&nbsp; <?php echo $this->lang->line('help');?>1
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('cachetool'); ?>">
-										<i class="clip-book"></i>
-										&nbsp; <?php echo $this->lang->line('cachetool');?>
+									<a href="<?php echo base_url('documentation'); ?>"target="_blank">
+										<i class="clip-mobile-2"></i>
+										&nbsp; <?php echo $this->lang->line('help');?>2
 									</a>
 								</li>
 								<li class="divider"></li>
 								<li>
+									<a href="<?php echo base_url('cachetool'); ?>">
+										<i class="clip-refresh"></i>
+										&nbsp; <?php echo $this->lang->line('cachetool');?>
+									</a>
+								</li>
+								<li>
+									<!-- <a href="<?php //echo base_url('hwdata'); ?>"target="_blank">  --->
+										<a href="<?php echo base_url('hwdata'); ?>"target="_blank">
+										<i class="fa fa-tint"></i>
+										</i><?php echo'&nbsp;';?><?php echo $this->lang->line('hwdata');?> 
+									</a>
+								</li> 
+ 
+								<li>
 									<a href="<?php echo base_url('lock_screen'); ?>">
-										<i class="clip-switch"></i>
+										<i class="clip-exit"></i>
 										&nbsp; <?php echo $this->lang->line('lock_screen'); ?>
 									</a>
 								</li>
-								
-
 <!--
-
 <li>
 <a href="<?php echo base_url();?>admin/logout" id="logout"><i class="clip-exit"></i>
 &nbsp; <?php echo $logout; ?>
 </a>
 </li>
 -->
-<li class="ajax"><a href="#" id="logout"><i class="clip-exit"></i>&nbsp;<span class="label label-danger"><?php echo $logout; ?></span></a></li> 
+<li class="ajax"><a href="#" id="logout"><i class="clip-switch"></i>&nbsp;<span class="label label-danger"><?php echo $logout; ?></span></a></li> 
 <script>
 document.querySelector('li.ajax').onclick = function() {
   swal({
@@ -619,28 +734,10 @@ document.querySelector('li.ajax').onclick = function() {
   });
 };                             
 </script>              
-								<?php
-								$nowurl=base_url(uri_string());
-								?>						
-								<li class="divider"></li>
-								<li>
-									<a href="<?php echo $nowurl; ?>">
-										<i class="clip-embed"></i>
-										&nbsp; <?php echo $nowurl; ?>
-										<i class="clip-code"></i>
-									</a>
-								</li>	 
+               
 							</ul>
 <?php }else if($admin_type=='2'){?>
 							<ul class="dropdown-menu">
-								<li>
-								
-										<a href="<?php echo $this->config->config['www']; ?>"target="_blank">
-										<i class="clip-screen"></i>
-										 <?php echo $this->lang->line('website'); ?> 
-										</a>
-								
-								</li>
 								<li>
 									<a href="<?php echo $alinkprofile; echo'/'.$user_id; ?>">
 										<i class="clip-user-2"></i>
@@ -653,16 +750,10 @@ document.querySelector('li.ajax').onclick = function() {
 										&nbsp;<?php echo $this->lang->line('access_menu'); ?>
 									</a>
 								</li>
-								<li>
-									<a href="<?php echo base_url('userlogs'); ?>">
+								<li><?php #echo base_url('userlogs'); ?>
+									<a href="<?php echo base_url('activity_logsna'); ?>">
 										<i class="clip-calendar"></i>
 										&nbsp; <?php echo $this->lang->line('userlogs'); ?>
-									</a>
-								</li>
-								<li>
-									<a href="<?php echo base_url('admin/memberlist'); ?>">
-										<i class="clip-users-2"></i>
-										&nbsp; <?php echo $this->lang->line('member'); ?>
 									</a>
 								</li>
 								<li>
@@ -671,6 +762,13 @@ document.querySelector('li.ajax').onclick = function() {
 										&nbsp; <?php echo $this->lang->line('cachetool');?>
 									</a>
 								</li>
+								<li>
+									<a href="<?php echo base_url('admin/memberlist'); ?>">
+										<i class="clip-users-2"></i>
+										&nbsp; <?php echo $this->lang->line('member'); ?>
+									</a>
+								</li>
+ 
 								<li>
 									<a href="<?php echo base_url('lock_screen'); ?>">
 										<i class="clip-switch"></i>
@@ -705,14 +803,6 @@ document.querySelector('li.ajax').onclick = function() {
 							</ul>
 <?php }else if($admin_type<>'1' || $admin_type<>'2'){?>
 							<ul class="dropdown-menu">
-								<li>
-								
-										<a href="<?php echo $this->config->config['www']; ?>"target="_blank">
-										<i class="clip-screen"></i>
-										 <?php echo $this->lang->line('website'); ?> 
-										</a>
-								
-								</li>
 								<li>
 									<a href="<?php echo $alinkprofile; echo'/'.$user_id; ?>">
 										<i class="clip-user-2"></i>
@@ -896,7 +986,7 @@ document.querySelector('li.ajax').onclick = function() {
 
 											//$HeadTitle=ucfirst($displaytxt);
 											//$lnk=strtolower($displaytxt);
-											echo' <i class="clip-arrow-right-3"></i> ';
+											echo' <i class="ace-icon fa fa-angle-double-right"></i> ';
 											echo '<li>'.$breadcrumb[$i].'</li>';
 											
 											
@@ -938,24 +1028,36 @@ document.querySelector('li.ajax').onclick = function() {
 		}
 
 		if($action_form){
+		$nowurl=base_url(uri_string()); 
 ?>
-								<li class="search-box">
-									
-									<form method="post" class="sidebar-search" action="<?php echo base_url($action_form);?>">
-										<div class="form-group">
-											<input  value="<?php echo $keyword?>" name="keyword" placeholder="<?php echo  $language['search'].$method ?>..."class="nav-search-input" id="nav-search-input" autocomplete="on">
-											<button class="submit">
-												<i class="clip-search-3"></i>
-											</button>
-										</div>
+<li class="search-box">
+
+<!--
+<form method="post" class="sidebar-search" action="<?php echo $nowurl;?>">
+-->
+<form action="<?php echo $nowurl;?>" method="post" enctype="multipart/form-data" name="sidebarsearch" id="sidebarsearch"class="sidebar-search">
+<div class="form-group">
+<input  value="<?php echo $keyword?>" name="keyword" placeholder="<?php echo  $language['search'].$method ?>..."class="nav-search-input" id="nav-search-input" autocomplete="on">
+<button class="submit"><i class="clip-search-3"></i></button>
+</div>
+</form>
+
 <?php
+  $post=@$this->input->post();
+  $get=@$this->input->get();
+  $segment1=@$this->uri->segment(1);
+  $segment2=@$this->uri->segment(2);
+  $segment3=@$this->uri->segment(3);
+  $segment4=@$this->uri->segment(4);
+  $segment5=@$this->uri->segment(5);
+
 		if($this->uri->segment(2) != ''){
 				$mod=($this->uri->segment(2) != '') ? $this->uri->segment(2) : 'news';
 				echo '<input type="hidden" name="mod" value="'.trim($mod).'">';
 		}	
 ?>
-									</form>
-								</li>
+
+</li>
 <?php } ?>
 </ol>
 <?php /*?>

@@ -109,6 +109,52 @@ $segment10=$this->uri->segment(10);
 		</center>
 		 </span>  
 		</div>
+
+
+<?php 
+#####################
+/*
+		<div class="col-xs-6 col-sm-6 text-right hidden-xs">
+			<div class="txt-color-white inline-block">
+				<i class="txt-color-blueLight hidden-mobile">Activity <i class="fa fa-clock-o"></i>  </i>
+				<div class="btn-group dropup">
+					<button class="btn btn-xs dropdown-toggle bg-color-blue txt-color-white" data-toggle="dropdown">
+						<i class="fa fa-link"></i> <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu pull-right text-left">
+						
+						<li>
+							<div class="padding-5">
+								<p class="txt-color-darken font-sm no-margin">Server Load</p>
+								<div class="progress progress-micro no-margin">
+									<div class="progress-bar progress-bar-success" style="width: 20%;"></div>
+								</div>
+							</div>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<div class="padding-5">
+								<p class="txt-color-darken font-sm no-margin">Memory Load 
+                                        <span class="text-danger"> 
+                                        </span></p>
+								<div class="progress progress-micro no-margin">
+									<div class="progress-bar progress-bar-danger" style="width: 70%;"></div>
+								</div>
+							</div>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<div class="padding-5">
+								<button class="btn btn-block btn-default">refresh</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+ 
+ */ #####################
+ ?>
 	</div>
 </div>
 <hr>
@@ -144,7 +190,39 @@ $alinkprofile=base_url('admin/profile');
 $this->load->view('inc/scripts');
 if(preg_match('~\b(overview||control)\b~i', strtolower($this->uri->segment(1)))){?>
 <?php 	 $this->load->view('hardware/overview_control');?>
-<?php }elseif(preg_match('~\b(flot)\b~i', strtolower($this->uri->segment(1)))){ 
+<?php }elseif(preg_match('~\b(sensor)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sensor'); ?>
+<?php }elseif(preg_match('~\b(sensor_config)\b~i', strtolower($this->uri->segment(1)))){ ?>
+<?php	$this->load->view('hardware/sensor_config'); ?>
+<?php }elseif(preg_match('~\b(email_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/email_config');?>
+<?php }elseif(preg_match('~\b(sms_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sms_config');?>
+<?php }elseif(preg_match('~\b(backupdb)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/backupdb');?>
+<?php }elseif(preg_match('~\b(workflow)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/workflow');?>
+<?php }elseif(preg_match('~\b(sms_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/sms_log');?>
+<?php }elseif(preg_match('~\b(email_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/email_log');?>
+<?php }elseif(preg_match('~\b(hardware_config)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/hardware_config');?>
+<?php }elseif(preg_match('~\b(access_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php 	$this->load->view('hardware/access_log');?>
+<?php }elseif(preg_match('~\b(alert_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php	$this->load->view('hardware/alert_log');?>
+<?php }elseif(preg_match('~\b(members)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/members');?>
+<?php }elseif(preg_match('~\b(event_log)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/event_log');?> 
+<?php }elseif(preg_match('~\b(profile)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/profile');?> 
+<?php }elseif(preg_match('~\b(sensorreport)\b~i', strtolower($this->uri->segment(1)))){?>
+<?php   $this->load->view('hardware/sensorreport');?> 
+<?php }?>
+<?php
+if(preg_match('~\b(flot)\b~i', strtolower($this->uri->segment(1)))){ 
 // $this->load->view('tmon/flotjs'); 
 }?>
 <?php
