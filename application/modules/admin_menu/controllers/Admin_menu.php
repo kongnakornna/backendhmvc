@@ -4,21 +4,21 @@
  * @copyright kongnakorn  jantakun 2015
 */
 //draggable
-class Admin_menu extends MY_Controller {
- public function __construct()    {
+class Admin_menu extends CI_Controller {
+public function __construct()    {
         parent::__construct();
-        $this->load->model('Admin_menu_model');
-		      $breadcrumb = array();
+		 $this->load->model('Admin_menu_model');
         if(!$this->session->userdata('is_logged_in')){
             redirect(base_url());
-        }
+        }  
+        ob_clean();
     }
-	public function index(){
+public function index(){
 
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
 			$breadcrumb[] = $language['admin_menu']; 
-   $breadcrumb[] = '<a href="'.base_url('admin_menu/draggable').'">'.$language['draggable'].'</a>';
+		//	$breadcrumb[] = '<a href="'.base_url('admin_menu/draggable').'">'.$language['draggable'].'</a>';
    
 			if($this->input->server('REQUEST_METHOD') === 'POST'){
 					$search_form = $this->input->post();
@@ -81,10 +81,10 @@ class Admin_menu extends MY_Controller {
 			$this->load->view('template/template',$data);
 
 	}
-	public function draggable(){
-			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+public function draggable(){
+		//	$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
-   $breadcrumb[] = '<a href="'.base_url('admin_menu').'">'.$language['admin_menu'].'</a>';
+			$breadcrumb[] = '<a href="'.base_url('admin_menu').'">'.$language['admin_menu'].'</a>';
 			$breadcrumb[] = $language['draggable']; 
   
 			if($this->input->server('REQUEST_METHOD') === 'POST'){
@@ -137,18 +137,19 @@ class Admin_menu extends MY_Controller {
 
 			$data = array(
 					"admin_menu" => $this->menufactory->getMenu(),
-					"ListSelect" => $ListSelect,
+				//	"ListSelect" => $ListSelect,
 					"web_menu" => $web_menu,
 					"webtitle" => $webtitle,
 					"content_view" => 'admin/admin_menu_draggable',
 					"breadcrumb" => $breadcrumb,
 			);
 
-			 
+		#	Debug($data);
+
 			$this->load->view('template/template',$data);
 
 	}
-	public function add(){
+public function add(){
 
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
@@ -172,7 +173,7 @@ class Admin_menu extends MY_Controller {
 			$this->load->view('template/template',$data);
 
 	}
-	public function edit($id){
+public function edit($id){
 
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
@@ -201,7 +202,7 @@ class Admin_menu extends MY_Controller {
 			$this->load->view('template/template',$data);
 
 	}
-	public function save(){
+public function save(){
 			$this->db->cache_delete_all();
 			$now_date = date('Y-m-d H:i:s');
 			$data_input = $this->input->post();
@@ -254,54 +255,35 @@ class Admin_menu extends MY_Controller {
 
 			$this->Admin_menu_model->store(0, $obj_en);
 			$this->Admin_menu_model->store(0, $obj_th);
-			
-//**************Log activity
-$action='1';
-########IP#################		
-$ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-$ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-$ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-$ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}
-else{$ipaddress='UNKNOWN';}
-//"from_ip" => $ipaddress,
-			
+		//**************Log activity
+		$action='1';		
 		$log_activity = array(
 					"admin_id" => $this->session->userdata('admin_id'),
 					"ref_id" => 1,
 					"ref_type" => 0,
-					"from_ip" => $ipaddress,
+					"from_ip" =>'127.0.0.1',
 					"ref_title" => "ADD..".'[MENU :'.$obj_en['title'].':'.$obj_th['title']."]",
 					"action" => $action
 		);
 		$this->Admin_log_activity_model->store($log_activity);
 		//**************Log activity
-			
 			// redirect alert Before
 			//echo "<script>alert('Save Data');window.location.href='../admin_menu';</script>";
 			// redirect alert After
 			//echo "<script> window.location.href='admin_menu'; alert('Save Data'); </script>";
 			// non alert 
 			//redirect('admin_menu');
- ?>
-<!-- This is sweetalert2 -->
-<script type="text/javascript" src="<?php echo base_url('assets/sweetalert2/dist/js/jquery-latest.js');?>"></script>
-<script src="<?php echo base_url('assets/sweetalert2/dist/sweetalert-dev.js');?>"></script>
-<link rel="stylesheet" href="<?php echo base_url('assets/sweetalert2/dist/sweetalert.css');?>">
-<?php
-$language=$this->lang->language;
-$title=$language['savedata'];
-$msgst=$language['savecomplate'];
-$urldirec=base_url('admin_menu');
-echo'<script>
+		?>
+		<!-- This is sweetalert2 -->
+		<script type="text/javascript" src="<?php echo base_url('assets/sweetalert2/dist/js/jquery-latest.js');?>"></script>
+		<script src="<?php echo base_url('assets/sweetalert2/dist/sweetalert-dev.js');?>"></script>
+		<link rel="stylesheet" href="<?php echo base_url('assets/sweetalert2/dist/sweetalert.css');?>">
+		<?php
+		$language=$this->lang->language;
+		$title=$language['savedata'];
+		$msgst=$language['savecomplate'];
+		$urldirec=base_url('admin_menu');
+		echo'<script>
 							$( document ).ready(function() {
 								//////////////////
 								swal({
@@ -314,14 +296,13 @@ echo'<script>
 												  // Javascript URL redirection
 												   window.location.replace("'.$urldirec.'");
 											}, 200);
-  });
-								//////////////////
-							});
-			 </script>';
-Die(); 
-
+		  });
+										//////////////////
+									});
+					 </script>';
+		Die(); 
 	}
-	public function update(){
+public function update(){
 			$this->db->cache_delete_all();
 			$now_date = date('Y-m-d H:i:s');
 			$data_input = $this->input->post();
@@ -348,24 +329,10 @@ Die();
 			//die();
 			$this->Admin_menu_model->store($data_input['admin_menu_id_en'], $obj_en);
 			$this->Admin_menu_model->store($data_input['admin_menu_id_th'], $obj_th);
-//**************Log activity
-$action='1';
-########IP#################		
-$ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-$ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-$ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-$ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}
-else{$ipaddress='UNKNOWN';}
-//"from_ip" => $ipaddress,
+		//**************Log activity
+		$action='1';
+		########IP#################		
+		$ipaddress='127.0.0.1';
 		$log_activity = array(
 					"admin_id" => $this->session->userdata('admin_id'),
 					"ref_id" => 1,
@@ -382,17 +349,17 @@ else{$ipaddress='UNKNOWN';}
 			//echo "<script> window.location.href='admin_menu'; alert('Save Data'); </script>";
 			// non alert 
 			//redirect('admin_menu');
-?>
-<!-- This is sweetalert2 -->
-<script type="text/javascript" src="<?php echo base_url('assets/sweetalert2/dist/js/jquery-latest.js');?>"></script>
-<script src="<?php echo base_url('assets/sweetalert2/dist/sweetalert-dev.js');?>"></script>
-<link rel="stylesheet" href="<?php echo base_url('assets/sweetalert2/dist/sweetalert.css');?>">
-<?php
-$language=$this->lang->language;
-$title=$language['savedata'];
-$msgst=$language['savecomplate'];
-$urldirec=base_url('admin_menu');
-echo'<script>
+			?>
+			<!-- This is sweetalert2 -->
+			<script type="text/javascript" src="<?php echo base_url('assets/sweetalert2/dist/js/jquery-latest.js');?>"></script>
+			<script src="<?php echo base_url('assets/sweetalert2/dist/sweetalert-dev.js');?>"></script>
+			<link rel="stylesheet" href="<?php echo base_url('assets/sweetalert2/dist/sweetalert.css');?>">
+			<?php
+			$language=$this->lang->language;
+			$title=$language['savedata'];
+			$msgst=$language['savecomplate'];
+			$urldirec=base_url('admin_menu');
+			echo'<script>
 							$( document ).ready(function() {
 								//////////////////
 								swal({
@@ -405,15 +372,14 @@ echo'<script>
 												  // Javascript URL redirection
 												   window.location.replace("'.$urldirec.'");
 											}, 200);
-  });
+			});
 								//////////////////
 							});
 			 </script>';
-Die(); 
+		Die(); 
 
 	}
-	public function status($id = 0){
-			
+public function status($id = 0){
 		if($id == 0){
 			$data = array(
 					"error" => 'id error'
@@ -432,7 +398,7 @@ Die();
 			return $cur_status;
 		}
 	}
-	public function delete($id = 0){
+public function delete($id = 0){
 		
 		if($id == 0){
 			$data = array(
@@ -444,17 +410,13 @@ Die();
 		}
 		redirect('admin_menu');
 	}
-	public function view($id){
-
+public function view($id){
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
-
 			$breadcrumb[] = '<a href="'.base_url('admin_menu').'">'.$language['admin_menu'].'</a>';
 			$breadcrumb[] = $language['view'];
-			
 			$web_menu = $this->Admin_menu_model->getMenu(0, $id, null, $language['lang']);
 			//Debug($web_menu);
-
 			$data = array(
 					"admin_menu" => $this->menufactory->getMenu(),
 					"ListSelect" => $ListSelect,
@@ -465,9 +427,9 @@ Die();
 			);
 			$this->load->view('template/template',$data);
 	}
-	public function list_menu(){	
+public function list_menu(){	
 	}
- public function updateblock(){
+public function updateblock(){
 					$post=$this->input->post();
 					$list=$post['list'];
 					$i=1; 

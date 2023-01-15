@@ -2,7 +2,7 @@
 
 class Village extends MY_Controller {
 
-    public function __construct()    {
+public function __construct()    {
 			parent::__construct();
 			$this->load->model('Village_model');
 			$breadcrumb = array();			
@@ -12,7 +12,7 @@ class Village extends MY_Controller {
 			}
     }
 
-	public function index(){
+public function index(){
 		
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));		
 			$language = $this->lang->language;
@@ -62,7 +62,7 @@ class Village extends MY_Controller {
 			$this->load->view('template/template',$data);
 	}
 
-	public function pid($id = 0){  
+public function pid($id = 0){  
             
 			if($id < 1){
 				redirect(base_url('geography'));
@@ -163,7 +163,7 @@ class Village extends MY_Controller {
 			$this->load->view('template/template',$data);
 	}
 
-	public function add($pid = 0){
+public function add($pid = 0){
 			
 			
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));			
@@ -229,7 +229,7 @@ class Village extends MY_Controller {
 			$this->load->view('template/template',$data);
 	}
 
-	public function edit($id = 0){
+public function edit($id = 0){
 			
 			$pid = 0;
 			$this->load->model('Village_model');
@@ -309,7 +309,7 @@ class Village extends MY_Controller {
 
 	}
 
-	public function list_dd($id = 0, $subpidid = 0){
+public function list_dd($id = 0, $subpidid = 0){
 			
 			$this->load->model('Village_model');
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
@@ -335,7 +335,7 @@ class Village extends MY_Controller {
 
 	}	
 	
-	public function status($id = 0){
+public function status($id = 0){
 
 		if($id == 0){
 			$data = array(
@@ -406,7 +406,7 @@ class Village extends MY_Controller {
 		}
 	}
 	
-	public function save(){
+public function save(){
 		$language = $this->lang->language['lang'];
         $this->load->model('Village_model');
 		$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
@@ -683,7 +683,7 @@ class Village extends MY_Controller {
     }       
 ///////////////////////////////
 
-	public function save2(){
+public function save2(){
 		$language = $this->lang->language['lang'];
         	$this->load->model('Village_model');
 		$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
@@ -887,7 +887,7 @@ class Village extends MY_Controller {
     }       
 
 //////////////////////////////////
-	public function delete($id){
+public function delete($id){
 			echo "Deleting... $id";
 			 $OBJnews = $this->Village_model->get_status($id);
 			 //Debug($OBJnews);Die();

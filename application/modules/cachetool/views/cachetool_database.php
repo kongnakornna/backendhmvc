@@ -165,15 +165,13 @@ Debug($dir);
                 while(($file = readdir($dh)) !== FALSE){    
                 if($file =='..'||$file =='.'){}else{
     ?>
-                
-				 
-		 
 
-
- 
 		<tr>
 						<td><?php echo $i; ?></td>
-						<td><a href="<?php echo base_url().'cachetool/database?dirfile='.$file; ?>"> </a> <?php echo $file;?></td>
+						<td>
+						<a href="<?php echo base_url().'cachetool/database2?dirfile='.$file; ?>"><?php echo $file;?> </a> 
+						
+						</td>
 						<td class="hidden-480">
  
 						 

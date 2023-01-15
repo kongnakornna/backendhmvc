@@ -1,24 +1,16 @@
 <?php
-
-if (!defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
-class Memcached_library
-{
-    private $config;
-    private $m;
-    private $client_type;
-    private $ci;
-    protected $errors = [];
-
-    public function __construct()
-    {
+if (!defined('BASEPATH')) {exit('No direct script access allowed');}
+class Memcached_library{
+private $config;
+private $m;
+private $client_type;
+private $ci;
+protected $errors = [];
+public function __construct(){
         $this->ci = &get_instance();
-
         // Load the memcached library config
         $this->ci->load->config('memcached');
         $this->config = $this->ci->config->item('memcached');
-
         // Lets try to load Memcache or Memcached Class
         $this->client_type = class_exists($this->config['config']['engine']) ? $this->config['config']['engine'] : false;
 
@@ -43,7 +35,6 @@ class Memcached_library
             log_message('error', 'Memcached Library: Failed to load Memcached or Memcache Class');
         }
     }
-
     /*
     +-------------------------------------+
         Name: auto_connect
@@ -53,8 +44,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    private function auto_connect()
-    {
+private function auto_connect(){
         foreach ($this->config['servers'] as $key => $server) {
             if (!$this->add_server($server)) {
                 $this->errors[] = "Memcached Library: Could not connect to the server named $key";
@@ -65,7 +55,7 @@ class Memcached_library
         }
     }
 
-    /*
+/*
     +-------------------------------------+
         Name: add_server
         Purpose:
@@ -73,10 +63,8 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function add_server($server)
-    {
+public function add_server($server){
         extract($server);
-
         return $this->m->addServer($host, $port, $weight);
     }
 
@@ -88,8 +76,33 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function add($key = null, $value = null, $expiration = null)
-    {
+public function add($key = null, $value = null, $expiration = null){
+        if (is_null($expiration)) {
+            $expiration = $this->config['config']['expiration'];
+        }
+        if (is_array($key)) {
+            foreach ($key as $multi) {
+                if (!isset($multi['expiration']) || $multi['expiration'] == '') {
+                    $multi['expiration'] = $this->config['config']['expiration'];
+                }
+                $this->add($this->key_name($multi['key']), $multi['value'], $multi['expiration']);
+            }
+        } else {
+            switch ($this->client_type) {
+                case 'Memcache':
+                    $add_status = $this->m->add($this->key_name($key), $value, $this->config['config']['compression'], $expiration);
+                    break;
+
+                default:
+                case 'Memcached':
+                    $add_status = $this->m->add($this->key_name($key), $value, $expiration);
+                    break;
+            }
+
+            return $add_status;
+        }
+    }
+public function save($key = null, $value = null, $expiration = null){
         if (is_null($expiration)) {
             $expiration = $this->config['config']['expiration'];
         }
@@ -116,7 +129,7 @@ class Memcached_library
         }
     }
 
-    /*
+ /*
     +-------------------------------------+
         Name: set
         Purpose: similar to the add() method but uses set
@@ -124,8 +137,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function set($key = null, $value = null, $expiration = null)
-    {
+public function set($key = null, $value = null, $expiration = null){
         if (is_null($expiration)) {
             $expiration = $this->config['config']['expiration'];
         }
@@ -151,17 +163,14 @@ class Memcached_library
             return $add_status;
         }
     }
-
-    /*
+/*
     +-------------------------------------+
         Name: get
         Purpose: gets the data for a single key or an array of keys
         @param return : array of data or multi-dimensional array of data
     +-------------------------------------+
     */
-
-    public function get($key = null)
-    {
+public function get($key = null){
         if ($this->m) {
             if (is_null($key)) {
                 $this->errors[] = 'The key value cannot be NULL';
@@ -183,7 +192,7 @@ class Memcached_library
         return false;
     }
 
-    /*
+/*
     +-------------------------------------+
         Name: delete
         Purpose: deletes a single or multiple data elements from the memached servers
@@ -191,8 +200,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function delete($key, $expiration = null)
-    {
+public function delete($key, $expiration = null){
         if (is_null($key)) {
             $this->errors[] = 'The key value cannot be NULL';
 
@@ -220,8 +228,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function replace($key = null, $value = null, $expiration = null)
-    {
+public function replace($key = null, $value = null, $expiration = null){
         if (is_null($expiration)) {
             $expiration = $this->config['config']['expiration'];
         }
@@ -256,8 +263,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function increment($key = null, $by = 1)
-    {
+public function increment($key = null, $by = 1){
         return $this->m->increment($this->key_name($key), $by);
     }
 
@@ -269,8 +275,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function decrement($key = null, $by = 1)
-    {
+public function decrement($key = null, $by = 1){
         return $this->m->decrement($this->key_name($key), $by);
     }
 
@@ -282,8 +287,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function flush()
-    {
+public function flush(){
         return $this->m->flush();
     }
 
@@ -295,8 +299,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function getversion()
-    {
+public function getversion(){
         return $this->m->getVersion();
     }
 
@@ -309,8 +312,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function getstats($type = 'items')
-    {
+public function getstats($type = 'items'){
         switch ($this->client_type) {
             case 'Memcache':
                 $stats = $this->m->getStats($type);
@@ -333,8 +335,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    public function setcompressthreshold($tresh, $savings = 0.2)
-    {
+public function setcompressthreshold($tresh, $savings = 0.2){
         switch ($this->client_type) {
             case 'Memcache':
                 $setcompressthreshold_status = $this->m->setCompressThreshold($tresh, $savings = 0.2);
@@ -356,8 +357,7 @@ class Memcached_library
     +-------------------------------------+
     */
 
-    private function key_name($key)
-    {
+private function key_name($key){
         return md5(strtolower($this->config['config']['prefix'].$key));
     }
 
@@ -368,8 +368,7 @@ class Memcached_library
     +--------------------------------------+
     */
 
-    public function isConnected()
-    {
+public function isConnected(){
         foreach ($this->getstats() as $key => $server) {
             if ($server['pid'] == -1) {
                 return false;

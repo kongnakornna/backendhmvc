@@ -10,23 +10,17 @@
  * @package codeigniter.application.models
  */
 class Admin_log_activity_model extends CI_Model{
-
-    public function __construct(){
+public function __construct(){
 		parent::__construct();
         //$this->load->database();
     }
-
-    public function get_max_id(){
-
+public function get_max_id(){
 		$this->db->select('max(admin_log_id) as max_id');
 		$this->db->from('_admin_logactivity');
 		$query = $this->db->get();
 		return $query->result_object(); 
-
     }
-
-    public function get_status($id){
-    
+public function get_status($id){
     	$language = $this->lang->language['lang'];
     	$this->db->select('status');
     	$this->db->from('_admin_logactivity');
@@ -34,30 +28,21 @@ class Admin_log_activity_model extends CI_Model{
     	$this->db->where('lang', $language);
     	$query = $this->db->get();
     	//echo $this->db->last_query();
-    	
     	return $query->result_object();
     }
-
-	public function view_log($kw = '', &$where2 = array(), $status = '', $limit = 9999){
-		
+public function view_log($kw = '', &$where2 = array(), $status = '', $limit = 9999){
 		//$where = array();
 		$language = $this->lang->language['lang'];
-
 		$this->db->select('al.*, a.admin_username');
 		$this->db->from('_admin_logactivity as al');
-
 		$datenow = date('Y-m-d');
-
 		if($kw != ''){
 			$this->db->like('ref_title', $kw);
 			//$this->db->or_like('al.create_date', $kw, 'right');
 		}//else
 			//$this->db->like('al.create_date', $datenow, 'right');
-
 		if($status != '') $this->db->where('status', $status);
-
 		//if($id > 0) $this->db->where('admin_log_id', $id);
-
 		//$new_where = array_merge($where2, $where);
 		//if($parent != '') $this->db->where('parent', $parent);
 		if($where2){
@@ -78,12 +63,9 @@ class Admin_log_activity_model extends CI_Model{
 		//Debug($this->db->last_query());
 		return $query->result_object();
 	}	
-
-	public function view_approve($ref_type = 1, $approve_by = 0, &$where2 = array(), $limit = 300){
-		
+public function view_approve($ref_type = 1, $approve_by = 0, &$where2 = array(), $limit = 300){
 		$language = $this->lang->language['lang'];
 		$datenow = date('Y-m-d');
-		
 		switch($ref_type){
 			case 1 : 
 					$this->db->select('article_id2 as id, title, "article" AS ref_type, create_date, lastupdate_date, approve_date', FALSE);
@@ -121,8 +103,7 @@ class Admin_log_activity_model extends CI_Model{
 		//Debug($this->db->last_query());
 		return $query->result_object();
 	}	
-
-    function store($data){
+function store($data){
 			//Debug($data); Die();
 			/*if($admin_log_id > 0){
 					$this->db->where('admin_log_id', $admin_log_id);
@@ -144,12 +125,10 @@ class Admin_log_activity_model extends CI_Model{
 					return $insert;
 			//}
 	}
-
-    function delete($log_id){
+function delete($log_id){
 			$this->db->delete('_admin_logactivity', array('admin_log_id' => $log_id));
 	}
-
-	function status_new($admin_log_id, $enable = 1){
+function status_new($admin_log_id, $enable = 1){
 
 		$data['status'] = $enable;
 		$this->db->where('admin_log_id', $admin_log_id);
@@ -164,18 +143,13 @@ class Admin_log_activity_model extends CI_Model{
 			return false;
 		}
 	}	
-
-	public function DisplayLogs($id, $type = 1){
-
+public function DisplayLogs($id, $type = 1){
 			$ListSelect = $this->api_model->user_menu($this->session->userdata('admin_type'));		
 			$language = $this->lang->language;
-
 			//if($this->input->server('REQUEST_METHOD') === 'POST'){
-					
 					/*$data_input = $this->input->get();
 					$id = $data_input['id'];
 					$type = $data_input['type'];*/
-
 					$datalog = array(
 							"ref_type" => $type,
 							"ref_id" => $id
@@ -254,11 +228,8 @@ class Admin_log_activity_model extends CI_Model{
 					}
 
 	}
-
-	public function CountLogs($userid){
-				
+public function CountLogs($userid){
 				$data_log = array();
-
 				$this->db->select('COUNT(*) as number');
 				$this->db->from('_news');
 				$this->db->where('lang' , 'th');
@@ -268,7 +239,6 @@ class Admin_log_activity_model extends CI_Model{
 				$query = $this->db->get();
 				$result_new = $query->result_object();
 				$data_log['news'] = $result_new[0]->number;
-
 				unset($result_new);
 				$this->db->select('COUNT(*) as number');
 				$this->db->from('_column');
@@ -279,7 +249,6 @@ class Admin_log_activity_model extends CI_Model{
 				$query = $this->db->get();
 				$result_new = $query->result_object();
 				$data_log['column'] = $result_new[0]->number;
-
 				unset($result_new);
 				$this->db->select('COUNT(*) as number');
 				$this->db->from('_gallery');
@@ -290,7 +259,6 @@ class Admin_log_activity_model extends CI_Model{
 				$query = $this->db->get();
 				$result_new = $query->result_object();
 				$data_log['gallery'] = $result_new[0]->number;
-
 				unset($result_new);
 				$this->db->select('COUNT(*) as number');
 				$this->db->from('_video');
@@ -301,7 +269,6 @@ class Admin_log_activity_model extends CI_Model{
 				$query = $this->db->get();
 				$result_new = $query->result_object();
 				$data_log['video'] = $result_new[0]->number;
-
 				unset($result_new);
 				$this->db->select('COUNT(*) as number');
 				$this->db->from('_dara_profile');
@@ -312,15 +279,12 @@ class Admin_log_activity_model extends CI_Model{
 				$query = $this->db->get();
 				$result_new = $query->result_object();
 				$data_log['dara'] = $result_new[0]->number;
-
 				return $data_log;
-
 	}
 	////////////////////
 	/////////////////////
 	/////////////////////
-	public function view_log2($id = 0, &$where2 = array(), $status = ''){
-		
+public function view_log2($id = 0, &$where2 = array(), $status = ''){
 		//$where = array();
 		$admin_type_id='1';
 		$language = $this->lang->language['lang'];
@@ -330,7 +294,6 @@ class Admin_log_activity_model extends CI_Model{
 		$this->db->where('admin_type_id >', $admin_type_id);
 		if($status != '') $this->db->where('status', $status);
 		if($id > 0) $this->db->where('al.admin_log_id', $id);
-
 		//$new_where = array_merge($where2, $where);
 		//if($parent != '') $this->db->where('parent', $parent);
 		if($where2){
@@ -339,16 +302,10 @@ class Admin_log_activity_model extends CI_Model{
 				}
 		}
 		$this->db->join('_admin as a', 'al.admin_id = a.admin_id', 'left');
-
 		//if($parent >= 0 && $id == 0) $this->db->where('lang', $language);
-		
-
 		$this->db->order_by('create_date', 'DESC');
 		$this->db->stop_cache();
 		$query = $this->db->get();
-
-	 
-		  
 		return $query->result_object();
 	}
 	

@@ -17,7 +17,6 @@
                     </p>
                 <?php endif ?>
                 <p><?php echo anchor($config['documentation_link'], 'CodeIgniter documentation', 'target="_blank"') ?></p>
-				 <p><?php echo anchor($config['documentation_link2'], 'Rest documentation', 'target="_blank"') ?></p>
                 <p><?php echo sprintf(lang('develbar_version'), $develBar_version) ?></p>
                 <?php if($develbar_new_version !== FALSE): ?>
                     <p>

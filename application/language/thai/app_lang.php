@@ -15,15 +15,10 @@ require APPPATH . 'language/thai/profiler_lang.php';
 require APPPATH . 'language/thai/rest_controller_lang.php';
 require APPPATH . 'language/thai/unit_test_lang.php';
 require APPPATH . 'language/thai/upload_lang.php';
-
+require APPPATH . 'language/thai/tmon_lang.php';
 //require lang
 $lang['cachetool'] = 'Cache Tool';
 $lang['cachekey'] = 'Cache Key';
-$lang['cache_manage'] = 'Cache Manage';
-$lang['cache_db'] = 'Cache Database';
-$lang['cache_file'] = 'Cache File';
-$lang['draggable']='ลากวางเพื่อจัดเรียงเมนู';
-
 $lang['copyright'] = 'พัฒระบบโดย คงนคร จันทะคุณ';
 $lang['lang'] = 'th';
 $lang['langs'] = 'ภาษาไทย';
@@ -34,9 +29,9 @@ $lang['settings'] = 'ตั้งค่า';
 $lang['website'] = 'เว็บไซต์';
 $lang['profile'] = 'ข้อมูลส่วนบุคคล';
 $lang['logout'] = 'ออกจากระบบ';
-$lang['titleweb'] = 'Control Panel';
+$lang['titleweb'] = 'eGits apps ระบบบริหารจัดการ';
 $lang['apps'] = 'Application';
-$lang['company'] = 'EGITS Enterprise Co.,Ltd';
+$lang['company'] = 'คงนคร จันทะคุณ';
 $lang['login'] = 'เข้าระบบ';
 $lang['username'] = 'ผู้ใช้งาน';
 $lang['fullname'] = 'ชื่อของผู้ใช้งานระบบ';
@@ -104,7 +99,7 @@ $lang['success'] = 'สำเร็จ';
 $lang['create'] = 'สร้าง';
 $lang['bigsize'] = 'โลโก้ขนาดใหญ่';
 $lang['approve'] = 'อนุมัติ';
-$lang['activity'] = 'Activity';
+$lang['activity'] = 'กิจกรรม';
 
 $lang['access'] = 'การเข้าถึง';
 $lang['access_menu'] = 'สิทธิ์การเข้าถึงเมนูระบบ';
@@ -330,6 +325,7 @@ $lang['search'] = 'ค้นหา';
 $lang['collapsemenu'] = 'เมนูแทบ';
 $lang['clear'] = 'เคลียร์';
 $lang['yes'] = 'ใช่';
+$lang['not'] = 'ไม่ใช่';
 $lang['notyes'] = 'ไม่ใช่';
 ################Menu#########
 $lang['inbox'] = 'ข้อความ';
@@ -519,14 +515,15 @@ $lang['balance']= 'ยอดเงิน';
 $lang['cremation']= 'ฌาปนกิจ';
 
 //tmon
-$lang['descriptiontmon']= ' TMON- Monitoring Tmon เป็นอุปกรณ์ที่ช่วยตรวจสอบ การทำงานของอุปกรณ์ต่างๆ โดยเมื่อเหตุการณ์ผิดปกติขึ้น T-MON จะทำการแจ้งเตือนกับผู้ดูแลทราบ โดยผ่านทางข้อความ SMS และ Email เพื่อให้เจ้าหน้าที่สามารถรับรู้ปัญหาที่เกิดขึ้นได้ทันท่วงที และสามารถเข้าไปดำเนินการแก้ไขได้ทันเวลา
-';
+$lang['descriptiontmon']= ' i-Egits ';
+$lang['null'] = 'กรุณาใส่ข้อมูล ';
+$lang['nullall'] = 'กรุณาใส่ข้อมูล ทุกช่อง ';
 $lang['author']= 'คงนคร จันทะคุณ ติดต่อ โทร +6685-736-5371';
 $lang['lock_screen']= 'พักหน้าจอ';
 $lang['hwdata']= 'Run Tmon';
 $lang['playbackground']= 'Play Background';
 $lang['workflowmonitor']= 'Workflow Monitor';
-$lang['control']= 'ระบบสั่งงานอุปกรณ์';
+$lang['control']= 'แผงควบคุม';
 $lang['error404']= 'Error 404';
 $lang['locationmonitor']= 'Location Monitor';
 $lang['sensorreport']= 'รายงานเซ็นเชอร์';

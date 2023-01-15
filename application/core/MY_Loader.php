@@ -33,7 +33,7 @@ class MY_Loader extends MX_Loader {
     }
 
     public function get_models(){
-        return $this->_ci_models;
+        return @$this->_ci_models;
     }
 
     /**

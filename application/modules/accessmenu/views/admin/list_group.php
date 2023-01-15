@@ -174,7 +174,7 @@ echo $create_date;
 	 <a class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" href="#"> <i class="fa fa-cog"></i> <span class="caret"></span> </a>
 		<ul role="menu" class="dropdown-menu pull-right">
 				 <li role="presentation">
-					 <a role="menuitem" tabindex="-1" href="<?php echo site_url('accessmenu/edit/'.$admin_type_id); ?>">
+					 <a role="menuitem" tabindex="-1" href="<?php echo site_url('accessmenu/edit/'.$admin_type_id).'?deletekey=1'; ?>">
 							 <i class="fa fa-edit"></i> <?php $edit=$language['edit']; echo "<b><font color='blue'> $edit </font></b>";?>
 					 </a>
 				 </li>

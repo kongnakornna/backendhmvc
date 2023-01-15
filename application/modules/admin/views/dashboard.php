@@ -5,6 +5,8 @@
 			} else {
 				$userinput = $this->session->userdata('user_name');
 			}
+   //echo '<pre> admin_menu=>';print_r($admin_menu);echo'</pre>';die();    
+   
 			//Debug($admin_menu);
 			 $langn=$language['lang'];
 ?>
@@ -52,17 +54,21 @@ if($this->session->userdata['avatar'] != ''){
 -->
 		<div class="col-sm-12">
 					<?php
- 						 //echo'<hr><pre>  $admin_menu=>';print_r($admin_menu);echo'<pre> <hr>';  // Die();
+ 						# echo'<hr><pre>  $admin_menu=>';print_r($admin_menu);echo'<pre> <hr>';  // Die();
 						if($admin_menu!==Null){
 						foreach($admin_menu as $key => $value){
+							$admin_menu_id=@$value['admin_menu_id'];
+							$title = $value['title_en'];
 						#############################################
-								if(isset($value['admin_menu_id'])){
+						#echo'<hr><pre>admin_menu_id=>';print_r($admin_menu_id);echo'</pre> '; echo'<pre>  title=>';print_r($title);echo'</pre>';
+								if(isset($admin_menu_id)){
+									if($admin_menu_id==1){}else{
 											$icon = ($value['admin_menu_id'] == 28) ? 'fa '.$value['icon'] : 'fa '.$value['icon'];
 											if($langn=='en'){
-											$title = $value['title_en'];
-											}else if($langn=='th'){
-											$title = $value['title_th'];
-											}
+												$title = $value['title_en'];
+												}else if($langn=='th'){
+												$title = $value['title_th'];
+												}
 											$alink = (trim($value['url']) != '') ? base_url($value['url']) : '#';
 											################################
 											if($value['parent'] == 0 && $alink != '#'){
@@ -71,10 +77,12 @@ if($this->session->userdata['avatar'] != ''){
 														'.$title.'
 													</button>
 													</a>';
-											}
+												}
 											################################
 										}
 						#############################################
+								}
+								#############################
 						}		 
 					 }
 				?>
@@ -98,11 +106,13 @@ if($this->session->userdata['avatar'] != ''){
 									</div>
 									
 									
-<?php  
+<?php 
+
+
 $ci = get_instance(); // CI_Loader instance
 $notificationtest=$ci->config->item('notificationtest');
+/*
 if($notificationtest==1){
- 
 ?>
  
 			<div class="jumbotron">
@@ -149,9 +159,10 @@ if($notificationtest==1){
 						</div>
 					</div>
 				</div>
-			</div>
-		 
-<?php }?>
+			</div>	 
+<?php }*/
+$this->load->view('template/notification');
+?>
 									
 									<?php #################################?>
 									<!--

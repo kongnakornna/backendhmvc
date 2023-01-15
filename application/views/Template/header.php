@@ -1,6 +1,18 @@
 <?php 
+$urlnodered=$this->config->item('urlnodered');
+$input=@$this->input->post(); 
+if($input==null){$input=@$this->input->get();}
+$debug=$input['debug'];
+ob_end_flush();
+$input=@$this->input->get();  
+if($input==null){$input=@$this->input->get(); } 
+$debug=$input['debug'];
+##############################################################################
+##############################################################################
+##############################################################################
 $setting=GetConfig1();
 $object=json_decode(json_encode($setting), TRUE);
+#echo'<hr><pre>  $object=>';print_r($object);echo'<pre> <hr>';  Die();
 $systemname_crna=$object['systemname'];
 $description_crna=$object['description'];
 $address_crna=$object['address'];
@@ -26,7 +38,8 @@ $google_crna=$object['google'];
 # File THAI --> application\language\thai\app_lang.php
 # File English --> application\language\english\app_lang.php	
 $admin_id=0;# 0=>เห็นทุกเมนู
-$navbar_fix=$breadcrumb_fix='';
+$navbar_fix='';
+$breadcrumb_fix='';
 $language=$this->lang->language;
 $lang=$this->lang->line('lang');
 $langs=$this->lang->line('langs');
@@ -63,7 +76,6 @@ $allrightsreserved=$this->lang->line('allrightsreserved');
 $home=$this->lang->line('home');
 $admin=$this->lang->line('admin');
 $togglesidebar=$this->lang->line('togglesidebar');
-$web_title=$titleweb;
 ######################
 if($lang=='th'){
 	$langs_th='ภาษาไทย';
@@ -82,10 +94,107 @@ $segment7=$this->uri->segment(7);
 $segment8=$this->uri->segment(8);
 $segment9=$this->uri->segment(9);
 $segment10=$this->uri->segment(10);
-if(!isset($breadcrumb)) $breadcrumb='';
-if(!isset($ListSelect)) $ListSelect=null;
-$strDate=date('Y-m-d H:i:s');
-function DateThai($strDate){
+##################################################################
+##################################################################
+		$admin_id = $this->session->userdata('admin_id');
+		$admin_type = $this->session->userdata('admin_type');
+		//$ListSelect = $this->Api_model->user_menu($admin_type);
+			/////////////cache////////////
+			$time_cach_set_min=$this->config->item('time_cach_set_min');
+			$time_cach_set=$this->config->item('time_cach_set');
+			#$cachetime=$time_cach_set_min;
+			$cachetime=60*60*24*365;
+			$lang=$this->lang->line('lang'); 
+			$langs=$this->lang->line('langs'); 
+			$cachekey='ListSelect_menu_'.$lang;
+			##Cach Toools Start######
+			//cachefile 
+			$input=@$this->input->post(); 
+			if($input==null){ $input=@$this->input->get();}
+			$deletekey=@$input['deletekey'];
+			if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+			$cachetype='2'; 
+			$this->load->model('Cachtool_model');
+			$sql=null;
+			$cachechk=$this->Cachtool_model->cachedbgetkey($sql,$cachekey,$cachetime,$cachetype,$deletekey);
+			$cachechklist=$cachechk['list'];
+			// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+			if($cachechklist!=null){    // IN CACHE
+				$temp = $cachechklist;
+				#echo'1 Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+			}else{
+				// NOT IN CACHE
+				///// ***** เอา FUNCTION ที่ทำงานท่อนเดิม มาใส่ตรงนี้ ******
+				#$ListSelect=$this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+				$ListSelect= $this->Api_model_na->user_menu($admin_type);
+				$sql=null;
+				$cachechklist=$this->Cachtool_model->cachedbsetkey($sql,$ListSelect,$cachekey,$cachetime,$cachetype,$deletekey);
+				#echo'2 Form SQL <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+				$cachechklist= $this->Api_model_na->user_menu($admin_type);
+			}
+			$ListSelect=$cachechklist;
+	/////////////cache////////////
+ #echo '<pre> ListSelect-> '; print_r($ListSelect); echo '</pre>'; die(); 
+	$loadfile="admintype".$admin_type.".json";
+	$admin_menu=LoadJSON($loadfile);
+	#echo '<pre> admin_menu-> '; print_r($admin_menu); echo '</pre>'; die(); 
+	
+		if(!isset($breadcrumb)) $breadcrumb='';
+		if(!isset($ListSelect)) $ListSelect=null;
+		######## Cach Toools Start ################################################
+				$cachetype=2; $dev=0; $deletekey=0;
+				$lang=$this->lang->line('lang'); 
+				//	$langs=$this->lang->line('langs'); 
+					$cachekey='key-getMenu-'.'admin_type-'.$admin_type.'-lang-'.$lang;
+					$cachetime=60*60*60*24*365;
+					##Cach Toools Start######
+					//cachefile 
+					$input=@$this->input->post(); 
+					if($input==null){ $input=@$this->input->get();}
+					$deletekey=@$input['deletekey'];
+					if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+					/*
+					$this->load->model('Cachtool_model');
+					$cachechk=$this->Cachtool_model->cachedbgetkey($sql=null,$cachekey,$cachetime,$cachetype,$deletekey);
+					$cachechklist=$cachechk['list'];
+					// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+					if($cachechklist!=null){
+						// IN CACHE
+						$cachechklist=$cachechklist;
+						#echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}else{                        
+							// NOT IN CACHE
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachetypedev=1;
+							$rs=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
+							// ############################# 
+							$cachechklist=$this->Cachtool_model->cachedbsetkey($sql=null,$rs,$cachekey,$cachetime,$cachetype,$deletekey);
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachechklist=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
+
+							#echo' Form Sql <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}
+				$admin_menu=$cachechklist;
+				$getMenu=$cachechklist;
+				*/
+		######## Cach Toools END ################################################
+##################################################################
+##################################################################
+       $datenow=strtotime("now");
+       $datetomorrow=strtotime("tomorrow");
+       $yesterday=strtotime("yesterday");
+       $date1day=strtotime("+1 day");
+       $date1week=strtotime("+1 week");
+       $lastweek=strtotime("lastweek");
+       $date1week2day=strtotime("+1 week 2 days 4 hours 2 seconds");
+       $datenextthursday=strtotime("next Thursday");
+       $datenowlastmonday=strtotime("last Monday");
+       $date2pmyesterday=strtotime("2pm yesterday");
+       $date7am12daysago=strtotime("7am 12 days ago");
+       $yesterday =date("Y-m-d", $yesterday); 
+       $time=date('H:i:s');
+	      $strDate=date('Y-m-d H:i:s');
+		function DateThai($strDate){
 		$strYear=date("Y",strtotime($strDate))+543;
 		$strMonth= date("n",strtotime($strDate));
 		$strDay= date("j",strtotime($strDate));
@@ -95,15 +204,15 @@ function DateThai($strDate){
 		$strMonthCut=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay $strMonthThai $strYear, $strHour:$strMinute";
-	}
+		}
 		$strMonth1= date("n",strtotime($strDate));
 		$strMonthCut1=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai1=$strMonthCut1[$strMonth1];
-	    $strYear2=date("Y",strtotime($strDate))+543;
+	 $strYear2=date("Y",strtotime($strDate))+543;
 		$strHour3= date("H",strtotime($strDate));
 		$strMinute3= date("i",strtotime($strDate));
 		$strSeconds3= date("s",strtotime($strDate));
-        $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
+  $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
 		$strYear4=date("Y",strtotime($strDate))+543;
 		$strMonth4= date("n",strtotime($strDate));
 		$strDay4= date("j",strtotime($strDate));
@@ -113,17 +222,8 @@ function DateThai($strDate){
 	####################
 $navbar_fix='navbar-fixed-top';
 $breadcrumb_fix='breadcrumbs-fixed';
-#######################
-?>
-<?php
-/*if(!$this->input->cookie('user_id') && $_SERVER['REQUEST_URI'] != "/users/login" && $_SERVER['REQUEST_URI'] != "/jsmin" && $_SERVER['REQUEST_URI'] != "/"){
-		echo $_SERVER['REQUEST_URI']."<br />Please Login. <a href=\"".site_url('users/login')."\"><b class=\"icon-home icon-white\"></b> Click to Login</a>";		
-		die();
-}*/
-/*if (!is_dir("storage/images")){
-	mkdir("storage/images", 0775);
-}*/
-	if (!$this->session->userdata('user_name')) {					
+	//echo $segment1.':'.$web_title.':'.$userinput;
+	if(!$this->session->userdata('user_name')) {					
 		redirect('login/login');
 		die();
 	}else{
@@ -136,9 +236,15 @@ $breadcrumb_fix='breadcrumbs-fixed';
 		$email=$this->session->userdata('email');
 		$domain=$this->session->userdata('domain');
 		$department=$this->session->userdata('department');	
+		$admin_password=$this->session->userdata('admin_password');
 	}
 	$total_execution_time_start=$this->benchmark->marker['total_execution_time_start'];
 	$attr=array();
+	
+##############################################################################
+##############################################################################
+##############################################################################
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $lang;?>">
@@ -483,224 +589,6 @@ $(document).ready(function(){
 						</li>
 				</ul>
 		</li>
-<?php
-/*****************notification_birthday*********************/
-if(isset($notification_birthday)){
-		$dara_brithday=count($notification_birthday);
-		$opentask=($dara_brithday > 0) ? '' : 'style="display:none;"';
-?>
-						<!-- Task Mail -->
-						<li class="green" <?php echo $opentask ?>>
-							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="ace-icon fa fa-gift icon-animated-vertical"></i>
-								<span class="badge badge-success"><?php echo $dara_brithday?></span>
-							</a>
-
-							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-								<li class="dropdown-header">
-									<i class="ace-icon fa fa-gift"></i>
-									<?php echo $language['birthday'].' '.$dara_brithday?> คน 
-								</li>
-
-								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar">
-<?php for($i=0;$i<$dara_brithday;$i++){
-
-			$dara_name='('.$notification_birthday[$i]->nick_name.') '.$notification_birthday[$i]->first_name.' '.$notification_birthday[$i]->last_name;
-
-			//$picture='uploads/thumb/dara/'.$notification_birthday[$i]->avatar;
-			$picture='uploads/thumb3/dara/'.$notification_birthday[$i]->avatar;
-
-			$birth_date=RenDateTime($notification_birthday[$i]->birth_date);
-			$lnk=base_url('dara/edit/'.$notification_birthday[$i]->dara_profile_id);
-?>
-										<li>
-											<a href="<?php echo $lnk ?>">
-												<?php
-														if(file_exists($picture)){
-												?>
-												<img src="<?php echo base_url($picture); ?>" class="msg-photo" alt="<?php echo $dara_name?>'s Avatar" />
-												<?php }else{ ?>
-												<i class="ace-icon fa fa-gift"></i>
-												<?php } ?>
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue"><?php echo $dara_name?></span>
-													</span>
-
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span><?php echo $birth_date?></span>
-													</span>
-												</span>
-											</a>
-										</li>
-<?		 } ?>
-									</ul>
-								</li>
-
-								<!-- <li class="dropdown-footer">
-									<a href="inbox.html">
-										See all messages
-										<i class="ace-icon fa fa-arrow-right"></i>
-									</a>
-								</li> -->
-							</ul>
-						</li>
-<? } //end notification_birthday
-
-/*****************notification_msg*********************/
-if(isset($notification_news)){
-
-		$notification_msg=$notification_news + $notification_column + $notification_gallery + $notification_vdo + $notification_dara;
-		//$all_alert=count($notification_msg);
-		$opentask=($notification_msg > 0) ? '' : 'style="display:none;"';
-?>
-						<!-- Task Mail -->
-						<li class="red" <?php echo $opentask ?>>
-							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span class="badge badge-success"><?php echo $notification_msg?></span>
-							</a>
-
-							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-								<li class="dropdown-header">
-									<i class="ace-icon fa fa-exclamation-triangle"></i>
-									<?php echo $language['no_approve'].' '.$notification_msg?> record 
-								</li>
-
-								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar">
-<?php 
-/*********************news***************************/
-		if($notification_news > 0){
-					
-					//$link=base_url('news?approve=4');
-					if(isset($notification_news_list[0]->news_id2))
-						$link=base_url('news/edit/'.$notification_news_list[0]->news_id2);
-					else
-						$link=base_url('news?approve=4');
-?>
-										<li>
-											<a href="<?php echo $link ?>">
-
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-info fa fa-list"></i>
-														<?php echo $language['no_approve'].' '.$language['news'] ?>
-													</span>
-													<span class="pull-right badge badge-info">+<?php echo $notification_news?></span>
-												</div>
-
-											</a>
-										</li>
-<?php
-		}
-
-		if($notification_column > 0){
-					//$link=base_url('column?approve=4');
-					if(isset($notification_column_list[0]->column_id2))
-						$link=base_url('column/edit/'.$notification_column_list[0]->column_id2);
-					else
-						$link=base_url('column?approve=4');
-?>
-										<li>
-											<a href="<?php echo $link; ?>">
-
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-pink fa fa-pencil-square-o"></i>
-														<?php echo $language['no_approve'].' '.$language['column'] ?>
-													</span>
-													<span class="pull-right badge badge-pink">+<?php echo $notification_column?></span>
-												</div>
-
-											</a>
-										</li>
-<?php
-		}
-
-		if($notification_gallery > 0){
-					//$link=base_url('gallery?approve=4');
-					if(isset($notification_gallery_list[0]->gallery_id2))
-						$link=base_url('gallery/edit/'.$notification_gallery_list[0]->gallery_id2);
-					else
-						$link=base_url('gallery?approve=4');
-?>
-										<li>
-											<a href="<?php echo $link ?>">
-
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-primary fa fa-picture-o"></i>
-														<?php echo $language['no_approve'].' '.$language['gallery'] ?>
-													</span>
-													<span class="pull-right badge badge-primary">+<?php echo $notification_gallery?></span>
-												</div>
-
-											</a>
-										</li>
-<?php
-		}
-
-		if($notification_vdo > 0){
-					//$link=base_url('vdo?approve=4');
-					if(isset($notification_vdo_list[0]->video_id2))
-						$link=base_url('vdo/edit/'.$notification_vdo_list[0]->video_id2);
-					else
-						$link=base_url('vdo?approve=4');
-?>
-										<li>
-											<a href="<?php echo $link; ?>">
-
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-success fa fa-film"></i>
-														<?php echo $language['no_approve'].' '.$language['vdo'] ?>
-													</span>
-													<span class="pull-right badge badge-success">+<?php echo $notification_vdo?></span>
-												</div>
-
-											</a>
-										</li>
-<?php
-		}
-
-		if($notification_dara > 0){
-					//$link=base_url('dara?approve=4');
-					if(isset($notification_dara_list[0]->dara_profile_id))
-						$link=base_url('dara/edit/'.$notification_dara_list[0]->dara_profile_id);
-					else
-						$link=base_url('dara?approve=4');
-?>
-										<li>
-											<a href="<?php echo $link; ?>">
-
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-warning fa fa-user"></i>
-														<?php echo $language['no_approve'].' '.$language['dara'] ?>
-													</span>
-													<span class="pull-right badge badge-warning">+<?php echo $notification_dara?></span>
-												</div>
-
-											</a>
-										</li>
-<?php
-		}
-?>
-									</ul>
-								</li>
-
-								<li class="dropdown-footer">
-									<a href="<?php echo base_url('userlogs/approve') ?>">
-										See all approve
-										<i class="ace-icon fa fa-arrow-right"></i>
-									</a>
-								</li>
-							</ul>
-						</li>
-<? } ?>
 						<!-- #section:basics/navbar.user_menu -->
 						<?php
 						//Debug($this->session->userdata);
@@ -1023,12 +911,9 @@ if(isset($notification_news)){
 		$method =$this->uri->segment(1);
 
 		switch($method){
-				case "news" : $method=$language['news']; break;
+				case "tmon" : $method=$language['tmon']; break;
 				case "column" : $method=$language['column']; break;
-				case "gallery" : $method=$language['gallery']; break;
-				case "vdo" : $method=$language['vdo']; break;
-				case "programtv" : $method=$language['programtv']; break;
-				case "dara" : $method=$language['dara']; break;
+
 				case "elvis" : $method='Elvis'; break;
 				default : $method=''; break;		
 		}

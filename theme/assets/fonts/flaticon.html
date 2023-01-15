@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flaticon WebFont</title>
+    <link rel="stylesheet" type="text/css" href="flaticon.css">
+    <meta charset="UTF-8">
+    <style>
+    body {
+        font-family: sans-serif;
+        line-height: 1.5;
+        font-size: 16px;
+        padding: 20px;
+        color:#333;
+    }
+    * {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    [class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+        font-family: Flaticon;
+        font-size: 30px;
+        font-style: normal;
+        margin-left: 20px;
+        color: #333;
+    }
+    .image p {
+		font-size: 12px;
+		margin: 0px;
+		clear: none;
+		width: 300px;
+		line-height: 40px;
+	}
+    .text {
+        float: left;
+        font-size:14px;
+        margin-top: 15px;
+    }
+    .text ul {
+        margin-left:0px;
+        color:#111;
+        margin-bottom:20px;
+    }
+    .text .ex {
+        font-size:12px;
+        color:#666;
+        margin-left:35px;
+        display:block;
+    }
+    .text ul li {
+        margin-top:10px;
+        list-style:none;
+    }
+    .num {
+        background:#66A523;
+        color:#fff;
+        border-radius:20px;
+        padding:1px;
+        display:inline-block;
+        width:22px;
+        height:22px;
+        text-align:center;
+        margin-right: 5px;
+    }
+    .text ul strong {
+        font-weight:normal;
+        color:#000;
+    }
+    .image {
+        width: 280px;
+        float: left;
+        margin-bottom: 15px;
+        margin-right: 30px;
+    }
+    #glyphs {
+        clear: both;
+    }
+    .image p:nth-child(even) i {
+        clear: none;
+    }
+    .glyph {
+        display: inline-block;
+        width: 120px;
+        margin: 10px;
+        text-align: center;
+        vertical-align: top;
+        background: #FFF;
+    }
+    .glyph .glyph-icon {
+        padding: 10px;
+        display: block;
+        font-family:"Flaticon";
+        font-size: 64px;
+        line-height: 1;
+    }
+    .glyph .glyph-icon:before {
+        font-size: 64px;
+        color: #666;
+        margin-left: 0;
+    }
+    .class-name {
+        font-size: 12px;
+    }
+    .author-name {
+		font-size: 10px;
+	}
+	a{
+		color: #66A523;
+	}
+    .instructions {
+        font-style:italic;
+        font-size:22px;
+        margin-bottom:10px;
+    }
+    .iconsuse {
+        font-size:22px;
+        font-style:italic;
+        padding-top:20px;
+        margin-top:20px;
+        border-top:1px solid #bbb;
+    }
+    .usetitle {
+        margin-bottom: 10px;
+        font-size: 20px;
+        font-style: italic;
+    }
+    .class-name:last-child {
+        font-size: 10px;
+        color:#888;
+    }
+    .class-name:last-child a {
+        font-size: 10px;
+        color:#555;
+    }
+    .class-name:last-child a:hover {
+        color:#66A523;
+    }
+    .glyph > input {
+        display: block;
+        width: 100px;
+        margin: 5px auto;
+        text-align: center;
+        font-size: 12px;
+        cursor: text;
+    }
+    .glyph > input.icon-input {
+        font-family:"Flaticon";
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    h1.logo {
+        font-size: 40px;
+        letter-spacing: -1px;
+        margin-top: -16px;
+        text-transform: lowercase;
+        border-bottom:1px solid #bbb;
+    }
+    h1.logo strong {
+        font-size: 16px;
+        font-family:sans-serif;
+        font-weight:normal;
+        color:#333;
+    }
+    h1.logo a {
+        color:#34302d;
+        text-decoration: none;
+    }
+    h1.logo a span {
+        color:#66A523;
+    }
+    #footer {
+        padding-top:40px;
+        clear:both;
+        text-align:center;
+    }
+    #footer a {
+        color:#66A523;
+    }
+    textarea {
+		margin: 0px;
+		width: 800px;
+		height: 150px;
+		border: 1px solid #CCC;
+		resize: none;
+		background: #EEE;
+    }
+    .author-link, .attrDiv a{
+    	font-size: 12px;
+    	color: #333;
+    	text-decoration: none;
+    }
+    .external {
+    	display: block;
+    }
+    .attrDiv {
+		font-size: 12px;
+	}
+    .attribution {
+        border-top: 1px solid #AAA;
+        margin: 10px 0;
+        padding-top: 15px;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="logo">
+            <a href="http://www.flaticon.com">
+                <span>FLAT</span>ICON</a>
+            <strong>Font Demo</strong>
+        </h1>
+    </header>
+
+    <section class="demo">
+        <div class="text">
+
+            <div class="instructions">Instructions:</div>
+
+            <ul>
+                <li>
+                    <p>
+                        <span class="num">1</span>Copy the "Fonts" files and CSS files to your website CSS folder.
+                </li>
+                <li>
+                    <p>
+                        <span class="num">2</span>Add the CSS link to your website source code on header.
+                        <br />
+                        <span class="ex">&lt;head&gt;
+                            <br/>...
+                            <br/>&lt;link rel="stylesheet" type="text/css" href="your_website_domain/css_root/flaticon.css"&gt;
+                            <br/>...
+                            <br/>&lt;/head&gt;</span>
+                </li>
+
+                <li>
+                    <p>
+                        <span class="num">3</span>Use the icon class on "display:inline" elements:
+                        <br />
+                        <span class="ex">Use example: &lt;i class=&quot;flaticon-airplane49&quot;&gt;&lt;/i&gt; or &lt;span class=&quot;flaticon-airplane49&quot;&gt;&lt;/span&gt;</span>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+
+    <section id="glyphs"><div class="glyph">
+		<div class="glyph-icon flaticon-boy4"></div>
+		<div class="class-name">.flaticon-boy4</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/boy-talking-by-phone_21519">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-buying4"></div>
+		<div class="class-name">.flaticon-buying4</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/buying-by-phone-shopping-cart-and-telephone_15846">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-cellphone1"></div>
+		<div class="class-name">.flaticon-cellphone1</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/cellphone-international-communication-tool_15836">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-cellphone"></div>
+		<div class="class-name">.flaticon-cellphone</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/cellphone-ringing_15835">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-chat15"></div>
+		<div class="class-name">.flaticon-chat15</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/chat-between-two-cellphones_15912">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-chat23"></div>
+		<div class="class-name">.flaticon-chat23</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/chat-by-telephone_21518">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-communication5"></div>
+		<div class="class-name">.flaticon-communication5</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/communication-by-phone_15861">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-couple2"></div>
+		<div class="class-name">.flaticon-couple2</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/couple-portrait-image-on-a-cellphone-screen_15916">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-email23"></div>
+		<div class="class-name">.flaticon-email23</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/email-communication-by-phone_21516">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-feeds"></div>
+		<div class="class-name">.flaticon-feeds</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/feeds-refresh-content-circular-arrows_15880">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-girl5"></div>
+		<div class="class-name">.flaticon-girl5</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/girl-talking-by-phone_15847">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-girl6"></div>
+		<div class="class-name">.flaticon-girl6</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/girl-of-call-center-with-headphones_15908">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-group24"></div>
+		<div class="class-name">.flaticon-group24</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/group-chat-by-phone-with-wifi-connection_15868">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-hand25"></div>
+		<div class="class-name">.flaticon-hand25</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/hand-over-a-phone_21514">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-hand26"></div>
+		<div class="class-name">.flaticon-hand26</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/hand-with-a-phone-with-rss-feed-symbol-on-screen_21517">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-hand27"></div>
+		<div class="class-name">.flaticon-hand27</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/hand-with-a-mobile-phone_21520">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-incoming"></div>
+		<div class="class-name">.flaticon-incoming</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/incoming-call-message-by-phone_15911">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-international1"></div>
+		<div class="class-name">.flaticon-international1</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/international-transmission-tower_15852">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-international2"></div>
+		<div class="class-name">.flaticon-international2</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/international-communication-by-phone_15887">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-person170"></div>
+		<div class="class-name">.flaticon-person170</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/person-of-a-call-center-in-communication-with-headphones_15888">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone36"></div>
+		<div class="class-name">.flaticon-phone36</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-chat-with-wifi-signal_15850">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone37"></div>
+		<div class="class-name">.flaticon-phone37</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-with-wifi-signal-symbol_15853">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone38"></div>
+		<div class="class-name">.flaticon-phone38</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-chat-speech-bubble-shape-as-screen_15856">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone39"></div>
+		<div class="class-name">.flaticon-phone39</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-calling_15859">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone40"></div>
+		<div class="class-name">.flaticon-phone40</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-international-chat-communication_15860">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone41"></div>
+		<div class="class-name">.flaticon-phone41</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-connection-with-a-boy_15863">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone42"></div>
+		<div class="class-name">.flaticon-phone42</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-auricular-with-high-volume_15884">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone43"></div>
+		<div class="class-name">.flaticon-phone43</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-contact_15895">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone44"></div>
+		<div class="class-name">.flaticon-phone44</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-group-communication_15909">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone45"></div>
+		<div class="class-name">.flaticon-phone45</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-book_16106">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone48"></div>
+		<div class="class-name">.flaticon-phone48</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-with-a-smiley-face-in-screen_21512">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-phone49"></div>
+		<div class="class-name">.flaticon-phone49</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone-navigation-refreshing-content-circular-arrows-symbol-on-screen_21515">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-satellite3"></div>
+		<div class="class-name">.flaticon-satellite3</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/satellite-international-communications_15885">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-smartphone10"></div>
+		<div class="class-name">.flaticon-smartphone10</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/smartphone-with-wifi-connection-and-symbol-on-screen-in-horizontal-position_15872">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-smartphone11"></div>
+		<div class="class-name">.flaticon-smartphone11</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/smartphone_15874">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-smartphone12"></div>
+		<div class="class-name">.flaticon-smartphone12</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/smartphone-rotated-to-left-receiving-connection_15877">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-smartphone13"></div>
+		<div class="class-name">.flaticon-smartphone13</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/smartphone-or-calculator_15896">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-smartphone14"></div>
+		<div class="class-name">.flaticon-smartphone14</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/smartphone-broken_15915">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-smartphone9"></div>
+		<div class="class-name">.flaticon-smartphone9</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/smartphone-with-locked-padlock-on-screen_15849">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-smartphones"></div>
+		<div class="class-name">.flaticon-smartphones</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/smartphones-couple_15826">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-tablet26"></div>
+		<div class="class-name">.flaticon-tablet26</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/tablet-tool-with-a-finger-of-a-hand-making-pressure-on-touch-pad_15901">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-tablet27"></div>
+		<div class="class-name">.flaticon-tablet27</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/tablet-with-wifi-signal-symbol-on-screen_15921">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone19"></div>
+		<div class="class-name">.flaticon-telephone19</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-wifi-and-speech-bubble_15829">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone20"></div>
+		<div class="class-name">.flaticon-telephone20</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone_15830">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone21"></div>
+		<div class="class-name">.flaticon-telephone21</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-variant_15831">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone22"></div>
+		<div class="class-name">.flaticon-telephone22</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone_15832">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone23"></div>
+		<div class="class-name">.flaticon-telephone23</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-auricular-world-sphere-international-symbol_15837">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone24"></div>
+		<div class="class-name">.flaticon-telephone24</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-wifi_15839">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone25"></div>
+		<div class="class-name">.flaticon-telephone25</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-wifi-signal-on-the-screen_15841">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone26"></div>
+		<div class="class-name">.flaticon-telephone26</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-sad-face-on-screen_15843">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone27"></div>
+		<div class="class-name">.flaticon-telephone27</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-wifi-signal_15844">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone28"></div>
+		<div class="class-name">.flaticon-telephone28</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/phone_15845">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone29"></div>
+		<div class="class-name">.flaticon-telephone29</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-auricular-with-circular-cable-and-arrows_15848">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone30"></div>
+		<div class="class-name">.flaticon-telephone30</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-for-international-communication_15865">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone31"></div>
+		<div class="class-name">.flaticon-telephone31</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-of-vintage-style-and-black-shape_15866">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone32"></div>
+		<div class="class-name">.flaticon-telephone32</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-line-with-24-hours-service_15869">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone33"></div>
+		<div class="class-name">.flaticon-telephone33</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-communication-tool-with-chat-bubble-as-screen_15873">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone34"></div>
+		<div class="class-name">.flaticon-telephone34</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-wifi-in-a-hand_15879">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone35"></div>
+		<div class="class-name">.flaticon-telephone35</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-screen-with-sound-line_15882">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone36"></div>
+		<div class="class-name">.flaticon-telephone36</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-international-communication-tool_15883">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone37"></div>
+		<div class="class-name">.flaticon-telephone37</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-auricular-with-cable_15886">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone38"></div>
+		<div class="class-name">.flaticon-telephone38</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-of-old-design_15892">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone39"></div>
+		<div class="class-name">.flaticon-telephone39</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-rotated-to-left-with-an-arrow-symbol-of-sending-data-state_15893">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone40"></div>
+		<div class="class-name">.flaticon-telephone40</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-broken-shape_15894">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone41"></div>
+		<div class="class-name">.flaticon-telephone41</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-locked_15898">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone42"></div>
+		<div class="class-name">.flaticon-telephone42</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-half-battery-charged_15903">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone43"></div>
+		<div class="class-name">.flaticon-telephone43</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-24-hours-service_15905">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone44"></div>
+		<div class="class-name">.flaticon-telephone44</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-broken_15907">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone45"></div>
+		<div class="class-name">.flaticon-telephone45</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-ringing_15914">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone46"></div>
+		<div class="class-name">.flaticon-telephone46</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-tool-with-a-bolt-on-screen_15922">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone47"></div>
+		<div class="class-name">.flaticon-telephone47</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-a-smile_15925">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone48"></div>
+		<div class="class-name">.flaticon-telephone48</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-with-glasses-and-mustache_15927">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone49"></div>
+		<div class="class-name">.flaticon-telephone49</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-design_15928">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-telephone58"></div>
+		<div class="class-name">.flaticon-telephone58</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/telephone-digital-tool-with-a-shield-image-on-screen_21511">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-thelephone"></div>
+		<div class="class-name">.flaticon-thelephone</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/thelephone-with-glasses_21513">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-tower7"></div>
+		<div class="class-name">.flaticon-tower7</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/tower-with-transmission-for-all-the-planet_15906">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-tower8"></div>
+		<div class="class-name">.flaticon-tower8</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/tower-transmissions_15926">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-video47"></div>
+		<div class="class-name">.flaticon-video47</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/video-conference-by-cellphone_15840">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-wifi20"></div>
+		<div class="class-name">.flaticon-wifi20</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/wifi-signal-tower_15924">Freepik</a></div></div><div class="glyph">
+		<div class="glyph-icon flaticon-worldwide4"></div>
+		<div class="class-name">.flaticon-worldwide4</div><div class="author-name">Author: <a href="http://www.flaticon.com/free-icon/worldwide-transmissions_15881">Freepik</a></div></div></section>
+
+<section class="attribution">
+
+	<div class="usetitle">License and attribution:</div><div class="attrDiv">Font generated by <a href="http://www.flaticon.com">flaticon.com</a>
+ under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY</a>. The authors are: <a href="http://www.freepik.com">Freepik</a>.</div><div class="usetitle">Copy the Attribution License:</div>
+
+<textarea onclick="this.focus();this.select();">Font generated by &lt;a href=&quot;http://www.flaticon.com&quot;&gt;flaticon.com&lt;/a&gt;
+ under &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot;&gt;CC BY&lt;/a&gt;. The authors are: &lt;a href=&quot;http://www.freepik.com&quot;&gt;Freepik&lt;/a&gt;.</textarea>
+
+</section>
+
+<section class="iconsuse">
+    	<div class="usetitle">Examples:</div>
+		<div class="image"><p>&lt;i class=&quot;flaticon-boy4&quot;&gt;&lt;/i&gt; <i class="flaticon-boy4"></i></p><p>&lt;i class=&quot;flaticon-buying4&quot;&gt;&lt;/i&gt; <i class="flaticon-buying4"></i></p><p>&lt;i class=&quot;flaticon-cellphone1&quot;&gt;&lt;/i&gt; <i class="flaticon-cellphone1"></i></p><p>&lt;i class=&quot;flaticon-cellphone&quot;&gt;&lt;/i&gt; <i class="flaticon-cellphone"></i></p><p>&lt;i class=&quot;flaticon-chat15&quot;&gt;&lt;/i&gt; <i class="flaticon-chat15"></i></p></div><div class="image"><p>&lt;span class=&quot;flaticon-chat23&quot;&gt;&lt;/span&gt; <span class="flaticon-chat23"></span></p><p>&lt;span class=&quot;flaticon-communication5&quot;&gt;&lt;/span&gt; <span class="flaticon-communication5"></span></p><p>&lt;span class=&quot;flaticon-couple2&quot;&gt;&lt;/span&gt; <span class="flaticon-couple2"></span></p><p>&lt;span class=&quot;flaticon-email23&quot;&gt;&lt;/span&gt; <span class="flaticon-email23"></span></p><p>&lt;span class=&quot;flaticon-feeds&quot;&gt;&lt;/span&gt; <span class="flaticon-feeds"></span></p></div><div class="image"><p>&lt;span class=&quot;flaticon-girl5&quot;&gt;&lt;/span&gt; <span class="flaticon-girl5"></span></p><p>&lt;i class=&quot;flaticon-girl6&quot;&gt;&lt;/i&gt; <i class="flaticon-girl6"></i></p><p>&lt;i class=&quot;flaticon-group24&quot;&gt;&lt;/i&gt; <i class="flaticon-group24"></i></p><p>&lt;i class=&quot;flaticon-hand25&quot;&gt;&lt;/i&gt; <i class="flaticon-hand25"></i></p><p>&lt;i class=&quot;flaticon-hand26&quot;&gt;&lt;/i&gt; <i class="flaticon-hand26"></i></p></div><div class="image"><p>&lt;span class=&quot;flaticon-hand27&quot;&gt;&lt;/span&gt; <span class="flaticon-hand27"></span></p><p>&lt;span class=&quot;flaticon-incoming&quot;&gt;&lt;/span&gt; <span class="flaticon-incoming"></span></p><p>&lt;span class=&quot;flaticon-international1&quot;&gt;&lt;/span&gt; <span class="flaticon-international1"></span></p><p>&lt;span class=&quot;flaticon-international2&quot;&gt;&lt;/span&gt; <span class="flaticon-international2"></span></p><p>&lt;span class=&quot;flaticon-person170&quot;&gt;&lt;/span&gt; <span class="flaticon-person170"></span></p></div><div class="image"></div>
+</section>
+<div id="footer">
+    <div>Generated by <a href="http://www.flaticon.com">flaticon.com</a>
+    </div>
+</div>
+	</body>
+</html>

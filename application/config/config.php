@@ -15,13 +15,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | explicitly and never rely on auto-guessing, especially in production
 | environments.
 |
+| base_url();
+| site_url();
+| "http://".$_SERVER['HTTP_HOST']; 
 */
-$url='/backendhmvc/';
+//$url='/tmonhmvc';
+$url='/www/backendhmvc/';
 $base_url='http://'.$_SERVER['HTTP_HOST'].$url;
+ #$base_url='http://localhost/tmonhmvc/';
+//if domain
+//$base_url='http://tmonhmvc.local/';
+$config['base_url']=$base_url;
+//$config['base_url'] .= preg_replace('@/+$@', '', dirname($_SERVER['SCRIPT_NAME'])).'';
+//////////////////////////
 $pathnow=__DIR__;
 $FCPATH=FCPATH;
 $filepathroot=$FCPATH; 
-$config['base_url']=$base_url;
 $config['base_path']=$filepathroot;
 $config['ci_doc_url']=$base_url.'user_guide/';
 $config['rest_doc_url']=$base_url.'documentation/';
@@ -33,9 +42,14 @@ $config['now_path']=$pathnow;
 $config['www']=$base_url.'www/';
 $config['api']=$base_url.'api/';
 $config['frontend']='http://'.$_SERVER['HTTP_HOST'].$url;
-$config['access_token_www']	= 'lUW4Ju2ei6';
-$config['api_key']	= 'ZxDE@96jK';
-$config['level'] = 7;
+$config['access_token_www']='lUW4Ju2ei6';
+$config['api_key']='ZxDE@96jK';
+$config['service_key']='Na@@ZxDE@96jK';
+$config['data_key']='ZxDE@96jK'; 
+$config['cachedata_key']='ZxDE@96jK';
+$config['level']=7;
+$config['access_key']='Na@#$09#5371';
+
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +61,7 @@ $config['level'] = 7;
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page']='';
 
 /*
 |--------------------------------------------------------------------------
@@ -64,7 +78,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']	= 'AUTO';
+$config['uri_protocol']='AUTO';
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +91,7 @@ $config['uri_protocol']	= 'AUTO';
 | http://codeigniter.com/user_guide/general/urls.html
 */
 
-$config['url_suffix'] = '';
+$config['url_suffix']='';
 
 /*
 |--------------------------------------------------------------------------
@@ -89,8 +103,8 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
-// $config['language']	= 'thai';
+$config['language']='english';
+// $config['language']='thai';
 /*
 |--------------------------------------------------------------------------
 | Default Character Set
@@ -102,7 +116,7 @@ $config['language']	= 'english';
 | See http://php.net/htmlspecialchars for a list of supported charsets.
 |
 */
-$config['charset'] = 'UTF-8';
+$config['charset']='UTF-8';
 
 /*
 |--------------------------------------------------------------------------
@@ -112,10 +126,10 @@ $config['charset'] = 'UTF-8';
 | If you would like to use the 'hooks' feature you must enable it by
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
-#$config['enable_hooks'] = TRUE; 
-#$config['enable_hooks'] = FALSE; 
+#$config['enable_hooks']=TRUE; 
+#$config['enable_hooks']=FALSE; 
 */
-$config['enable_hooks'] = TRUE;  
+$config['enable_hooks']=FALSE;  
 /*
 |--------------------------------------------------------------------------
 | Class Extension Prefix
@@ -128,7 +142,7 @@ $config['enable_hooks'] = TRUE;
 | http://codeigniter.com/user_guide/general/creating_libraries.html
 |
 */
-$config['subclass_prefix'] = 'MY_';
+$config['subclass_prefix']='MY_';
 /*
 |--------------------------------------------------------------------------
 | Composer auto-loading
@@ -137,20 +151,20 @@ $config['subclass_prefix'] = 'MY_';
 | Enabling this setting will tell CodeIgniter to look for a Composer
 | package auto-loader script in application/vendor/autoload.php.
 |
-|	$config['composer_autoload'] = TRUE;
+|	$config['composer_autoload']=TRUE;
 |
 | Or if you have your vendor/ directory located somewhere else, you
 | can opt to set a specific path as well:
 |
-|	$config['composer_autoload'] = '/path/to/vendor/autoload.php';
+|	$config['composer_autoload']='/path/to/vendor/autoload.php';
 |
 | For more information about Composer, please visit http://getcomposer.org/
 |
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
-#$config['composer_autoload'] = APPPATH . '../vendor/autoload.php';
+$config['composer_autoload']=FALSE;
+#$config['composer_autoload']=APPPATH . '../vendor/autoload.php';
 /*
 |--------------------------------------------------------------------------
 | Allowed URL Characters
@@ -171,7 +185,9 @@ $config['composer_autoload'] = FALSE;
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars']='a-z 0-9~%.:_\-';
+
+$config['mod_debug']='No';
 /*
 |--------------------------------------------------------------------------
 | Enable Query Strings
@@ -197,11 +213,11 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['allow_get_array'] = TRUE;
-$config['enable_query_strings'] = FALSE;
-$config['controller_trigger'] = 'c';
-$config['function_trigger'] = 'm';
-$config['directory_trigger'] = 'd';
+$config['allow_get_array']=TRUE;
+$config['enable_query_strings']=FALSE;
+$config['controller_trigger']='c';
+$config['function_trigger']='m';
+$config['directory_trigger']='d';
 /*
 |--------------------------------------------------------------------------
 | Error Logging Threshold
@@ -212,21 +228,21 @@ $config['directory_trigger'] = 'd';
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
 |
-|	0 = Disables logging, Error logging TURNED OFF
-|	1 = Error Messages (including PHP errors)
-|	2 = Debug Messages
-|	3 = Informational Messages
-|	4 = All Messages
+|	0=Disables logging, Error logging TURNED OFF
+|	1=Error Messages (including PHP errors)
+|	2=Debug Messages
+|	3=Informational Messages
+|	4=All Messages
 |
 | You can also pass an array with threshold levels to show individual error types
 |
-| 	array(2) = Debug Messages, without Error Messages
+| 	array(2)=Debug Messages, without Error Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold']=0;
 
 /*
 |--------------------------------------------------------------------------
@@ -263,7 +279,7 @@ $config['log_file_extension'] =$filepathroot.'file/log_file_extension/';
 | IMPORTANT: This MUST be an integer (no quotes) and you MUST use octal
 |            integer notation (i.e. 0700, 0644, etc.)
 */
-$config['log_file_permissions'] = 0775;
+$config['log_file_permissions']=0775;
 
 /*
 |--------------------------------------------------------------------------
@@ -274,7 +290,7 @@ $config['log_file_permissions'] = 0775;
 | codes to set your own date formatting
 |
 */
-$config['log_date_format'] = 'Y-m-d H:i:s';
+$config['log_date_format']='Y-m-d H:i:s';
 
 /*
 |--------------------------------------------------------------------------
@@ -285,7 +301,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 | application/views/errors/ directory.  Use a full server path with trailing slash.
 |
 */
-$config['error_views_path'] = '';
+$config['error_views_path']='';
 
 /*
 |--------------------------------------------------------------------------
@@ -307,7 +323,7 @@ $config['cache_path_db'] =$filepathroot.'file/dbcache/';
 | URL query string.  Please be aware this might result in numerous cache files.
 |
 */
-$config['cache_query_string'] = TRUE;
+$config['cache_query_string']=TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -320,7 +336,7 @@ $config['cache_query_string'] = TRUE;
 | http://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = 'tmon5371@na';
+$config['encryption_key']='tmon5371@na';
 
 /*
 |--------------------------------------------------------------------------
@@ -370,50 +386,68 @@ $config['encryption_key'] = 'tmon5371@na';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 
-$config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'backendhmvc_session_';
-$config['sess_save_path'] = $filepathroot.'file/session/'; 
+$config['sess_driver']='files';
+$config['sess_cookie_name']='backendhmvc_session_';
+$config['sess_save_path']=$filepathroot.'file/session/'; 
 $config['sess_expiration']=(60*60*2); //2 h
-$config['sess_match_ip'] = FALSE;
+$config['sess_match_ip']=FALSE;
 $config['sess_time_to_update'] =(60*5); //5 min
-$config['sess_regenerate_destroy'] = FALSE;
-$config['sess_expire_on_close']	= TRUE;
-$config['sess_encrypt_cookie']	= TRUE;
-$config['sess_use_database']	= TRUE;
-$config['sess_match_useragent']	= TRUE;
+$config['sess_regenerate_destroy']=FALSE;
+$config['sess_expire_on_close']=TRUE;
+$config['sess_encrypt_cookie']=TRUE;
+$config['sess_use_database']=TRUE;
+$config['sess_match_useragent']=TRUE;
 */
-$config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'backendhmvc_session_';
-$config['sess_save_path'] = $filepathroot.'file/session/'; 
-$config['sess_expiration']=(60*60*2); //2 h
-$config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] =(60*5); //5 min
-$config['sess_regenerate_destroy'] = FALSE;
-$config['sess_expire_on_close']	= TRUE;
-$config['sess_encrypt_cookie']	= TRUE;
-$config['sess_use_database']	= TRUE;
-$config['sess_match_useragent']	= TRUE;
-
 // Time Cach
-$time_cach_min=(5); //5 min
-$time_cach=(60*5); //5 min
-$time_cach1=(60*60*1); //1 h
-$time_cach2=(60*60*2); //2 h
-$time_cach3=(60*60*24*1); //1 day
-$time_cach4=(60*60*24*3); //3 day
-$time_cach5=(60*60*24*7); //7 day
-$time_cach6=(60*60*24*15); //15 day
-$time_cach7=(60*60*24*30); //30 day
-$config['time_cach_set_min']	= $time_cach_min; //5 min
-$config['time_cach_set']	= $time_cach; //5 min
-$config['time_cach_level0']	= $time_cach; //5 min
-$config['time_cach_level1']	= $time_cach1; //1 h
-$config['time_cach_level2']	= $time_cach2; //2 h
-$config['time_cach_level3']	= $time_cach3; //1 day
-$config['time_cach_level4']	= $time_cach4; //3 day
-$config['time_cach_level5']	= $time_cach5; //7 day
-$config['time_cach_level6']	= $time_cach6; //15 day
-$config['time_cach_level7']	= $time_cach7; //30 day
+$time_cach=300;
+$time_cach_min=(60*60*5); //5 min
+$time_cach=(60*60*60*24*1); //1 day  (60*5); //5 min
+$time_cach1=(60*60*60*1); //1 h
+$time_cach2=(60*60*60*2); //2 h
+$time_cach3=(60*60*60*24*1); //1 day
+$time_cach4=(60*60*60*24*3); //3 day
+$time_cach5=(60*60*60*24*7); //7 day
+$time_cach6=(60*60*60*24*15); //15 day
+$time_cach7=(60*60*60*24*30); //30 day
+$time_cach8=(60*60*60*24*365*1000); //100 year
+$time_cach_1_year=(60*60*60*24*365*1); //365 day  1 year
+
+$config['cachetime']=$time_cach;
+$config['cachetime1']=$time_cach1;
+$config['cachetime2']=$time_cach2;
+$config['cachetime3']=$time_cach3;
+$config['cachetime4']=$time_cach4;
+$config['cachetime5']=$time_cach5;
+$config['cachetime6']=$time_cach6;
+$config['cachetime7']=$time_cach7;
+$config['cachetime8']=$time_cach8;
+$config['cachetim_1_year']=$time_cach_1_year;
+
+$config['time_cach_set_min']=$time_cach_min; //5 min
+$config['time_cach_set']=$time_cach; //5 min
+$config['time_cach_level0']=$time_cach; //5 min
+$config['time_cach_level1']=$time_cach1; //1 h
+$config['time_cach_level2']=$time_cach2; //2 h
+$config['time_cach_level3']=$time_cach3; //1 day
+$config['time_cach_level4']=$time_cach4; //3 day
+$config['time_cach_level5']=$time_cach5; //7 day
+$config['time_cach_level6']=$time_cach6; //15 day
+$config['time_cach_level7']=$time_cach7; //30 day
+$config['time_cach_level8']=$time_cach8; //365 day
+
+
+$config['sess_driver']='files';
+$config['sess_cookie_name']='eGits_session_';
+$config['sess_save_path']=$filepathroot.'file/session/'; 
+$config['sess_expiration']=$time_cach7; 
+$config['sess_match_ip']=FALSE;
+$config['sess_time_to_update']=$time_cach7;  
+$config['sess_regenerate_destroy']=TRUE;
+$config['sess_expire_on_close']=FALSE;
+$config['sess_encrypt_cookie']=FALSE;
+$config['sess_use_database']=FALSE;
+$config['sess_match_useragent']=TRUE;
+$config['session_path'] =$filepathroot.'file/session/';
 
 
 /*
@@ -421,21 +455,21 @@ $config['time_cach_level7']	= $time_cach7; //30 day
 | Cookie Related Variables
 |--------------------------------------------------------------------------
 |
-| 'cookie_prefix'   = Set a cookie name prefix if you need to avoid collisions
-| 'cookie_domain'   = Set to .your-domain.com for site-wide cookies
-| 'cookie_path'     = Typically will be a forward slash
-| 'cookie_secure'   = Cookie will only be set if a secure HTTPS connection exists.
-| 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
+| 'cookie_prefix'  =Set a cookie name prefix if you need to avoid collisions
+| 'cookie_domain'  =Set to .your-domain.com for site-wide cookies
+| 'cookie_path'    =Typically will be a forward slash
+| 'cookie_secure'  =Cookie will only be set if a secure HTTPS connection exists.
+| 'cookie_httponly'=Cookie will only be accessible via HTTP(S) (no javascript)
 |
 | Note: These settings (with the exception of 'cookie_prefix' and
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
-$config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
+$config['cookie_prefix']='';
+$config['cookie_domain']='';
+$config['cookie_path']	='/';
+$config['cookie_secure']=FALSE;
+$config['cookie_httponly'] =FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -449,7 +483,7 @@ $config['cookie_httponly'] 	= FALSE;
 | (usually \n) and Windows (\r\n).
 |
 */
-$config['standardize_newlines'] = TRUE;
+$config['standardize_newlines']=TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -463,7 +497,7 @@ $config['standardize_newlines'] = TRUE;
 |          for backwards compatibility purposes!
 |
 */
-$config['global_xss_filtering'] = FALSE;
+$config['global_xss_filtering']=FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -473,18 +507,18 @@ $config['global_xss_filtering'] = FALSE;
 | checked on a submitted form. If you are accepting user data, it is strongly
 | recommended CSRF protection be enabled.
 |
-| 'csrf_token_name' = The token name
-| 'csrf_cookie_name' = The cookie name
-| 'csrf_expire' = The number in seconds the token should expire.
-| 'csrf_regenerate' = Regenerate token on every submission
-| 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
+| 'csrf_token_name'=The token name
+| 'csrf_cookie_name'=The cookie name
+| 'csrf_expire'=The number in seconds the token should expire.
+| 'csrf_regenerate'=Regenerate token on every submission
+| 'csrf_exclude_uris'=Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = FALSE;
-$config['csrf_token_name'] = 'csrf_test_name';
-$config['csrf_cookie_name'] = 'csrf_cookie_name';
-$config['csrf_expire'] =(60*60*2); //2 h= 7200;
-$config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_protection']=FALSE;
+$config['csrf_token_name']='csrf_test_name';
+$config['csrf_cookie_name']='csrf_cookie_name';
+$config['csrf_expire'] =(60*60*2); 
+$config['csrf_regenerate']=TRUE;
+$config['csrf_exclude_uris']=array();
 
 /*
 |--------------------------------------------------------------------------
@@ -506,7 +540,7 @@ $config['csrf_exclude_uris'] = array();
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = FALSE;
+$config['compress_output']=FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -519,8 +553,8 @@ $config['compress_output'] = FALSE;
 | helper' page of the user guide for information regarding date handling.
 |
 */
-$config['time_reference'] = 'local';
-#$config['time_reference'] = 'gmt';
+$config['time_reference']='local';
+#$config['time_reference']='gmt';
 /*
 |--------------------------------------------------------------------------
 | Rewrite PHP Short Tags
@@ -531,9 +565,7 @@ $config['time_reference'] = 'local';
 | in your view files.  Options are TRUE or FALSE (boolean)
 |
 */
-$config['rewrite_short_tags'] = TRUE;
-
-
+$config['rewrite_short_tags']=TRUE;
 /*
 |--------------------------------------------------------------------------
 | Reverse Proxy IPs
@@ -550,13 +582,20 @@ $config['rewrite_short_tags'] = TRUE;
 | Comma-separated:	'10.0.1.200,192.168.5.0/24'
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
-$config['proxy_ips'] = '';
-
+$config['proxy_ips']='';
 //notification
-$config['notification'] = '1'; // 1=Enable  0=disable
-$config['notificationtest'] = '1'; // 1=Enable  0=disable
-$config['notificationtime'] = '3000'; // 1=Enable  0=disable
+$config['notification']='1'; // 1=Enable  0=disable
+$config['notificationtest']='1'; // 1=Enable  0=disable
+$config['notificationtime']='3000'; // 1=Enable  0=disable
 ######################################################
-#echo '<pre>config=>'; print_r($config); echo '</pre>'; 
+# echo '<pre>config=>'; print_r($config); echo '</pre>'; 
+##api key 
+$config['jwt_key']='webservice!@@#trueplookpanya';
+$config['jwt_algorithm']='HS5371@na';
+#########
+$config['thekey']='ValarMorghulis!'; 
+$config['apirestkey']='NA!'; 
+$config['encryption_key']="trueplookpanya@5371";
+ob_clean();
 
 

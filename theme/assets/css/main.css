@@ -2947,7 +2947,7 @@ body.login a.forgot {
 	top: 9px;
 }
 body.login input.password {
-	padding-right: 130px;
+	//padding-right: 130px;
 }
 body.login label {
 	color: #7F7F7F;

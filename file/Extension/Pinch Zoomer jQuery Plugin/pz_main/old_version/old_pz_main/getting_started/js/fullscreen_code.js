@@ -1,6 +1,0 @@
-$(onReady);
-
-function onReady()
-{
-	prettyPrint();	
-}

@@ -4,13 +4,12 @@
  * @copyright kongnakorn  jantakun 2015
 */
 class Village_model extends CI_Model {
- 
-    public function __construct(){
+public function __construct(){
 		parent::__construct();
         //$this->load->database();
     }
 
-    public function get_status($id){
+public function get_status($id){
     
     	$language = $this->lang->language['lang'];
     
@@ -26,7 +25,7 @@ class Village_model extends CI_Model {
     
     }
         
-    public function get_max_order($village_id){
+public function get_max_order($village_id){
 
 		$language = $this->lang->language['lang'];
 
@@ -40,39 +39,46 @@ class Village_model extends CI_Model {
 		return $query->result_array(); 
     }
 
-    public function get_max_id(){
-
+public function get_max_id(){
 		//$language = $this->lang->language['lang'];
-		$this->db->select('max(village_id_map) as max_id');
+		$this->db->select('max(village_id) as max_id');
 		$this->db->from('_na_village');
 		//$this->db->where('lang', $language);
-		$query = $this->db->get();
-		return $query->result_array(); 
-    }
-  public function village_count_id($district_id ,$language=''){
-    $language = $this->lang->language['lang'];
-    $this->db->select('*');
-    $this->db->from('_na_village');
-    $this->db->where('district_id', $district_id);
-    $this->db->where('lang', $language);
-    $query = $this->db->get();
-	#Debug($this->db->last_query());
-		return $query->num_rows(); 
-}
-
-
-  public function zipcode_count_id($district_id){
-    $language = $this->lang->language['lang'];
-    $this->db->select('*');
-    $this->db->from('_na_zipcode');
-    $this->db->where('district_id', $district_id);
-    $query = $this->db->get();
-	 //Debug($this->db->last_query());
-	return $query->result_object(); 
- }
-
-   public function get_village_id_map($lang){
-
+		$query = $this->db->get(); 
+		$query_result=$query->result_array(); 
+		//echo'<hr> <pre>query_result=>';print_r($query_result);echo'</pre>'; die();
+		return $query_result; 
+		}
+public function get_max_id_map(){
+			//$language = $this->lang->language['lang'];
+			$this->db->select('max(village_id_map) as max_id');
+			$this->db->from('_na_village');
+			//$this->db->where('lang', $language);
+			$query = $this->db->get(); 
+			$query_result=$query->result_array(); 
+			//echo'<hr> <pre>query_result=>';print_r($query_result);echo'</pre>'; die();
+			return $query_result; 
+			}
+public function village_count_id($district_id ,$language=''){
+			$language = $this->lang->language['lang'];
+			$this->db->select('*');
+			$this->db->from('_na_village');
+			$this->db->where('district_id', $district_id);
+			$this->db->where('lang', $language);
+			$query = $this->db->get();
+		#Debug($this->db->last_query());
+			return $query->num_rows(); 
+	}
+public function zipcode_count_id($district_id){
+			$language = $this->lang->language['lang'];
+			$this->db->select('*');
+			$this->db->from('_na_zipcode');
+			$this->db->where('district_id', $district_id);
+			$query = $this->db->get();
+		//Debug($this->db->last_query());
+		return $query->result_object(); 
+	}
+public function get_village_id_map($lang){
 		$language = $this->lang->language['lang'];
 		$this->db->select('*');
 		$this->db->from('_na_village');
@@ -82,15 +88,12 @@ class Village_model extends CI_Model {
 		
 		//echo $this->db->last_query();
 		return $query->result_array(); 
-
     }
     
-    public function getSelectVillage($village_id = 0, $default = 0,$name = "village_id"){
-    
+public function getSelectVillage($village_id = 0, $default = 0,$name = "village_id"){
     	$language = $this->lang->language;
     	//debug($language);
     	$first = "--- ".$language['please_select']." ---";
-
     	$rows = $this->get_village($village_id, null, 1);
     	$opt = array();
     	$opt[]	= makeOption(0,$first);
@@ -100,26 +103,19 @@ class Village_model extends CI_Model {
     	}
     	return selectList($opt, $name, 'class="form-control"', 'value', 'text', $default);
     }
-
-    public function get_dd_list($village_id, $lang = ''){
-
+public function get_dd_list($village_id, $lang = ''){
 		$language = $this->lang->language['lang'];
-		
 		$this->db->select('*');
 		$this->db->from('_na_village');
-
 		$this->db->where('village_id', $village_id);
 		$this->db->where('lang', $language);
-
 		$query = $this->db->get();
 		//Debug($this->db->last_query());
 		return $query->result_object(); 
     }
 
-    public function get_village_by_id($village_id_map, $lang = ''){
-
+public function get_village_by_id($village_id_map, $lang = ''){
 		$language = $this->lang->language['lang'];
-		
 		$this->db->select('*');
 		$this->db->from('_na_village');
 
@@ -149,7 +145,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		return $query->result_array();
     }
 /////////////////
-    public function get_village($districe_id_map,$village_id=0, $village_id=null, $status=null, $order='order_by', $order_type='Asc', $limit_start = 0, $listpage = 2000000000){
+public function get_village($districe_id_map,$village_id=0, $village_id=null, $status=null, $order='order_by', $order_type='Asc', $limit_start = 0, $listpage = 2000000000){
 		
 		$language = $this->lang->language['lang'];
 	     
@@ -169,13 +165,13 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		if($status){
 			$this->db->where('status', $status);
 		}		
-/*
-		if($order){
-			$this->db->order_by($order, $order_type);
-		}else{
-		    $this->db->order_by('order_by', $order_type);
-		}
-*/
+		/*
+				if($order){
+					$this->db->order_by($order, $order_type);
+				}else{
+						$this->db->order_by('order_by', $order_type);
+				}
+		*/
 		$this->db->limit($listpage, $limit_start);
 
 		$query = $this->db->get();
@@ -184,7 +180,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		return $query->result_array();
     }
     
- function get_village_count_id($districe_id_map){
+function get_village_count_id($districe_id_map){
 
 		$this->db->select('*');
 		$this->db->from('_na_village');
@@ -201,8 +197,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		return $query->num_rows();        
     }
     
-    
-    function count_products($village_id=null, $search_string=null, $order=null){
+function count_products($village_id=null, $search_string=null, $order=null){
 
 		$this->db->select('*');
 		$this->db->from('_na_village');
@@ -220,13 +215,11 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		$query = $this->db->get();
 		return $query->num_rows();        
     }
-
-    function store_product($data){
+function store_product($data){
 		$insert = $this->db->insert('_na_village', $data);
 	    return $insert;
 	}
-
-    function update_village($village_id, $data){
+function update_village($village_id, $data){
          //Debug($data);Die();
 		$this->db->where('village_id', $village_id);
 		$this->db->update('_na_village', $data);
@@ -239,11 +232,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 			return false;
 		}
 	}
-	 
-
-
-
-	function update_order($village_id, $order = 1){
+function update_order($village_id, $order = 1){
 
 		$data['order_by'] = $order;
 		$this->db->where('village_id_map', $village_id);
@@ -259,8 +248,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 			return false;
 		}
 	}
-
-	function update_orderid_to_down($order, $max){
+function update_orderid_to_down($order, $max){
 
 		$this->db->set('order_by', 'order_by + 1', FALSE); 
 		$this->db->where('order_by >=', $order); 
@@ -278,7 +266,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		}
 	}	
 
-	function update_orderid_to_up($order, $min){
+function update_orderid_to_up($order, $min){
 
 		$this->db->set('order_by', 'order_by - 1', FALSE); 
 		$this->db->where('order_by >', $min); 
@@ -295,8 +283,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 			return false;
 		}
 	}
-
-	function update_orderadd(){
+function update_orderadd(){
 
 		$this->db->set('order_by', 'order_by + 1', FALSE); 
 		$this->db->update('_na_village');
@@ -310,8 +297,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 			return false;
 		}
 	}
-
-	function update_orderdel($order){
+function update_orderdel($order){
 
 		$this->db->set('order_by', 'order_by - 1', FALSE); 
 		$this->db->where('order_by >', $order); 
@@ -327,7 +313,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		}
 	}
 
-	function status_village($village_id, $enable = 1){
+function status_village($village_id, $enable = 1){
 
 		$data['status'] = $enable;
 		$this->db->where('village_id_map', $village_id);
@@ -345,7 +331,7 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 		}
 	}	
 	
-    function delete_province($village_id){
+function delete_province($village_id){
 
 		$data = array(
 				'status' => 2
@@ -362,11 +348,11 @@ public function village($order='order_by', $order_type='Asc', $limit_start = 0, 
 			return false;
 		}
 	}
-	function delete_village($village_id){
+function delete_village($village_id){
 		$this->db->where('village_id_map', $village_id);
 		$this->db->delete('_na_village'); 
 	}
-	function delete_village_by_admin($village_id){
+function delete_village_by_admin($village_id){
 		//echo '$village_id=',$village_id;die();
 		$this->db->where('village_id_map', $village_id);
 		$this->db->delete('_na_village'); 

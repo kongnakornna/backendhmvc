@@ -4,66 +4,69 @@
  * @copyright kongnakorn  jantakun 2015
 */
 class Dashboard extends MY_Controller {
-   public function __construct()    {
+public function __construct()    {
    parent::__construct();
     			$this->load->model('Admin_team_model');
     			$this->load->library("AdminFactory");
     			$this->load->library("MenuFactory");
     			$this->load->library('session');
-        if(!$this->session->userdata('is_logged_in')){
-            redirect(base_url());
-        }
+				if(!$this->session->userdata('is_logged_in')){ redirect(base_url()); }
     }
-	public function index(){
-			$language = $this->lang->language;
-			$breadcrumb[] = $language['dashboard'];
-			$admin_id = $this->session->userdata('admin_id');
-			$admin_type = $this->session->userdata('admin_type');
-/*
-			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
-			//$ListSelect = $this->Api_model->user_menu($this->session->userdata('admin_type'));
-			$notification_news_list = $notification_column_list = $notification_gallery_list = $notification_vdo_list = $notification_dara_list = array();
-			$loadfile = "admintype".$admin_type.".json";
-			$admin_menu = LoadJSON($loadfile);
-
-			$data = array(
-					"ListSelect" => $ListSelect,
+public function index(){
+	$input=@$this->input->post(); 
+	if($input==null){$input=@$this->input->get();   }
+		$language = $this->lang->language;
+		$breadcrumb[] = $language['dashboard'];
+		$admin_id = $this->session->userdata('admin_id');
+		$admin_type = $this->session->userdata('admin_type');
+		/*
+	/////////////cache////////////
+			$time_cach_set_min=$this->config->item('time_cach_set_min');
+			$time_cach_set=$this->config->item('time_cach_set');
+			#$cachetime=$time_cach_set_min;
+			$cachetime=60*60*60*24*365;
+			$lang=$this->lang->line('lang'); 
+			$langs=$this->lang->line('langs'); 
+			$cachekey='ListSelect_menu_dashboard_'.$lang;
+			##Cach Toools Start######
+			//cachefile 
+			$input=@$this->input->post(); 
+			if($input==null){ $input=@$this->input->get();}
+			$deletekey=@$input['deletekey'];
+			if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+			$cachetype='2'; 
+			$this->load->model('Cachtool_model');
+			$sql=null;
+			$cachechk=$this->Cachtool_model->cachedbgetkey($sql,$cachekey,$cachetime,$cachetype,$deletekey);
+			$cachechklist=$cachechk['list'];
+			// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+			if($cachechklist!=null){    // IN CACHE
+				$temp = $cachechklist;
+				#echo'1 Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+			}else{                      // NOT IN CACHE
+				///// ***** เอา FUNCTION ที่ทำงานท่อนเดิม มาใส่ตรงนี้ ******
+				$ListSelect=$this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+				$sql=null;
+				$cachechklist=$this->Cachtool_model->cachedbsetkey($sql,$ListSelect,$cachekey,$cachetime,$cachetype,$deletekey);
+				#echo'2 Form SQL <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+			}
+	
+	/////////////cache////////////
+	*/
+    //$notification_news_list = $notification_column_list = $notification_gallery_list = $notification_vdo_list = $notification_dara_list = array();
+    $loadfile="admintype".$admin_type.".json";
+	$admin_menu=LoadJSON($loadfile);
+	$data=array(#"ListSelect" => $cachechklist,
 					//"breadcrumb"=>$breadcrumb,
 					"admin_menu" => $admin_menu,
-     "content_view" =>'admin/dashboard',
-			);
-*/
- /////////////cache////////////
-   	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-    $time_cach_set_min=$this->config->item('time_cach_set_min');
-    $time_cach_set=$this->config->item('time_cach_set');
-    $timecache=$time_cach_set_min;
-    $lang=$this->lang->line('lang'); 
-    $langs=$this->lang->line('langs'); 
-   	$key='dashboard_'.$lang;
-       if (!$data_cach= $this->cache->get($key)){
-       $ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
-			   //$ListSelect = $this->Api_model->user_menu($this->session->userdata('admin_type'));
-			    $notification_news_list = $notification_column_list = $notification_gallery_list = $notification_vdo_list = $notification_dara_list = array();
-        $loadfile = "admintype".$admin_type.".json";
-			     $admin_menu = LoadJSON($loadfile);
-        $data_cach= array("ListSelect" => $ListSelect,
-       					            //"breadcrumb"=>$breadcrumb,
-       					              "admin_menu" => $admin_menu,
-                          //"headtxt" =>"dashboard",
-                          //"msg" =>"ok",
-                          "content_view" =>'admin/dashboard',
-                   			);
-
-            // Save into the cache for 5 minutes
-            $this->cache->file->save($key,$data_cach,$timecache);
-       }
-      $data=$data_cach;
-   	/////////////cache////////////
-		$this->load->view('template/template',$data);
-	
+					//"headtxt" =>"dashboard",
+					//"msg" =>"ok",
+					"content_view" =>'admin/dashboard',
+					);
+	 #echo'<pre> data =>';print_r($data);echo'</pre>'; Die();
+      $this->load->view('template/template',$data);
 	}
-	public function dashboardtheme(){
+public function dashboardtheme(){
 			$provinceid = '54';  
 		    $geoid='2';  
 		    $countries_id='209';
@@ -72,7 +75,7 @@ class Dashboard extends MY_Controller {
 			$this->load->model('Geography_model');
 			$this->load->model('Province_model');
 			$this->load->model('Village_model');
-/////////////////
+			/////////////////
             $session_id = $this->session->userdata('session_id');
     		$userinput=$this->session->userdata('user_name');
     		$user_id= $this->session->userdata('admin_id');
@@ -85,18 +88,18 @@ class Dashboard extends MY_Controller {
     		$domain=$this->session->userdata('domain');
     		$department=$this->session->userdata('department');	
     		$admin_password=$this->session->userdata('admin_password');
-/////////////////
-/*
-        echo '$user_id='.$user_id.'<br>';
-        echo '$admin_id='.$admin_id.'<br>';
-        echo '$user_name='.$user_name.'<br>';
-        echo '$admin_type='.$admin_type.'<br>';
-        echo '$admin_password='.$admin_password.'<br>';
-        echo '$email='.$email.'<br>';
-        echo '$name='.$name.'<br>';
-        echo '$lastname='.$lastname.'<br>';
-        Die();    
-  */   
+			/////////////////
+			/*
+					echo '$user_id='.$user_id.'<br>';
+					echo '$admin_id='.$admin_id.'<br>';
+					echo '$user_name='.$user_name.'<br>';
+					echo '$admin_type='.$admin_type.'<br>';
+					echo '$admin_password='.$admin_password.'<br>';
+					echo '$email='.$email.'<br>';
+					echo '$name='.$name.'<br>';
+					echo '$lastname='.$lastname.'<br>';
+					Die();    
+			*/ 	  
 			$ListSelect = $this->Api_model->user_menu($admin_type);
 			$notification_birthday = $this->Api_model->notification_birthday();
             ################

@@ -10,22 +10,17 @@
  * @package codeigniter.application.models
  */
 class Adminna_log_activity_model extends CI_Model{
-
-    public function __construct(){
+public function __construct(){
 		parent::__construct();
         //$this->load->database();
     }
-
-    public function get_max_id(){
-
+public function get_max_id(){
 		$this->db->select('max(admin_log_id) as max_id');
 		$this->db->from('_admin_logactivity');
 		$query = $this->db->get();
 		return $query->result_array(); 
-
     }
-    
- 	public function cleardataall(){
+public function cleardataall(){
           $admin_id= $this->session->userdata('admin_id');
           $admin_type=$this->session->userdata('admin_type');
           if( $admin_type==1 && $admin_id==1){
@@ -34,10 +29,9 @@ class Adminna_log_activity_model extends CI_Model{
 		}
        return $this->db->count_all_results();
  	}
-
- 	public function totallogactivity($startdate=NULL,$enddate= NULL){
-          $admin_id= $this->session->userdata('admin_id');
-          $admin_type=$this->session->userdata('admin_type');
+public function totallogactivity($startdate=NULL,$enddate= NULL){
+      $admin_id= $this->session->userdata('admin_id');
+      $admin_type=$this->session->userdata('admin_type');
   		$this->db->select('al.*, a.admin_type_id,a.admin_username');
 		$this->db->from('_admin_logactivity as al');
 		$this->db->join('_admin as a', 'al.admin_id = a.admin_id', 'left');
@@ -53,17 +47,15 @@ class Adminna_log_activity_model extends CI_Model{
           
        return $this->db->count_all_results();
  	}
-
-	public function view_log($pageIndex = 1, $limit = 500,$startdate= null,$enddate= null) {
-          $admin_id= $this->session->userdata('admin_id');
-          $admin_type=$this->session->userdata('admin_type');
+public function view_log($pageIndex = 1, $limit = 500,$startdate= null,$enddate= null) {
+    $admin_id= $this->session->userdata('admin_id');
+    $admin_type=$this->session->userdata('admin_type');
 		$language = $this->lang->language['lang'];
 		// Turn caching on for this one query
 		#$this->db->cache_on();
 		$this->db->select('al.*, a.admin_username');
 		$this->db->from('_admin_logactivity as al');
           $this->db->join('_admin as a', 'al.admin_id = a.admin_id', 'left');
-          
           if($admin_id>1){
           $this->db->where('a.admin_id!=', 1); 
           }
@@ -77,7 +69,6 @@ class Adminna_log_activity_model extends CI_Model{
         //Clears all existing cache files
 		#$this->db->cache_delete_all();
 		$query = $this->db->get();
-
 		  #Debug($this->db->last_query());
 		 //die();
 		return $query->result_array();

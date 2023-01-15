@@ -1,0 +1,256 @@
+@font-face {
+	font-family: "Flaticon";
+	src: url("../fonts/flaticon.eot");
+	src: url("../fonts/flaticon.eot#iefix") format("embedded-opentype"),
+	url("../fonts/flaticon.woff") format("woff"),
+	url("../fonts/flaticon.ttf") format("truetype"),
+	url("../fonts/flaticon.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+	font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}.flaticon-boy4:before {
+	content: "\e000";
+}
+.flaticon-buying4:before {
+	content: "\e001";
+}
+.flaticon-cellphone1:before {
+	content: "\e002";
+}
+.flaticon-cellphone:before {
+	content: "\e003";
+}
+.flaticon-chat15:before {
+	content: "\e004";
+}
+.flaticon-chat23:before {
+	content: "\e005";
+}
+.flaticon-communication5:before {
+	content: "\e006";
+}
+.flaticon-couple2:before {
+	content: "\e007";
+}
+.flaticon-email23:before {
+	content: "\e008";
+}
+.flaticon-feeds:before {
+	content: "\e009";
+}
+.flaticon-girl5:before {
+	content: "\e00a";
+}
+.flaticon-girl6:before {
+	content: "\e00b";
+}
+.flaticon-group24:before {
+	content: "\e00c";
+}
+.flaticon-hand25:before {
+	content: "\e00d";
+}
+.flaticon-hand26:before {
+	content: "\e00e";
+}
+.flaticon-hand27:before {
+	content: "\e00f";
+}
+.flaticon-incoming:before {
+	content: "\e010";
+}
+.flaticon-international1:before {
+	content: "\e011";
+}
+.flaticon-international2:before {
+	content: "\e012";
+}
+.flaticon-person170:before {
+	content: "\e013";
+}
+.flaticon-phone36:before {
+	content: "\e014";
+}
+.flaticon-phone37:before {
+	content: "\e015";
+}
+.flaticon-phone38:before {
+	content: "\e016";
+}
+.flaticon-phone39:before {
+	content: "\e017";
+}
+.flaticon-phone40:before {
+	content: "\e018";
+}
+.flaticon-phone41:before {
+	content: "\e019";
+}
+.flaticon-phone42:before {
+	content: "\e01a";
+}
+.flaticon-phone43:before {
+	content: "\e01b";
+}
+.flaticon-phone44:before {
+	content: "\e01c";
+}
+.flaticon-phone45:before {
+	content: "\e01d";
+}
+.flaticon-phone48:before {
+	content: "\e01e";
+}
+.flaticon-phone49:before {
+	content: "\e01f";
+}
+.flaticon-satellite3:before {
+	content: "\e020";
+}
+.flaticon-smartphone10:before {
+	content: "\e021";
+}
+.flaticon-smartphone11:before {
+	content: "\e022";
+}
+.flaticon-smartphone12:before {
+	content: "\e023";
+}
+.flaticon-smartphone13:before {
+	content: "\e024";
+}
+.flaticon-smartphone14:before {
+	content: "\e025";
+}
+.flaticon-smartphone9:before {
+	content: "\e026";
+}
+.flaticon-smartphones:before {
+	content: "\e027";
+}
+.flaticon-tablet26:before {
+	content: "\e028";
+}
+.flaticon-tablet27:before {
+	content: "\e029";
+}
+.flaticon-telephone19:before {
+	content: "\e02a";
+}
+.flaticon-telephone20:before {
+	content: "\e02b";
+}
+.flaticon-telephone21:before {
+	content: "\e02c";
+}
+.flaticon-telephone22:before {
+	content: "\e02d";
+}
+.flaticon-telephone23:before {
+	content: "\e02e";
+}
+.flaticon-telephone24:before {
+	content: "\e02f";
+}
+.flaticon-telephone25:before {
+	content: "\e030";
+}
+.flaticon-telephone26:before {
+	content: "\e031";
+}
+.flaticon-telephone27:before {
+	content: "\e032";
+}
+.flaticon-telephone28:before {
+	content: "\e033";
+}
+.flaticon-telephone29:before {
+	content: "\e034";
+}
+.flaticon-telephone30:before {
+	content: "\e035";
+}
+.flaticon-telephone31:before {
+	content: "\e036";
+}
+.flaticon-telephone32:before {
+	content: "\e037";
+}
+.flaticon-telephone33:before {
+	content: "\e038";
+}
+.flaticon-telephone34:before {
+	content: "\e039";
+}
+.flaticon-telephone35:before {
+	content: "\e03a";
+}
+.flaticon-telephone36:before {
+	content: "\e03b";
+}
+.flaticon-telephone37:before {
+	content: "\e03c";
+}
+.flaticon-telephone38:before {
+	content: "\e03d";
+}
+.flaticon-telephone39:before {
+	content: "\e03e";
+}
+.flaticon-telephone40:before {
+	content: "\e03f";
+}
+.flaticon-telephone41:before {
+	content: "\e040";
+}
+.flaticon-telephone42:before {
+	content: "\e041";
+}
+.flaticon-telephone43:before {
+	content: "\e042";
+}
+.flaticon-telephone44:before {
+	content: "\e043";
+}
+.flaticon-telephone45:before {
+	content: "\e044";
+}
+.flaticon-telephone46:before {
+	content: "\e045";
+}
+.flaticon-telephone47:before {
+	content: "\e046";
+}
+.flaticon-telephone48:before {
+	content: "\e047";
+}
+.flaticon-telephone49:before {
+	content: "\e048";
+}
+.flaticon-telephone58:before {
+	content: "\e049";
+}
+.flaticon-thelephone:before {
+	content: "\e04a";
+}
+.flaticon-tower7:before {
+	content: "\e04b";
+}
+.flaticon-tower8:before {
+	content: "\e04c";
+}
+.flaticon-video47:before {
+	content: "\e04d";
+}
+.flaticon-wifi20:before {
+	content: "\e04e";
+}
+.flaticon-worldwide4:before {
+	content: "\e04f";
+}

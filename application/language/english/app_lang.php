@@ -15,14 +15,10 @@ require APPPATH . 'language/english/profiler_lang.php';
 require APPPATH . 'language/english/rest_controller_lang.php';
 require APPPATH . 'language/english/unit_test_lang.php';
 require APPPATH . 'language/english/upload_lang.php';
-
+require APPPATH . 'language/english/tmon_lang.php';
 //require lang
 $lang['cachetool'] = 'Cache Tool';
 $lang['cachekey'] = 'Cache Key';
-$lang['cache_manage'] = 'Cache Manage';
-$lang['cache_db'] = 'Cache Database';
-$lang['cache_file'] = 'Cache File';
-$lang['draggable']='Draggable Menu';
 $lang['copyright'] = 'Copy Right By Kongnakorn jantakun';
 $lang['lang'] = 'en';
 $lang['langs'] = 'English';
@@ -33,9 +29,9 @@ $lang['settings'] = 'Settings';
 $lang['website'] = 'Website';
 $lang['profile'] = 'Profile';
 $lang['logout'] = 'Logout';
-$lang['titleweb'] = 'Control Panel';
+$lang['titleweb'] = 'eGits apps Control Panel';
 $lang['apps'] = 'Application';
-$lang['company'] = 'EGITS Enterprise Co.,Ltd';
+$lang['company'] = 'คงนคร จันทะคุณ';
 $lang['login'] = 'Login';
 $lang['username'] = 'User Name';
 $lang['fullname'] = 'Full name';
@@ -329,7 +325,8 @@ $lang['search'] = 'Search';
 $lang['collapsemenu'] = 'Collapse Menu';
 $lang['clear'] = 'Clear';
 $lang['yes'] = 'Yes';
-$lang['notyes'] = 'No';
+$lang['not'] = 'No';
+$lang['notyes'] = 'Not';
 ################Menu#########
 $lang['inbox'] = 'Inbox';
 $lang['fullscreen'] = 'Full Screen';
@@ -518,14 +515,15 @@ $lang['balance']= 'Balance';
 $lang['cremation']= 'Cremation';
 
 //tmon
-$lang['descriptiontmon']= 'TMON Monitoring be the equipment that help to check the work of all equipment ,  by when  unusual events goes up , T-MON , will do the giving information warns with a superintendent knows ,by send messages SMS or Email for  officer can acknowledge a problem that can happen promptly  and can enter manage can correct in time';
-
+$lang['descriptiontmon']= 'i-Egits ';
+$lang['null'] = 'please in input data ';
+$lang['nullall'] = 'please in input  all data';
 $lang['author']= 'kongnakorn jantakun Contact Call +6685-736-5371';
 $lang['lock_screen']= 'lock_screen';
 $lang['hwdata']= 'Run Tmon';
 $lang['playbackground']= 'Play Background';
 $lang['workflowmonitor']= 'Workflow Monitor';
-$lang['control']= 'Hardware Control';
+$lang['control']= 'Control Panel';
 $lang['error404']= 'Error 404';
 $lang['locationmonitor']= 'Location Monitor';
 $lang['sensorreport']= 'Sensor Report';

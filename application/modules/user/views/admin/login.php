@@ -1,4 +1,37 @@
 <?php
+//?device=desktop  // ?device=mobile 
+$input=@$this->input->get();  
+if($input==null){$input=@$this->input->post();  }
+$device=$input['device'];
+if($device==null){
+			$this->load->library('user_agent');
+			if ($this->agent->is_browser()){
+							$agent = $this->agent->browser().' '.$this->agent->version();
+							$device = "desktop";
+							$device_ststus=1;
+			}elseif ($this->agent->is_robot()){
+							$agent = $this->agent->robot();
+							$device = "desktop";
+							$device_ststus=1;
+			}elseif ($this->agent->is_mobile()){
+							$agent = $this->agent->mobile();
+							$device = "mobile";
+							$device_ststus=2;
+			}else{
+							$agent = 'Unidentified User Agent';
+							$device = "Unidentified";
+							$device_ststus=3;
+			}
+}else{
+	if($device=='desktop'){$device_ststus=1;}else{$device_ststus=2;}
+}
+
+	/*
+		echo 'agent=>'.$agent;
+		echo '<br>platform=>'.$this->agent->platform();  
+		echo '<br>device=>'.$device ;  
+		echo '<br>device_ststus=>'.$device_ststus ; die();
+	*/
 date_default_timezone_set('Asia/Bangkok');
 $strDate=date('Y-m-d H:i:s');
 ?>
@@ -111,11 +144,20 @@ $strDate=date('Y-m-d H:i:s');
 								</span>
 						</div>
 						<div class="form-actions">
+						<!--
 							<label for="remember" class="checkbox-inline">
 								<input name="remember" type="checkbox" class="grey remember" id="remember" checked>
-								<?php echo $this->lang->line('remember');?>
+								<?php #echo $this->lang->line('remember');?>
 							</label>
-							<button type="submit" class="btn btn-bricky pull-right">
+							-->
+											<?php if($device_ststus==2){ ?>
+												<button type="submit" class="btn btn-bricky">
+											<?php }else{?> 	
+												<button type="submit" class="btn btn-bricky pull-right">
+											<?php }?>
+						
+
+
 								<?php echo $this->lang->line('login');?> <i class="fa fa-arrow-circle-right"></i>
 							</button>
 						</div>
@@ -285,4 +327,43 @@ echo form_close();?>
 		</script>
 	</body>
 	<!-- end: BODY -->
+	<br/>
+<?php 
+ 
+
+$urlnodered=$this->config->item('urlnodered');
+echo 'urlnodered->'.$urlnodered;
+$input=@$this->input->post(); 
+if($input==null){$input=@$this->input->get();}
+$debug=$input['debug'];
+ if($debug==2){
+ // $this->load->library('Sessioncookie_library');	    
+ echo'<hr>';
+	$SESSION=$_SESSION;
+	echo'<pre> @SESSION =>';
+	// print_r($SESSION);echo'</pre>';
+	 var_dump($SESSION);
+	$COOKIE=$_COOKIE;
+	echo'<pre> @COOKIE =>';
+	// print_r($COOKIE);echo'</pre>';
+     var_dump($COOKIE);
+	/*
+	if($_COOKIE==null){}else{
+			FOREACH($_COOKIE AS $key => $value) {
+				//echo'<pre>'; print_r($key.'->'.$value); echo'</pre>';
+						$cookie=array(
+							   'name' => $key,
+							   'value' => $value,  
+							   #'expire' => '0',      
+							   'path' => "/",                                                                           
+							   'secure' => false
+						  );
+						delete_cookie($cookie);
+				}
+			}
+	*/
+    
+ echo'<hr>';
+ } ?>
+	
 </html>

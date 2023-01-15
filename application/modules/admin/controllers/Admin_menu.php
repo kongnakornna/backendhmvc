@@ -1,11 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/* Develop by kongnakorn  jantakun email kongnakornna@gmail.com Mobile +66857365371  Thailand */
-/**
- * @copyright kongnakorn  jantakun 2015
+/* Develop by kongnakorn  jantakun email kongnakornna@gmail.com Mobile +66857365371  Thailand  
+@copyright kongnakorn  jantakun 2015
 */
 class Admin_menu extends MY_Controller {
-
-    public function __construct()    {
+public function __construct()    {
         parent::__construct();
         $this->load->model('Admin_menu_model');
 		$breadcrumb = array();
@@ -15,7 +13,7 @@ class Admin_menu extends MY_Controller {
         }
     }
 
-	public function index(){
+public function index(){
 
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
@@ -85,8 +83,7 @@ class Admin_menu extends MY_Controller {
 			$this->load->view('template/template',$data);
 
 	}
-
-	public function add(){
+public function add(){
 
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
@@ -110,8 +107,7 @@ class Admin_menu extends MY_Controller {
 			$this->load->view('template/template',$data);
 
 	}
-
-	public function edit($id){
+public function edit($id){
 
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
@@ -138,10 +134,8 @@ class Admin_menu extends MY_Controller {
 
 			//$data['content_view'] = 'admin/web_menu';
 			$this->load->view('template/template',$data);
-
 	}
-
-	public function save(){
+public function save(){
 			
 			$now_date = date('Y-m-d H:i:s');
 
@@ -198,25 +192,13 @@ class Admin_menu extends MY_Controller {
 			$this->Admin_menu_model->store(0, $obj_en);
 			$this->Admin_menu_model->store(0, $obj_th);
 			
-//**************Log activity
-$action='1';
-########IP#################		
-$ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-$ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-$ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-$ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}
-else{$ipaddress='UNKNOWN';}
-//"from_ip" => $ipaddress,
-			
+	//**************Log activity
+	$action='1';
+	########IP#################		
+	#$ipaddress=$_SERVER['REMOTE_ADDR'];	
+	$ipaddress = '127.0.0.1'; 
+	//"from_ip" => $ipaddress,
+				
 		$log_activity = array(
 								"admin_id" => $this->session->userdata('admin_id'),
 								"ref_id" => 1,
@@ -241,8 +223,7 @@ else{$ipaddress='UNKNOWN';}
  
 
 	}
-
-	public function update(){
+public function update(){
 			
 			$now_date = date('Y-m-d H:i:s');
 			$data_input = $this->input->post();
@@ -281,24 +262,12 @@ else{$ipaddress='UNKNOWN';}
 			$this->Admin_menu_model->store($data_input['admin_menu_id_th'], $obj_th);
 			
 			
-//**************Log activity
-$action='1';
-########IP#################		
-$ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-$ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-$ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-$ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-$ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}
-else{$ipaddress='UNKNOWN';}
-//"from_ip" => $ipaddress,
+	//**************Log activity
+	$action='1';
+	########IP#################		
+	#$ipaddress=$_SERVER['REMOTE_ADDR'];	
+	$ipaddress = '127.0.0.1'; 
+	//"from_ip" => $ipaddress,
 
 		$log_activity = array(
 								"admin_id" => $this->session->userdata('admin_id'),
@@ -322,8 +291,7 @@ else{$ipaddress='UNKNOWN';}
 			//redirect('admin_menu');
 
 	}
-
-	public function status($id = 0){
+public function status($id = 0){
 			
 		if($id == 0){
 			$data = array(
@@ -343,8 +311,7 @@ else{$ipaddress='UNKNOWN';}
 			return $cur_status;
 		}
 	}
-
-	public function delete($id = 0){
+public function delete($id = 0){
 		
 		if($id == 0){
 			$data = array(
@@ -356,8 +323,7 @@ else{$ipaddress='UNKNOWN';}
 		}
 		redirect('admin_menu');
 	}
-
-	public function view($id){
+public function view($id){
 
 			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$language = $this->lang->language;
@@ -379,8 +345,7 @@ else{$ipaddress='UNKNOWN';}
 			$this->load->view('template/template',$data);
 	}
 
-	public function list_menu(){	
-
+public function list_menu(){	
 	}
 
 }

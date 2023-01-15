@@ -14,9 +14,36 @@ class Cachetool extends MX_Controller {
               redirect(base_url());
     }
  	}
+  public function testkey(){
+   $this->load->library('encrypt');
+  
+    $data1='คงนคร จันทะคุณ '; 
+    $encrypt=$this->encrypt->encode($data1); 
+    $decode=$this->encrypt->decode($encrypt); 
+    echo '<pre> data1=>'; print_r($data1); echo '</pre>'; 
+    echo '<pre> encry=>'; print_r($encrypt); echo '</pre>'; 
+    echo '<pre> decode=>'; print_r($decode); echo '</pre>'; 
+    
+    $data='คงนคร จันทะคุณ Windows NT DESKTOP-C8EP93S '; 
+    $access_key=$this->config->item('access_key');
+    $api_key=$this->config->item('api_key');
+    $access_token_www=$this->config->item('access_token_www');
+    $service_key=$this->config->item('service_key');
+    $data_key=$this->config->item('data_key');
+    $cachedata_key=$this->config->item('cachedata_key');
+    $key=$access_token_www;
+    $encodedatakey=$this->Encrypt_model->encodekey($data,$key);
+    $decodedatakey=$this->Encrypt_model->decodekey($encodedatakey,$key);
+   
+    echo '<pre> data=>'; print_r($data); echo '</pre>'; 
+    echo '<pre>  encodedatakey=>'; print_r($encodedatakey); echo '</pre>'; 
+    echo '<pre>  decodedatakey=>'; print_r($decodedatakey); echo '</pre>';die();
+   
+  } 
   public function index(){
   $language = $this->lang->language;
  	//$breadcrumb[] = $language['dashboard'];
+  $breadcrumb[] = '<a href="'.base_url('cachetool/sessionpath').'">'.'Sessionpath'.'</a>';
   $breadcrumb[] = '<a href="'.base_url('cachetool/database').'">'.$language['cache_db'].'</a>';
 	 $breadcrumb[] = '<a href="'.base_url('cachetool/file').'">'.$language['cache_file'].'</a>';
  
@@ -54,7 +81,7 @@ class Cachetool extends MX_Controller {
                       "lang" => $lang,
                       "langs" => $langs,
                       "title" => 'cachtool',
-					  "timecache" => $timecache,
+					                 "timecache" => $timecache,
                       "Data"=> 'cachtool',
                					  "ListSelect" => $ListSelect,
                					  "admin_menu" => $admin_menu,
@@ -71,10 +98,10 @@ class Cachetool extends MX_Controller {
   } 
   public function file(){
   $language = $this->lang->language;
-   //$breadcrumb[] = $language['dashboard'];
-  //$breadcrumb[] = '<a href="'.base_url('cachetool').'">'.$language['cache_manage'].'</a>';
+ 	//$breadcrumb[] = $language['dashboard'];
+  $breadcrumb[] = '<a href="'.base_url('cachetool/sessionpath').'">'.'Sessionpath'.'</a>';
   $breadcrumb[] = '<a href="'.base_url('cachetool/database').'">'.$language['cache_db'].'</a>';
-	 $breadcrumb[] = '<b>'.$language['cache_file'].'</b>';
+	 $breadcrumb[] = $language['cache_file'];
  
 	$admin_id = $this->session->userdata('admin_id');
 	$admin_type = $this->session->userdata('admin_type');
@@ -125,11 +152,68 @@ class Cachetool extends MX_Controller {
 	 $this->load->view('template/template',$cachdata);
 	
   } 
+  public function sessionpath(){
+  $language = $this->lang->language;
+ 	//$breadcrumb[] = $language['dashboard'];
+  $breadcrumb[] = 'sessionpath';
+  $breadcrumb[] = '<a href="'.base_url('cachetool/database').'">'.$language['cache_db'].'</a>';
+	 $breadcrumb[] = '<a href="'.base_url('cachetool/file').'">'.$language['cache_file'].'</a>';
+ 
+	$admin_id = $this->session->userdata('admin_id');
+	$admin_type = $this->session->userdata('admin_type');
+	$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+	//$ListSelect = $this->Api_model->user_menu($this->session->userdata('admin_type'));
+	$notification_news_list = $notification_column_list = $notification_gallery_list = $notification_vdo_list = $notification_dara_list = array();
+	$loadfile = "admintype".$admin_type.".json";
+	$admin_menu = LoadJSON($loadfile);
+    $key='testpage'; 
+    $lang=$this->lang->line('lang'); 
+    $langs=$this->lang->line('langs');
+    // cache ไว้ 5 นาที
+    $time_cach_set_min=$this->config->item('time_cach_set_min');
+    $time_cach_set=$this->config->item('time_cach_set');
+    $time_cach_level0=$this->config->item('time_cach_level0');
+    #echo '<pre>$time_cach_set=>'; print_r($time_cach_set); echo '</pre>'; Die();
+	   $timecache=$time_cach_set;
+    $lang=$this->lang->line('lang'); 
+    $langs=$this->lang->line('langs'); 
+    $segment1=$this->uri->segment(1);
+    $segment2=$this->uri->segment(2);
+    $segment3=$this->uri->segment(3);
+    $segment4=$this->uri->segment(4);
+    $segment5=$this->uri->segment(5);
+    $segment6=$this->uri->segment(6);
+    $segment7=$this->uri->segment(7);
+    $segment8=$this->uri->segment(8);
+    $segment9=$this->uri->segment(9);
+    $segment10=$this->uri->segment(10);
+	
+    $cachdata = array("key" => 'cachetool_index',
+                      "breadcrumb" => $breadcrumb,
+                      "lang" => $lang,
+                      "langs" => $langs,
+                      "title" => 'cachtool',
+					                 "timecache" => $timecache,
+                      "Data"=> 'cachtool',
+               					  "ListSelect" => $ListSelect,
+               					  "admin_menu" => $admin_menu,
+               					  "content_view" => 'cachetool_session',
+                      	); 
+     $time_cach_set_min=$this->config->item('time_cach_set_min'); // Time min
+     #$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");
+     #$this->output->set_header("Cache-Control: post-check=0, pre-check=0");
+     #$this->output->set_header("Pragma: no-cache"); 
+     //$this->output->cache($time_cach_set_min); 
+	 //echo '<pre>cachdata=>'; print_r($cachdata); echo '</pre>'; die();
+	 $this->load->view('template/template',$cachdata);
+	
+  } 
   public function database(){
   $language = $this->lang->language;
  	//$breadcrumb[] = $language['dashboard'];
   //$breadcrumb[] = '<a href="'.base_url('cachetool').'">'.$language['cache_manage'].'</a>';
-    $breadcrumb[] = '<b>'.$language['cache_db'].'</b>';
+  $breadcrumb[] = '<a href="'.base_url('cachetool/sessionpath').'">'.'Sessionpath'.'</a>';
+  $breadcrumb[] = $language['cache_db'];
 	 $breadcrumb[] = '<a href="'.base_url('cachetool/file').'">'.$language['cache_file'].'</a>';
  
 	$admin_id = $this->session->userdata('admin_id');
@@ -171,6 +255,63 @@ class Cachetool extends MX_Controller {
                					  "ListSelect" => $ListSelect,
                					  "admin_menu" => $admin_menu,
                					  "content_view" => 'cachetool_database',
+                      	); 
+     $time_cach_set_min=$this->config->item('time_cach_set_min'); // Time min
+     #$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");
+     #$this->output->set_header("Cache-Control: post-check=0, pre-check=0");
+     #$this->output->set_header("Pragma: no-cache"); 
+     //$this->output->cache($time_cach_set_min); 
+	 //echo '<pre>cachdata=>'; print_r($cachdata); echo '</pre>'; die();
+	 $this->load->view('template/template',$cachdata);
+	
+  } 
+  public function database2(){
+  $language = $this->lang->language;
+ 	//$breadcrumb[] = $language['dashboard'];
+  //$breadcrumb[] = '<a href="'.base_url('cachetool').'">'.$language['cache_manage'].'</a>';
+  $breadcrumb[] = '<a href="'.base_url('cachetool/sessionpath').'">'.'Sessionpath'.'</a>';
+  $breadcrumb[] = $language['cache_db'];
+	 $breadcrumb[] = '<a href="'.base_url('cachetool/file').'">'.$language['cache_file'].'</a>';
+ 
+	$admin_id = $this->session->userdata('admin_id');
+	$admin_type = $this->session->userdata('admin_type');
+	$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+	//$ListSelect = $this->Api_model->user_menu($this->session->userdata('admin_type'));
+	$notification_news_list = $notification_column_list = $notification_gallery_list = $notification_vdo_list = $notification_dara_list = array();
+	$loadfile = "admintype".$admin_type.".json";
+	$admin_menu = LoadJSON($loadfile);
+    $key='testpage'; 
+    $lang=$this->lang->line('lang'); 
+    $langs=$this->lang->line('langs');
+    // cache ไว้ 5 นาที
+    $time_cach_set_min=$this->config->item('time_cach_set_min');
+    $time_cach_set=$this->config->item('time_cach_set');
+    $time_cach_level0=$this->config->item('time_cach_level0');
+    #echo '<pre>$time_cach_set=>'; print_r($time_cach_set); echo '</pre>'; Die();
+	   $timecache=$time_cach_set;
+    $lang=$this->lang->line('lang'); 
+    $langs=$this->lang->line('langs'); 
+    $segment1=$this->uri->segment(1);
+    $segment2=$this->uri->segment(2);
+    $segment3=$this->uri->segment(3);
+    $segment4=$this->uri->segment(4);
+    $segment5=$this->uri->segment(5);
+    $segment6=$this->uri->segment(6);
+    $segment7=$this->uri->segment(7);
+    $segment8=$this->uri->segment(8);
+    $segment9=$this->uri->segment(9);
+    $segment10=$this->uri->segment(10);
+	
+    $cachdata = array("key" => 'cachetool_index',
+                      "breadcrumb" => $breadcrumb,
+                      "lang" => $lang,
+                      "langs" => $langs,
+                      "title" => 'cachtool',
+					                 "timecache" => $timecache,
+                      "Data"=> 'cachtool',
+               					  "ListSelect" => $ListSelect,
+               					  "admin_menu" => $admin_menu,
+               					  "content_view" => 'cachetool_database2',
                       	); 
      $time_cach_set_min=$this->config->item('time_cach_set_min'); // Time min
      #$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -332,7 +473,53 @@ class Cachetool extends MX_Controller {
 			 </script>';
 	Die(); 
   }
-	public function delete_cache_file_db(){
+  public function delete_cache_sessionpath(){
+      //http://localhost/cihmvcdev3/cachetool/delete_cache_file?uri=cachetool/testdriver&file=Cachtool_testdriver_en_get_member_by_id2
+      $post=@$this->input->post();
+      $get=@$this->input->get();
+      #$uri_string=@$post['uri'];
+      #$filecachename=@$post['file'];
+      $uri_string=@$get['uri']; 
+      $filecachename=@$get['file'];
+      $deletefilecache=$this->Cachetool_model->delete_cache_filesession($uri_string,$filecachename);
+      #echo '<pre>$filecachename=>'; print_r($filecachename); echo '</pre>'; 
+      #echo '<pre>$uri_string=>'; print_r($uri_string); echo '</pre>'; 
+      #echo '<pre>$deletefilecache=>'; print_r($deletefilecache); echo '</pre>'; 
+      $status=$deletefilecache['status'];
+       if($status==0){
+        $title='Can not delete session!';
+        $msgst='Can not delete session '.$filecachename;
+       }else{
+        $title='Delete session!';
+        $msgst='Delete session '.$filecachename;
+       }
+      $urldirec=base_url('cachetool/sessionpath');
+?>
+				<!-- This is sweetalert2 -->
+				<script type="text/javascript" src="<?php echo base_url('assets/sweetalert2/dist/js/jquery-latest.js');?>"></script>
+				<script src="<?php echo base_url('assets/sweetalert2/dist/sweetalert-dev.js');?>"></script>
+				<link rel="stylesheet" href="<?php echo base_url('assets/sweetalert2/dist/sweetalert.css');?>">
+<?php
+			echo'<script>
+							$( document ).ready(function() {
+								//////////////////
+								swal({
+								  title: " '.$title.'",
+								  text: "'.$msgst.'",
+								  timer: 1000,
+								  showConfirmButton: false
+								}, function(){
+											setTimeout(function() {
+												  // Javascript URL redirection
+												   window.location.replace("'.$urldirec.'");
+											}, 200);
+  });
+								//////////////////
+							});
+			 </script>';
+	Die(); 
+  }
+  public function delete_cache_file_db(){
       $post=@$this->input->post();
       $get=@$this->input->get();
       #$uri_string=@$post['uri'];

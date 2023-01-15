@@ -1,6 +1,19 @@
 <?php
+
+$urlnodered=$this->config->item('urlnodered');
+$input=@$this->input->post(); 
+if($input==null){$input=@$this->input->get();}
+$debug=$input['debug'];
+ob_end_flush();
+$input=@$this->input->get();  
+if($input==null){$input=@$this->input->get(); } 
+$debug=$input['debug'];
+##############################################################################
+##############################################################################
+##############################################################################
 $setting=GetConfig1();
 $object=json_decode(json_encode($setting), TRUE);
+#echo'<hr><pre>  $object=>';print_r($object);echo'<pre> <hr>';  Die();
 $systemname_crna=$object['systemname'];
 $description_crna=$object['description'];
 $address_crna=$object['address'];
@@ -26,7 +39,8 @@ $google_crna=$object['google'];
 # File THAI --> application\language\thai\app_lang.php
 # File English --> application\language\english\app_lang.php	
 $admin_id=0;# 0=>เห็นทุกเมนู
-$navbar_fix=$breadcrumb_fix='';
+$navbar_fix='';
+$breadcrumb_fix='';
 $language=$this->lang->language;
 $lang=$this->lang->line('lang');
 $langs=$this->lang->line('langs');
@@ -63,7 +77,6 @@ $allrightsreserved=$this->lang->line('allrightsreserved');
 $home=$this->lang->line('home');
 $admin=$this->lang->line('admin');
 $togglesidebar=$this->lang->line('togglesidebar');
-$web_title=$titleweb;
 ######################
 if($lang=='th'){
 	$langs_th='ภาษาไทย';
@@ -82,10 +95,107 @@ $segment7=$this->uri->segment(7);
 $segment8=$this->uri->segment(8);
 $segment9=$this->uri->segment(9);
 $segment10=$this->uri->segment(10);
-if(!isset($breadcrumb)) $breadcrumb='';
-if(!isset($ListSelect)) $ListSelect=null;
-$strDate=date('Y-m-d H:i:s');
-function DateThai($strDate){
+##################################################################
+##################################################################
+		$admin_id = $this->session->userdata('admin_id');
+		$admin_type = $this->session->userdata('admin_type');
+		//$ListSelect = $this->Api_model->user_menu($admin_type);
+			/////////////cache////////////
+			$time_cach_set_min=$this->config->item('time_cach_set_min');
+			$time_cach_set=$this->config->item('time_cach_set');
+			#$cachetime=$time_cach_set_min;
+			$cachetime=60*60*24*365;
+			$lang=$this->lang->line('lang'); 
+			$langs=$this->lang->line('langs'); 
+			$cachekey='ListSelect_menu_'.$lang;
+			##Cach Toools Start######
+			//cachefile 
+			$input=@$this->input->post(); 
+			if($input==null){ $input=@$this->input->get();}
+			$deletekey=@$input['deletekey'];
+			if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+			$cachetype='2'; 
+			$this->load->model('Cachtool_model');
+			$sql=null;
+			$cachechk=$this->Cachtool_model->cachedbgetkey($sql,$cachekey,$cachetime,$cachetype,$deletekey);
+			$cachechklist=$cachechk['list'];
+			// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+			if($cachechklist!=null){    // IN CACHE
+				$temp = $cachechklist;
+				#echo'1 Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+			}else{
+				// NOT IN CACHE
+				///// ***** เอา FUNCTION ที่ทำงานท่อนเดิม มาใส่ตรงนี้ ******
+				#$ListSelect=$this->Api_model->user_menu($this->session->userdata('admin_type'));
+				$ListSelect= $this->Api_model->user_menu($admin_type);
+				$sql=null;
+				$cachechklist=$this->Cachtool_model->cachedbsetkey($sql,$ListSelect,$cachekey,$cachetime,$cachetype,$deletekey);
+				#echo'2 Form SQL <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+				$cachechklist= $this->Api_model->user_menu($admin_type);
+			}
+			$ListSelect=$cachechklist;
+	/////////////cache////////////
+ #echo '<pre> ListSelect-> '; print_r($ListSelect); echo '</pre>'; die(); 
+	$loadfile="admintype".$admin_type.".json";
+	$admin_menu=LoadJSON($loadfile);
+	#echo '<pre> admin_menu-> '; print_r($admin_menu); echo '</pre>'; die(); 
+	
+		if(!isset($breadcrumb)) $breadcrumb='';
+		if(!isset($ListSelect)) $ListSelect=null;
+		######## Cach Toools Start ################################################
+				$cachetype=2; $dev=0; $deletekey=0;
+				$lang=$this->lang->line('lang'); 
+				//	$langs=$this->lang->line('langs'); 
+					$cachekey='key-getMenu-'.'admin_type-'.$admin_type.'-lang-'.$lang;
+					$cachetime=60*60*60*24*365;
+					##Cach Toools Start######
+					//cachefile 
+					$input=@$this->input->post(); 
+					if($input==null){ $input=@$this->input->get();}
+					$deletekey=@$input['deletekey'];
+					if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+					/*
+					$this->load->model('Cachtool_model');
+					$cachechk=$this->Cachtool_model->cachedbgetkey($sql=null,$cachekey,$cachetime,$cachetype,$deletekey);
+					$cachechklist=$cachechk['list'];
+					// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+					if($cachechklist!=null){
+						// IN CACHE
+						$cachechklist=$cachechklist;
+						#echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}else{                        
+							// NOT IN CACHE
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachetypedev=1;
+							$rs=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
+							// ############################# 
+							$cachechklist=$this->Cachtool_model->cachedbsetkey($sql=null,$rs,$cachekey,$cachetime,$cachetype,$deletekey);
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachechklist=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
+
+							#echo' Form Sql <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}
+				$admin_menu=$cachechklist;
+				$getMenu=$cachechklist;
+				*/
+		######## Cach Toools END ################################################
+##################################################################
+##################################################################
+       $datenow=strtotime("now");
+       $datetomorrow=strtotime("tomorrow");
+       $yesterday=strtotime("yesterday");
+       $date1day=strtotime("+1 day");
+       $date1week=strtotime("+1 week");
+       $lastweek=strtotime("lastweek");
+       $date1week2day=strtotime("+1 week 2 days 4 hours 2 seconds");
+       $datenextthursday=strtotime("next Thursday");
+       $datenowlastmonday=strtotime("last Monday");
+       $date2pmyesterday=strtotime("2pm yesterday");
+       $date7am12daysago=strtotime("7am 12 days ago");
+       $yesterday =date("Y-m-d", $yesterday); 
+       $time=date('H:i:s');
+	      $strDate=date('Y-m-d H:i:s');
+		function DateThai($strDate){
 		$strYear=date("Y",strtotime($strDate))+543;
 		$strMonth= date("n",strtotime($strDate));
 		$strDay= date("j",strtotime($strDate));
@@ -95,15 +205,15 @@ function DateThai($strDate){
 		$strMonthCut=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay $strMonthThai $strYear, $strHour:$strMinute";
-	}
+		}
 		$strMonth1= date("n",strtotime($strDate));
 		$strMonthCut1=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai1=$strMonthCut1[$strMonth1];
-	    $strYear2=date("Y",strtotime($strDate))+543;
+	 $strYear2=date("Y",strtotime($strDate))+543;
 		$strHour3= date("H",strtotime($strDate));
 		$strMinute3= date("i",strtotime($strDate));
 		$strSeconds3= date("s",strtotime($strDate));
-        $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
+  $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
 		$strYear4=date("Y",strtotime($strDate))+543;
 		$strMonth4= date("n",strtotime($strDate));
 		$strDay4= date("j",strtotime($strDate));
@@ -113,17 +223,8 @@ function DateThai($strDate){
 	####################
 $navbar_fix='navbar-fixed-top';
 $breadcrumb_fix='breadcrumbs-fixed';
-#######################
-?>
-<?php
-/*if(!$this->input->cookie('user_id') && $_SERVER['REQUEST_URI'] != "/users/login" && $_SERVER['REQUEST_URI'] != "/jsmin" && $_SERVER['REQUEST_URI'] != "/"){
-		echo $_SERVER['REQUEST_URI']."<br />Please Login. <a href=\"".site_url('users/login')."\"><b class=\"icon-home icon-white\"></b> Click to Login</a>";		
-		die();
-}*/
-/*if (!is_dir("storage/images")){
-	mkdir("storage/images", 0775);
-}*/
-	if (!$this->session->userdata('user_name')) {					
+	//echo $segment1.':'.$web_title.':'.$userinput;
+	if(!$this->session->userdata('user_name')) {					
 		redirect('login/login');
 		die();
 	}else{
@@ -136,9 +237,261 @@ $breadcrumb_fix='breadcrumbs-fixed';
 		$email=$this->session->userdata('email');
 		$domain=$this->session->userdata('domain');
 		$department=$this->session->userdata('department');	
+		$admin_password=$this->session->userdata('admin_password');
 	}
 	$total_execution_time_start=$this->benchmark->marker['total_execution_time_start'];
 	$attr=array();
+	
+##############################################################################
+##############################################################################
+##############################################################################
+
+$urlnodered=$this->config->item('urlnodered');
+$input=@$this->input->post(); 
+if($input==null){$input=@$this->input->get();}
+$debug=$input['debug'];
+ob_end_flush();
+$input=@$this->input->get();  
+if($input==null){$input=@$this->input->get(); } 
+$debug=$input['debug'];
+##############################################################################
+##############################################################################
+##############################################################################
+$setting=GetConfig1();
+$object=json_decode(json_encode($setting), TRUE);
+#echo'<hr><pre>  $object=>';print_r($object);echo'<pre> <hr>';  Die();
+$systemname_crna=$object['systemname'];
+$description_crna=$object['description'];
+$address_crna=$object['address'];
+$registerno_crna=$object['registerno'];
+$author_crna=$object['author'];
+$phone_crna=$object['phone'];
+$ip_crna=$object['ip'];
+$macaddress_crna=$object['mac_address'];
+$licencekey_crna=$object['licence_key'];
+$version_crna=$object['version'];
+$adminemail_crna=$object['admin_email'];
+$mobile_crna=$object['mobile'];
+$countries_crna=$object['countries'];
+$geography_crna=$object['geography'];
+$province_crna=$object['province'];
+$amphur_crna=$object['amphur'];
+$district_crna=$object['district'];
+$moo_crna=$object['moo'];
+$facebook_crna=$object['facebook'];
+$twitter_crna=$object['twitter'];
+$google_crna=$object['google'];
+# แปลภาษา
+# File THAI --> application\language\thai\app_lang.php
+# File English --> application\language\english\app_lang.php	
+$admin_id=0;# 0=>เห็นทุกเมนู
+$navbar_fix='';
+$breadcrumb_fix='';
+$language=$this->lang->language;
+$lang=$this->lang->line('lang');
+$langs=$this->lang->line('langs');
+$dashboard=$this->lang->line('dashboard');
+$welcome=$this->lang->line('welcome');
+$settings=$this->lang->line('settings');
+$preview=$this->lang->line('preview');
+$website=$this->lang->line('website');
+$profile=$this->lang->line('profile');
+$logout=$this->lang->line('logout');
+$titleweb=$this->lang->line('titleweb');
+$apps=$this->lang->line('apps');
+$company=$this->lang->line('company');
+$login=$this->lang->line('login');
+$username=$this->lang->line('username');
+$password=$this->lang->line('password');
+$remember=$this->lang->line('remember');
+$forgot=$this->lang->line('forgot');
+$email=$this->lang->line('email');
+$sendemail=$this->lang->line('sendemail');
+$register=$this->lang->line('register');
+$reset=$this->lang->line('reset');
+$petrieveassword=$this->lang->line('petrieveassword');
+$enteryouremailandtoreceiveinstructions=$this->lang->line('enteryouremailandtoreceiveinstructions');
+$backtologin=$this->lang->line('backtologin');
+$newuserregistration=$this->lang->line('newuserregistration');
+$enteryourdetailstobegin=$this->lang->line('enteryourdetailstobegin');
+$useragreement=$this->lang->line('useragreement');
+$iaccept=$this->lang->line('iaccept');
+$dark=$this->lang->line('dark');
+$blur=$this->lang->line('blur');
+$light=$this->lang->line('light');
+$allrightsreserved=$this->lang->line('allrightsreserved');
+$home=$this->lang->line('home');
+$admin=$this->lang->line('admin');
+$togglesidebar=$this->lang->line('togglesidebar');
+######################
+if($lang=='th'){
+	$langs_th='ภาษาไทย';
+	$langs_en='ภาษาอังกถษ';
+}else if($lang=='en'){
+	$langs_th='Thai';
+	$langs_en='English';
+}
+$segment1=$this->uri->segment(1);
+$segment2=$this->uri->segment(2);
+$segment3=$this->uri->segment(3);
+$segment4=$this->uri->segment(4);
+$segment5=$this->uri->segment(5);
+$segment6=$this->uri->segment(6);
+$segment7=$this->uri->segment(7);
+$segment8=$this->uri->segment(8);
+$segment9=$this->uri->segment(9);
+$segment10=$this->uri->segment(10);
+##################################################################
+##################################################################
+		$admin_id = $this->session->userdata('admin_id');
+		$admin_type = $this->session->userdata('admin_type');
+		//$ListSelect = $this->Api_model->user_menu($admin_type);
+			/////////////cache////////////
+			$time_cach_set_min=$this->config->item('time_cach_set_min');
+			$time_cach_set=$this->config->item('time_cach_set');
+			#$cachetime=$time_cach_set_min;
+			$cachetime=60*60*24*365;
+			$lang=$this->lang->line('lang'); 
+			$langs=$this->lang->line('langs'); 
+			$cachekey='ListSelect_menu_'.$lang;
+			##Cach Toools Start######
+			//cachefile 
+			$input=@$this->input->post(); 
+			if($input==null){ $input=@$this->input->get();}
+			$deletekey=@$input['deletekey'];
+			if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+			$cachetype='2'; 
+			$this->load->model('Cachtool_model');
+			$sql=null;
+			$cachechk=$this->Cachtool_model->cachedbgetkey($sql,$cachekey,$cachetime,$cachetype,$deletekey);
+			$cachechklist=$cachechk['list'];
+			// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+			if($cachechklist!=null){    // IN CACHE
+				$temp = $cachechklist;
+				#echo'1 Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+			}else{
+				// NOT IN CACHE
+				///// ***** เอา FUNCTION ที่ทำงานท่อนเดิม มาใส่ตรงนี้ ******
+				#$ListSelect=$this->Api_model->user_menu($this->session->userdata('admin_type'));
+				$ListSelect= $this->Api_model->user_menu($admin_type);
+				$sql=null;
+				$cachechklist=$this->Cachtool_model->cachedbsetkey($sql,$ListSelect,$cachekey,$cachetime,$cachetype,$deletekey);
+				#echo'2 Form SQL <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+				$cachechklist= $this->Api_model->user_menu($admin_type);
+			}
+			$ListSelect=$cachechklist;
+	/////////////cache////////////
+ #echo '<pre> ListSelect-> '; print_r($ListSelect); echo '</pre>'; die(); 
+	$loadfile="admintype".$admin_type.".json";
+	$admin_menu=LoadJSON($loadfile);
+	#echo '<pre> admin_menu-> '; print_r($admin_menu); echo '</pre>'; die(); 
+	
+		if(!isset($breadcrumb)) $breadcrumb='';
+		if(!isset($ListSelect)) $ListSelect=null;
+		######## Cach Toools Start ################################################
+				$cachetype=2; $dev=0; $deletekey=0;
+				$lang=$this->lang->line('lang'); 
+				//	$langs=$this->lang->line('langs'); 
+					$cachekey='key-getMenu-'.'admin_type-'.$admin_type.'-lang-'.$lang;
+					$cachetime=60*60*60*24*365;
+					##Cach Toools Start######
+					//cachefile 
+					$input=@$this->input->post(); 
+					if($input==null){ $input=@$this->input->get();}
+					$deletekey=@$input['deletekey'];
+					if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+					/*
+					$this->load->model('Cachtool_model');
+					$cachechk=$this->Cachtool_model->cachedbgetkey($sql=null,$cachekey,$cachetime,$cachetype,$deletekey);
+					$cachechklist=$cachechk['list'];
+					// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+					if($cachechklist!=null){
+						// IN CACHE
+						$cachechklist=$cachechklist;
+						#echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}else{                        
+							// NOT IN CACHE
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachetypedev=1;
+							$rs=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
+							// ############################# 
+							$cachechklist=$this->Cachtool_model->cachedbsetkey($sql=null,$rs,$cachekey,$cachetime,$cachetype,$deletekey);
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachechklist=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
+
+							#echo' Form Sql <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}
+				$admin_menu=$cachechklist;
+				$getMenu=$cachechklist;
+				*/
+		######## Cach Toools END ################################################
+##################################################################
+##################################################################
+       $datenow=strtotime("now");
+       $datetomorrow=strtotime("tomorrow");
+       $yesterday=strtotime("yesterday");
+       $date1day=strtotime("+1 day");
+       $date1week=strtotime("+1 week");
+       $lastweek=strtotime("lastweek");
+       $date1week2day=strtotime("+1 week 2 days 4 hours 2 seconds");
+       $datenextthursday=strtotime("next Thursday");
+       $datenowlastmonday=strtotime("last Monday");
+       $date2pmyesterday=strtotime("2pm yesterday");
+       $date7am12daysago=strtotime("7am 12 days ago");
+       $yesterday =date("Y-m-d", $yesterday); 
+       $time=date('H:i:s');
+	      $strDate=date('Y-m-d H:i:s');
+		function DateThai($strDate){
+		$strYear=date("Y",strtotime($strDate))+543;
+		$strMonth= date("n",strtotime($strDate));
+		$strDay= date("j",strtotime($strDate));
+		$strHour= date("H",strtotime($strDate));
+		$strMinute= date("i",strtotime($strDate));
+		$strSeconds= date("s",strtotime($strDate));
+		$strMonthCut=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+		$strMonthThai=$strMonthCut[$strMonth];
+		return "$strDay $strMonthThai $strYear, $strHour:$strMinute";
+		}
+		$strMonth1= date("n",strtotime($strDate));
+		$strMonthCut1=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+		$strMonthThai1=$strMonthCut1[$strMonth1];
+	 $strYear2=date("Y",strtotime($strDate))+543;
+		$strHour3= date("H",strtotime($strDate));
+		$strMinute3= date("i",strtotime($strDate));
+		$strSeconds3= date("s",strtotime($strDate));
+  $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
+		$strYear4=date("Y",strtotime($strDate))+543;
+		$strMonth4= date("n",strtotime($strDate));
+		$strDay4= date("j",strtotime($strDate));
+		$strMonthCut=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+		$strMonthThai3=$strMonthCut[$strMonth4];
+		$datena=$strDay4.' '.$strMonthThai3.' '.$strYear4;
+	####################
+$navbar_fix='navbar-fixed-top';
+$breadcrumb_fix='breadcrumbs-fixed';
+	//echo $segment1.':'.$web_title.':'.$userinput;
+	if(!$this->session->userdata('user_name')) {					
+		redirect('login/login');
+		die();
+	}else{
+		$userinput=$this->session->userdata('user_name');
+		$user_id= $this->session->userdata('admin_id');
+		$user_name =$userinput;
+		$admin_type=$this->session->userdata('admin_type');
+		$name=$this->session->userdata('name');
+		$lastname=$this->session->userdata('lastname');
+		$email=$this->session->userdata('email');
+		$domain=$this->session->userdata('domain');
+		$department=$this->session->userdata('department');	
+		$admin_password=$this->session->userdata('admin_password');
+	}
+	$total_execution_time_start=$this->benchmark->marker['total_execution_time_start'];
+	$attr=array();
+	
+##############################################################################
+##############################################################################
+##############################################################################
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $lang;?>">

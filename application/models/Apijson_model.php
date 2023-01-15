@@ -26,14 +26,13 @@
 		else return FALSE;
 		}
 	function get_condition_group() {
-          $language = $this->lang->language;
 		static $query;
-		$query = $this->db->query("SELECT * FROM sd_condition_group where status='1' and lang='en'");
+		$query = $this->db->query("SELECT * FROM sd_condition_groupprerial where status='y'");
 		if($query->num_rows() > 0) return $query->result();
 		else return FALSE;
 		}
 	function get_condition_type() {
-		$query = $this->db->query("SELECT * FROM sd_condition_type where lang='en'");
+		$query = $this->db->query("SELECT * FROM sd_condition_type");
 		if($query->num_rows() > 0) return $query->result();
 		else if($query->num_rows() < 0)return FALSE;
 		}
@@ -205,34 +204,6 @@
 		if($query->num_rows() > 0) return $query->result();
 		else if($query->num_rows() < 0)return FALSE;
 		}
-		
-#####################Tmon insert log #########################
-	///insert sensor_log///
-	function sensor_log_insert($data){
-				$insert = $this->db->insert('_sensor_log', $data);
-				return $insert;
-		}	
-	///insert sensor_alert_log///
-	function sensor_alert_log_insert($data){
-				$insert = $this->db->insert('_sensor_alert_log', $data);
-				return $insert;
-		}
-	///insert sendmail_alert_log///
-	function sendmail_alert_log_insert($data){
-				$insert = $this->db->insert('_sendmail_alert_log', $data);
-				return $insert;
-		}	
-	///insert call_alert_log///
-	function call_alert_log_insert($data){
-				$insert = $this->db->insert('_call_alert_log', $data);
-				return $insert;
-		}
-	///insert waterleak_log///
-	function waterleak_log_insert($data){
-				$insert = $this->db->insert('_waterleak_log', $data);
-				return $insert;
-		}
-#####################Tmon#########################	
 				
 	}
 ?>

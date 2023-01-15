@@ -40,13 +40,7 @@ if($startdate==''){
 #saveorder{cursor:pointer;}
 .input-small{text-align: center;}
 </style>
-<!-- 
-<link href="<?= base_url();?>theme/assets/css/bootstrap.css" rel="stylesheet">
--->
-		 
-<!-- 
-<link href="<?= base_url();?>theme/assets/css/bootstrap.css" rel="stylesheet">
--->
+
 
 						<div class="row">
 							<div class="col-xs-12">
@@ -270,7 +264,7 @@ echo number_format($total_rows, 0 , '.'    , ','   );
 						</td>
 		</tr>
  
-<?
+<?php
 							$i++;
 						//}
 				}

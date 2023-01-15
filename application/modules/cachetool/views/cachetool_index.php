@@ -129,7 +129,7 @@ $dir=$this->config->item('cache_path');
 								</div>
 
 <div class="table-responsive">
-		<table width="100%"  class="table table-striped table-bordered table-hover" id="sample-table-2">
+	<table width="100%"  class="table table-striped table-bordered table-hover" id="sample-table-2">
 <!--
 <div>
 	<table>-->

@@ -1,15 +1,11 @@
 <?php
 class Geography_model extends CI_Model {
- 
-    public function __construct(){
+public function__construct(){
 		parent::__construct();
         //$this->load->database();
     }
-
-    public function get_status($id){
-    
+public functionget_status($id){
     	$language = $this->lang->language['lang'];
-    
     	$this->db->select('geo_name, order_by, status');
     	$this->db->from('_na_geography');
     	$this->db->where('geo_id_map', $id);
@@ -19,10 +15,8 @@ class Geography_model extends CI_Model {
     	//echo $this->db->last_query();
     	
     	return $query->result_array();
-    
-    }
-        
-    public function get_max_order(){
+    }    
+public functionget_max_order(){
 
 		$language = $this->lang->language['lang'];
 
@@ -34,8 +28,7 @@ class Geography_model extends CI_Model {
 		return $query->result_array(); 
 
     }
-
-    public function get_max_id(){
+public functionget_max_id(){
 
 		//$language = $this->lang->language['lang'];
 		$this->db->select('max(geo_id) as max_id');
@@ -45,7 +38,7 @@ class Geography_model extends CI_Model {
 		return $query->result_array(); 
 
     }
-  function get_geo_by_id($geo_id){
+public function get_geo_by_id($geo_id){
     $language = $this->lang->language['lang'];
     $this->db->select('*');
     $this->db->from('_na_geography');
@@ -55,9 +48,7 @@ class Geography_model extends CI_Model {
 	//Debug($this->db->last_query());
 		return $query->num_rows(); 
   }
-
-    public function getSelectGeography($default = 0,$name = "geo_id", $type = ''){
-    		
+public function getSelectGeography($default = 0,$name = "geo_id", $type = ''){   		
     		$language = $this->lang->language;
     		
     		//debug($language);
@@ -80,25 +71,23 @@ class Geography_model extends CI_Model {
 	    	}
 	    	return selectList( $opt, $name, 'class="form-control"', 'value', 'text',$default);
     }
-     
-   public function get_geography_by_id($geo_id_map){
-
-		$language = $this->lang->language['lang'];
-		$this->db->select('*');
-		$this->db->from('_na_geography');
-		$this->db->where('geo_id_map', $geo_id_map);
-		$this->db->where('lang', $language);
-		$query = $this->db->get();
-		
-		//Debug($this->db->last_query());
-		return $query->result_array(); 
-
+public function get_geography_by_id($geo_id_map){
+$language = $this->lang->language['lang'];
+			$this->db->select('*');
+			$this->db->from('_na_geography');
+			$this->db->where('geo_id_map', $geo_id_map);
+			$this->db->where('lang', $language);
+			$query_get=$this->db->get();
+			$last_query=$this->db->last_query();
+			$num=$query_get->num_rows();
+			$query_result=$query_get->result(); 
+			$get_geography=$query_result;
+			//echo'<hr> <pre> last_query=>';print_r($last_query);echo'</pre>'; Die();
+			#####################
+		return $get_geography; 
     }
-
-    public function get_geography($geo_id=null, $geo_status=null, $limit_start = 0, $listpage = 20){
-		
+public function get_geography($geo_id=null, $geo_status=null, $limit_start = 0, $listpage = 20){
 		$language = $this->lang->language['lang'];
-
 		$this->db->select('_na_geography.geo_id');
 		$this->db->select('_na_geography.countries_id');
 		$this->db->select('_na_geography.geo_id_map');
@@ -133,8 +122,7 @@ class Geography_model extends CI_Model {
 		
 		return $query->result_array();
     }
-
-    function count_products($geo_id=null, $search_string=null, $order=null){
+public function count_products($geo_id=null, $search_string=null, $order=null){
 
 		$this->db->select('*');
 		$this->db->from('_na_geography');
@@ -152,14 +140,11 @@ class Geography_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->num_rows();        
     }
-
-    function store_product($data){
+public function store_product($data){
 		$insert = $this->db->insert('_na_geography', $data);
 	    return $insert;
 	}
-
-    function update_geography($geo_id, $data){
-
+public function update_geography($geo_id, $data){
 		$this->db->where('geo_id', $geo_id);
 		$this->db->update('_na_geography', $data);
 		$report = array();
@@ -177,8 +162,7 @@ class Geography_model extends CI_Model {
 			return false;
 		}
 	}
-
-	function update_orderid_to_down($order, $max){
+public function update_orderid_to_down($order, $max){
 
 		$this->db->set('order_by', 'order_by + 1', FALSE); 
 		$this->db->where('order_by >=', $order); 
@@ -195,8 +179,7 @@ class Geography_model extends CI_Model {
 			return false;
 		}
 	}	
-
-	function update_orderid_to_up($order, $min){
+public function update_orderid_to_up($order, $min){
 
 		$this->db->set('order_by', 'order_by - 1', FALSE); 
 		$this->db->where('order_by >', $min); 
@@ -213,8 +196,7 @@ class Geography_model extends CI_Model {
 			return false;
 		}
 	}
-
-	function update_orderadd(){
+public function update_orderadd(){
 
 		$this->db->set('order_by', 'order_by + 1', FALSE); 
 		$this->db->update('_na_geography');
@@ -228,8 +210,7 @@ class Geography_model extends CI_Model {
 			return false;
 		}
 	}
-
-	function update_orderdel($order){
+public function update_orderdel($order){
 
 		$this->db->set('order_by', 'order_by - 1', FALSE); 
 		$this->db->where('order_by >', $order); 
@@ -244,8 +225,7 @@ class Geography_model extends CI_Model {
 			return false;
 		}
 	}
-
-	function status_geography($geo_id, $enable = 1){
+public function status_geography($geo_id, $enable = 1){
 
 		$data['status'] = $enable;
 		$this->db->where('geo_id_map', $geo_id);
@@ -262,9 +242,7 @@ class Geography_model extends CI_Model {
 			return false;
 		}
 	}	
-
-
-    function delete_geography($geo_id){
+public function delete_geography($geo_id){
 
 		$data = array(
 				'status' => 2
@@ -281,11 +259,9 @@ class Geography_model extends CI_Model {
 			return false;
 		}
 	}
-
-	function delete_geography_by_admin($geo_id){
+public function delete_geography_by_admin($geo_id){
 		$this->db->where('geo_id_map', $geo_id);
 		$this->db->delete('_na_geography'); 
 	}
- 
 }
 ?>	

@@ -59,7 +59,8 @@ $autoload['packages'] = array(APPPATH.'third_party/MX/Controller.php',APPPATH.'t
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('multilanguage','database', 'pagination', 'session', 'user_agent', 'form_validation', 'MenuFactory', 'upload','curl','error_notifier');
+//$autoload['libraries'] = array('multilanguage','database', 'pagination', 'session', 'user_agent', 'form_validation', 'MenuFactory', 'upload','curl','error_notifier','Cachemange_librares');
+$autoload['libraries'] = array('multilanguage','database', 'pagination', 'session', 'user_agent', 'form_validation', 'MenuFactory', 'upload','error_notifier');
 
 /*
 | -------------------------------------------------------------------
@@ -86,7 +87,7 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'form','translate', 'cookie', 'debug','clipone', 'asset', 'common', 'json','cache','template','language_helper');
+$autoload['helper'] = array('url', 'form','translate', 'cookie', 'debug','clipone', 'asset', 'common', 'json','cache','template','language_helper','array');
 
 /*
 | -------------------------------------------------------------------
@@ -101,7 +102,7 @@ $autoload['helper'] = array('url', 'form','translate', 'cookie', 'debug','clipon
 |
 */
 
-$autoload['config'] = array('path','template','api');
+$autoload['config'] = array('path','template','api','nodered','jwt','rest');
 
 
 /*
@@ -133,5 +134,6 @@ $autoload['language'] = array('app');
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Menu_model', 'Api_model','Api_model_na','Api_model_smart','Admin_log_activity_model');
+$autoload['model'] = array('Menu_model', 'Api_model','Api_model_na','Api_model_smart','Admin_log_activity_model','Device/Device_model','Crypt_model');
 
+//$autoload['model'] = array('Api_model_na','Admin_log_activity_model','Device/Device_model');

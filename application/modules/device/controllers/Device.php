@@ -1,17 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 class Device extends CI_Controller {
-    
-    function __construct()
-    {
+function __construct(){
         parent::__construct();
         ob_start('ob_gzhandler');
 		//  Check Device
         $this->load->model('Device_model');
     }
-	
-    public function index()
-    {
+public function index(){
         //redirect(base_url(), "refresh", 301);
         //exit;
 		
@@ -26,10 +21,8 @@ class Device extends CI_Controller {
 		    echo 'mobile';
         }
 		
-    }
-    
-    public function test() 
-    {
+    } 
+public function test(){
 		$this->load->model('Device_model');
         $device = $this->Device_model->get_device();
         if($device === "desktop"){
@@ -43,8 +36,7 @@ class Device extends CI_Controller {
         }
         
     }
-    public function devicetest() 
-    {
+public function devicetest() {
         $device = $this->Device_model->get_device();
         if($device === "desktop"){
             //$this->desktop->vw_category();
@@ -56,8 +48,7 @@ class Device extends CI_Controller {
 		    echo 'mobile';
         }
         
-    }
-    
+    }    
 }
 
 /* End of file welcome.php 

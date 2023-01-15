@@ -1,5 +1,4 @@
 <?php defined('BASEPATH') or die('No direct script access.');
-
 /*
 |--------------------------------------------------------------------------
 | Developer's Toolbar
@@ -13,11 +12,12 @@ $this->ci->load->library('session');
  if(!$this->ci->session->userdata('is_logged_in')){
    $config['enable_develbar'] = FALSE;
  }else{
-   $userdata=$this->ci->session->userdata();
-   #echo'<hr><pre>  $userdata=>';print_r($userdata);echo'<pre> <hr>'; #die(); 
-   $admin_id = $this->ci->session->userdata('admin_id');
-			$admin_type = $this->ci->session->userdata('admin_type');
+    $userdata=$this->ci->session->userdata();
+    #echo'<hr><pre>  $userdata=>';print_r($userdata);echo'<pre> <hr>'; #die(); 
+    $admin_id = $this->ci->session->userdata('admin_id');
+	$admin_type = $this->ci->session->userdata('admin_type');
    #echo'<hr><pre>  $admin_type=>';print_r($admin_type);echo'<pre> <hr>'; die(); 
+    // FALSE; //TRUE; 
    if($admin_type==1){
      $config['enable_develbar'] = TRUE; 
    }else{
@@ -33,12 +33,11 @@ $this->ci->load->library('session');
 | if this option is set to TRUE, it will slow down the page loading
 |
 */
-$config['check_update'] = FALSE;
+$config['check_update'] = TRUE;
 
 $config['profiler_key_expiration_time'] = 1800; // sec
 
-$config['documentation_link'] = base_url('/user_guide/');
-$config['documentation_link2'] = base_url('/documentation/');
+$config['documentation_link'] = 'http://www.codeigniter.com/userguide3/';
 
 $config['ci_website'] = 'http://www.codeigniter.com';
 
@@ -49,10 +48,6 @@ $config['ci_update_uri'] = 'https://raw.githubusercontent.com/bcit-ci/CodeIgnite
 $config['develbar_update_uri'] = 'https://raw.githubusercontent.com/JCSama/CodeIgniter-develbar/master/version.json';
 
 $config['develbar_download_link'] = 'https://github.com/JCSama/CodeIgniter-develbar';
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------

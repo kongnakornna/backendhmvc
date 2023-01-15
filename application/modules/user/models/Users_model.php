@@ -1,12 +1,10 @@
 <?php
 
 class Users_model extends CI_Model {
-
-    public function __construct(){
+public function __construct(){
         $this->load->database();
     }
-
-    public function get_member_by_id($id){
+public function get_member_by_id($id){
 		$this->db->select('*');
 		$this->db->from('_admin');
 		$this->db->where('admin_id', $id);
@@ -20,14 +18,13 @@ class Users_model extends CI_Model {
     * @param string $password
     * @return void
     */
-	function validate($admin_username, $admin_password){
+function validate($admin_username, $admin_password){
 		#echo'<hr><pre>  $admin_username=>';print_r($admin_username);echo'<pre> <hr>'; 
 		#echo'<hr><pre>  $admin_password=>';print_r($admin_password);echo'<pre> <hr>'; 
 		$this->db->where('admin_username', $admin_username);
 		$this->db->where('admin_password', $admin_password);
 		//$this->db->where('admin_type_id', 1);
 		$this->db->where('status', 1);
-
 		$tbl_membership = $this->db->dbprefix('_admin');
 		$query = $this->db->get($tbl_membership);
 		#echo'<hr><pre>  $query=>';print_r($query);echo'<pre> <hr>'; Die();
@@ -38,8 +35,7 @@ class Users_model extends CI_Model {
 			//return true;
 		}		
 	}
-
-	function auth($username, $password, $domain){
+function auth($username, $password, $domain){
 
 			//echo "auth($username, $password, $domain)<br>";
 			//LDAP Server 
@@ -125,7 +121,7 @@ class Users_model extends CI_Model {
 			//return $msg;
 	}
 
-	function auth_ldap($admin_username, $name, $lastname, $department, $domain){
+function auth_ldap($admin_username, $name, $lastname, $department, $domain){
 		$admin = array();
 
 		//$this->db->where('admin_username', $admin_username);
@@ -193,7 +189,7 @@ class Users_model extends CI_Model {
 		}
 	}
 
-	function chkUser($admin_username, $admin_password){
+function chkUser($admin_username, $admin_password){
 		
 		$admin = array();
 		$this->db->where('admin_username', $admin_username);
@@ -206,7 +202,7 @@ class Users_model extends CI_Model {
 		///echo $this->db->last_query();
 		//die();
 		
-/////////////////////////////
+	/////////////////////////////
               foreach ($query->result_array() as $row){
 					$admin['admin_id'] = $row['admin_id'];
 					$admin['username']=$row['admin_username'];
@@ -227,25 +223,24 @@ class Users_model extends CI_Model {
                     }
                     return $admin;
 			        //return true;
-////////////////////////////      
-        /*
-		if($query->num_rows == 1){
-			foreach ($query->result() as $row){
-					$admin['id'] = $row->admin_id;
-					$admin['username'] = $row->admin_username;
-					$admin['type'] = $row->admin_type_id;
-					$admin['name'] = $row->admin_name;
-					$admin['lastname'] = $row->admin_lastname;
-					$admin['email'] = $row->admin_email;
-					$admin['avatar'] = $row->admin_avatar;
+	////////////////////////////      
+			/*
+			if($query->num_rows == 1){
+				foreach ($query->result() as $row){
+						$admin['id'] = $row->admin_id;
+						$admin['username'] = $row->admin_username;
+						$admin['type'] = $row->admin_type_id;
+						$admin['name'] = $row->admin_name;
+						$admin['lastname'] = $row->admin_lastname;
+						$admin['email'] = $row->admin_email;
+						$admin['avatar'] = $row->admin_avatar;
+				}
+				//return $admin;
+				return true;
 			}
-			//return $admin;
-			return true;
-		}
         */		
 	}
-
-	function chkEmail($admin_email){
+function chkEmail($admin_email){
 		
 		$admin = array();
 		$this->db->where('admin_email', $admin_email);
@@ -276,7 +271,7 @@ class Users_model extends CI_Model {
     * store it in a new array and return it to the controller 
     * @return array
     */
-	function get_db_session_data(){
+function get_db_session_data(){
 		$user = array(); /* array to store the user data we fetch */
 		$tbl_sessions = $this->db->dbprefix('_sessions');
 		$query = $this->db->select('user_data')->get($tbl_sessions);
@@ -291,8 +286,7 @@ class Users_model extends CI_Model {
 		}
 		return $user;
 	}
-
-	function add_member($username, $first_name, $last_name, $email, $department, $domain){
+function add_member($username, $first_name, $last_name, $email, $department, $domain){
 
 		$this->db->where('admin_username', $username);
 		$query = $this->db->get('_admin');
@@ -321,8 +315,7 @@ class Users_model extends CI_Model {
 		}
 	      
 	}//add_member
-
-	function create_member(){
+function create_member(){
 
 		$this->db->where('admin_username', $this->input->post('username'));
 		$query = $this->db->get('_admin');
@@ -344,7 +337,7 @@ class Users_model extends CI_Model {
 		}
 	      
 	}//create_member
-    function lastlogin($admin_id){
+function lastlogin($admin_id){
 
 		$lastlogin=date('Y-m-d H:i:s');
           $data['lastlogin'] = $lastlogin;
@@ -362,8 +355,7 @@ class Users_model extends CI_Model {
 			return false;
 		}
 	}
-     
-	function update_member($admin_id, $data){
+function update_member($admin_id, $data){
 
 			if($admin_id > 0){
 

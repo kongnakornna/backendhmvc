@@ -5,16 +5,15 @@
 */
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Userlogs extends CI_Controller {
-
-    public function __construct()    {
+ public function __construct()    {
         parent::__construct();
         // load helper
-		$this->load->helper('url');
-	     $this->load->library('session');
+		        $this->load->helper('url');
+	         $this->load->library('session');
           $this->load->model('Userlogsna_activity_model');
           $this->load->library("pagination");
-		//$this->load->library(array('pagination','session'));
-		$admin_id= $this->session->userdata('admin_id');
+	      	//$this->load->library(array('pagination','session'));
+	        	$admin_id= $this->session->userdata('admin_id');
           $admin_type=$this->session->userdata('admin_type');
           
 		$breadcrumb = array();
@@ -26,7 +25,6 @@ class Userlogs extends CI_Controller {
 	public function index(){
 			$this->listview();
     }
-	
 	public function listview($pageIndex=1) {
 	
 	$startdate = $this->input->get_post('startdate',TRUE);
@@ -34,7 +32,7 @@ class Userlogs extends CI_Controller {
 	
 	   // $pagination = $this->session->userdata($segment);
 		$language = $this->lang->language;
-		$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+		//$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 		$breadcrumb[] = $language['activity_logs'];
 		$webtitle = $language['activity_logs'].' - '.$language['titleweb'];
 		//$searchterm = $this->input->get_post('searchterm',TRUE);
@@ -89,17 +87,17 @@ class Userlogs extends CI_Controller {
 		$data = array(
 					"startdate" => $startdate,
 					"enddate" => $enddate,
-					"ListSelect" => $ListSelect,
+					//"ListSelect" => $ListSelect,
 					"logs_list" => $logs_list,
 					"webtitle" => $webtitle,
 					"pagination" => $links,
-					"content_view" => 'tmon/userlogsna_activity',
+					"content_view" => 'userlogactivity',
 					"breadcrumb" => $breadcrumb,
 		);
+		// Debug($data); die();
 		$this->load->view('template/template',$data);
 		 //Debug($data);
 		 
 		 
 	}
-
 }

@@ -4,7 +4,7 @@
  * @copyright kongnakorn  jantakun 2015
 */
 class Admin extends MY_Controller {
-    public function __construct()    {
+public function __construct() {
         parent::__construct();
 			$this->load->model('Admin_team_model');
 			$this->load->library("AdminFactory");
@@ -16,7 +16,7 @@ class Admin extends MY_Controller {
             redirect(base_url());
         }
     }
- public function index(){		
+public function index(){		
 		$this->load->library("AdminFactory");
 			if($this->session->userdata['admin_type'] > 3){
 				redirect(base_url());
@@ -24,7 +24,7 @@ class Admin extends MY_Controller {
 			}
 			$admin_type1 = $this->session->userdata('admin_type');
 			$language = $this->lang->language;
-			$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+			//$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
 			$breadcrumb[] = $language['member_list'];
 
 			//$orderby = 'order_by';
@@ -71,7 +71,7 @@ class Admin extends MY_Controller {
 					"memberlist" => $memberlist,
                     "admin_type_list" => $admin_type_list,
 					"membertype" => $this->adminfactory->getAdminType(),
-					"ListSelect" => $ListSelect,
+					//"ListSelect" => $ListSelect,
 					"breadcrumb" => $breadcrumb,
 			);
 
@@ -155,20 +155,20 @@ class Admin extends MY_Controller {
 			$breadcrumb[] = $language['dashboard'];
 			$admin_id = $this->session->userdata('admin_id');
 			$admin_type = $this->session->userdata('admin_type');
-/*
-   $ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
-			//$ListSelect = $this->Api_model->user_menu($this->session->userdata('admin_type'));
-			$notification_news_list = $notification_column_list = $notification_gallery_list = $notification_vdo_list = $notification_dara_list = array();
-			$loadfile = "admintype".$admin_type.".json";
-			$admin_menu = LoadJSON($loadfile);
+	/*
+	$ListSelect = $this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+				//$ListSelect = $this->Api_model->user_menu($this->session->userdata('admin_type'));
+				$notification_news_list = $notification_column_list = $notification_gallery_list = $notification_vdo_list = $notification_dara_list = array();
+				$loadfile = "admintype".$admin_type.".json";
+				$admin_menu = LoadJSON($loadfile);
 
-			$data = array(
-					"ListSelect" => $ListSelect,
-					//"breadcrumb"=>$breadcrumb,
-					"admin_menu" => $admin_menu,
- 
-			);
- */
+				$data = array(
+						"ListSelect" => $ListSelect,
+						//"breadcrumb"=>$breadcrumb,
+						"admin_menu" => $admin_menu,
+	
+				);
+	*/
     /////////////cache////////////
    	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
     $time_cach_set_min=$this->config->item('time_cach_set_min');
@@ -221,7 +221,7 @@ class Admin extends MY_Controller {
 		$data['content_view'] = 'admin/dashboard';
 		$this->load->view('template/template',$data);
 	}
-	public function remove_img($id = 0){
+public function remove_img($id = 0){
 
 			$this->load->library("AdminFactory");
 
@@ -349,7 +349,7 @@ class Admin extends MY_Controller {
                
 
 
-/////////////cache////////////
+	/////////////cache////////////
 			$this->load->view('template/template',$data);
    
    //**************Log activity
@@ -393,7 +393,7 @@ class Admin extends MY_Controller {
           	$this->Admin_log_activity_model->store($log_activity);
           //**************Log activity
 	}
-	function memberadd(){
+function memberadd(){
 
 			$this->load->model('Admin_team_model');
 
@@ -420,7 +420,7 @@ class Admin extends MY_Controller {
 			$data['content_view'] = 'admin/memberadd';
 			$this->load->view('template/template',$data);
 	}
-	function memberedit($id){
+function memberedit($id){
                if($id==''){ $id=$this->uri->segment(3); }
 			$this->load->library("AdminFactory");
 			$this->load->library("MenuFactory");
@@ -452,7 +452,7 @@ class Admin extends MY_Controller {
 			else
 				redirect('admin/memberlist');
 	}
- public function profile($id){
+public function profile($id){
 
     			$this->load->library("AdminFactory");
     			$this->load->model('Admin_team_model');
@@ -483,7 +483,7 @@ class Admin extends MY_Controller {
     			else
     				redirect('profile');
     	}
- function upload_avata($id = 0){
+function upload_avata($id = 0){
 
 				//Exam uploads
                     $path= './uploads/admin/';
@@ -522,21 +522,9 @@ class Admin extends MY_Controller {
                $session_id_admin=$this->session->userdata('admin_id');
                $ref_id=$this->session->userdata('admin_type');
                ########IP#################	
-               $ipaddress=$_SERVER['REMOTE_ADDR'];	
-               $ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-               $ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-               $ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-               $ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-               if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-               elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-               elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-               elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-               elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-               elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-               elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
-               ########IP#################
+                #$ipaddress=$_SERVER['REMOTE_ADDR'];	
+				$ipaddress = '127.0.0.1'; 
+			   ########IP#################
                $ref_type=1;
                $ref_title="Uploads Photo Member ID : ".$id;
                $action=2;
@@ -560,7 +548,7 @@ class Admin extends MY_Controller {
 				$data['content_view'] = 'upload_status';
 				$this->load->view('template/template',$data);
 	}
-	function member_save($id = 0){
+function member_save($id = 0){
 
 		$this->load->library('Form_validation');
 			
@@ -819,21 +807,9 @@ class Admin extends MY_Controller {
                $session_id_admin=$this->session->userdata('admin_id');
                $ref_id=$this->session->userdata('admin_type');
                ########IP#################	
-               $ipaddress=$_SERVER['REMOTE_ADDR'];	
-               $ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-               $ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-               $ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-               $ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-               if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-               elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-               elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-               elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-               elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-               elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-               elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
-               ########IP#################
+                #$ipaddress=$_SERVER['REMOTE_ADDR'];	
+				$ipaddress = '127.0.0.1'; 
+			   ########IP#################
                $ref_type=1;
                $ref_title=$edit." Admin ID : ".$admin_id;
                $action=2;
@@ -868,7 +844,7 @@ class Admin extends MY_Controller {
 
 		}
 	}
- public function delete(){
+public function delete(){
 
 				$this->load->library("AdminFactory");
 				$now_date = date('Y-m-d h:i:s',  mktime(date("h"), date("i"), date("s"), date("m")  , date("d"), date("Y")));
@@ -903,21 +879,9 @@ class Admin extends MY_Controller {
                $session_id_admin=$this->session->userdata('admin_id');
                $ref_id=$this->session->userdata('admin_type');
                ########IP#################	
-               $ipaddress=$_SERVER['REMOTE_ADDR'];	
-               $ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-               $ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-               $ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-               $ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-               if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-               elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-               elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-               elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-               elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-               elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-               elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
-               ########IP#################
+                #$ipaddress=$_SERVER['REMOTE_ADDR'];	
+				$ipaddress = '127.0.0.1'; 
+			   ########IP#################
                $ref_type=1;
                $ref_title=$del." Username : ".$member->_admin_username." [".$member->_admin_email."]";
                $action=2;
@@ -941,7 +905,7 @@ class Admin extends MY_Controller {
 				redirect('admin/memberlist');
 
     }
- function profile_save($id = 0){
+function profile_save($id = 0){
 
 		$this->load->library('form_validation');
 			
@@ -1231,7 +1195,7 @@ class Admin extends MY_Controller {
 
 		}
 	}
-	public function status(){
+public function status(){
 			$this->load->library("AdminFactory");
 			$id = 0;
 			$id = $this->input->post("id");
@@ -1264,21 +1228,9 @@ class Admin extends MY_Controller {
                $session_id_admin=$this->session->userdata('admin_id');
                $ref_id=$this->session->userdata('admin_type');
                ########IP#################	
-               $ipaddress=$_SERVER['REMOTE_ADDR'];	
-               $ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-               $ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-               $ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-               $ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-               if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-               elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-               elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-               elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-               elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-               elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-               elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
-               ########IP#################
+                #$ipaddress=$_SERVER['REMOTE_ADDR'];	
+				$ipaddress = '127.0.0.1'; 
+			   ########IP#################
                $ref_type=1;
                $ref_title=$edit." Admin Username : ".$member->_admin_username." [Status .$cur_status.] Update";
                $action=2;
@@ -1303,53 +1255,87 @@ class Admin extends MY_Controller {
 		//}
 		//$this->load->view('template/template',$data);
 	}
-	function logout(){
-          //**************Log activity
-               $session_id_admin=$this->session->userdata('admin_id');
-               $ref_id=$this->session->userdata('admin_type');
-               ########IP#################	
-               $ipaddress=$_SERVER['REMOTE_ADDR'];	
-               $ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-               $ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-               $ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-               $ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-               if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-               elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-               elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-               elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-               elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-               elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-               elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
-               ########IP#################
-               $ref_type=1;
-               $ref_title="LOGOUT..  ".'[SYSTEM]'."";
-               $action=2;
-               $create_date=date('Y-m-d H:i:s');
-               $status=1;
-          	$log_activity = array(
-          					"admin_id" => $session_id_admin,
-          					"ref_id" => $ref_id,
-          					"from_ip" => $ipaddress,
-          					"ref_type" => $ref_type,
-          					"ref_title" => $ref_title,
-          					"action" => $action,
-                            "create_date" => $create_date,
-                            "status" => $status,
-	                        "lang" => $this->lang->language['lang'],
-          			);			
-          	$this->Admin_log_activity_model->store($log_activity);
-          //**************Log activity
-		$this->session->sess_destroy();
-		redirect('admin');
+function logout(){
+	
+	
+FOREACH($_COOKIE AS $key => $value) {
+		//echo'<pre>'; print_r($key.'->'.$value); echo'</pre>';
+				$cookie=array(
+					   'name' => $key,
+					   'value' => $value,  
+					   #'expire' => '0',      
+					   'path' => "/",                                                                           
+					   'secure' => false
+				  );
+				delete_cookie($cookie);
+		}
+	
+			  //**************Log activity
+				   $session_id_admin=$this->session->userdata('admin_id');
+				   $ref_id=$this->session->userdata('admin_type');
+				   ########IP#################	
+					#$ipaddress=$_SERVER['REMOTE_ADDR'];	
+					$ipaddress = '127.0.0.1'; 
+				########IP#################
+				   $ref_type=1;
+				   $ref_title="LOGOUT..  ".'[SYSTEM]'."";
+				   $action=2;
+				   $create_date=date('Y-m-d H:i:s');
+				   $status=1;
+				$log_activity = array(
+								"admin_id" => $session_id_admin,
+								"ref_id" => $ref_id,
+								"from_ip" => $ipaddress,
+								"ref_type" => $ref_type,
+								"ref_title" => $ref_title,
+								"action" => $action,
+								"create_date" => $create_date,
+								"status" => $status,
+								"lang" => $this->lang->language['lang'],
+						);			
+				$this->Admin_log_activity_model->store($log_activity);
+			  //**************Log activity
+			$this->session->sess_destroy();
+			//redirect('admin');
+			
+			
+		$urldirec=base_url('admin');
+		$language=$this->lang->language;
+		$title=$language['logout'];
+		$msgst=$language['logout'];
+		?>
+						<script type="text/javascript" src="<?php echo base_url('assets/sweetalert2/dist/js/jquery-latest.js');?>"></script>
+						<script src="<?php echo base_url('assets/sweetalert2/dist/sweetalert-dev.js');?>"></script>
+						<link rel="stylesheet" href="<?php echo base_url('assets/sweetalert2/dist/sweetalert.css');?>">
+		<?php
+					echo'<script>
+									$( document ).ready(function() {
+										//////////////////
+										swal({
+										title: " '.$title.'",
+										text: "'.$msgst.'",
+										timer: 1000,
+										showConfirmButton: false
+										}, function(){
+													setTimeout(function() {
+														// Javascript URL redirection
+														window.location.replace("'.$urldirec.'");
+													}, 200);
+		});
+										//////////////////
+									});
+					</script>';
+			Die(); 
+		
+			
+			
 
 	}
-	function overview(){
+function overview(){
 		redirect('overview');
 
 	}
- public function deleteadmin($id = 0){
+public function deleteadmin($id = 0){
 		if($id == 0){
 			$data = array(
 					"error" => 'id error'
@@ -1380,7 +1366,7 @@ class Admin extends MY_Controller {
 		}
 		redirect('admin/memberlist');
 	}
- public function status2($id){
+public function status2($id){
 		//$admin_id = $this->session->userdata('admin_id');
 		//$admin_type = $this->session->userdata('admin_type');
 		//$ListSelect = $this->Api_model_na->user_menu($admin_type);
@@ -1401,20 +1387,8 @@ class Admin extends MY_Controller {
                $session_id_admin=$this->session->userdata('admin_id');
                $ref_id=$this->session->userdata('admin_type');
                ########IP#################	
-               $ipaddress=$_SERVER['REMOTE_ADDR'];	
-               $ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
-               $ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
-               $ipaddress4=$this->ip_address = array_key_exists('HTTP_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_FORWARDED_FOR'] : '0.0.0.0';
-               $ipaddress5=$this->ip_address = array_key_exists('HTTP_FORWARDED',$_SERVER) ? $_SERVER['HTTP_FORWARDED'] : '0.0.0.0';
-               $ipaddress6=$this->ip_address = array_key_exists('REMOTE_ADDR',$_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
-               if($ipaddress1!==''){$ipaddress=$ipaddress1;}
-               elseif($ipaddress2!==''){$ipaddress=$ipaddress2;}
-               elseif($ipaddress3!==''){$ipaddress=$ipaddress3;}
-               elseif($ipaddress4!==''){$ipaddress=$ipaddress4;}
-               elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
-               elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
-               elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
+               #$ipaddress=$_SERVER['REMOTE_ADDR'];	
+               $ipaddress = '127.0.0.1'; 
                ########IP#################
                $ref_type=1;
                $ref_title="Member ID : ".$id." [Status ".$cur_status."]";

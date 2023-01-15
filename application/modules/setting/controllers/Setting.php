@@ -1,28 +1,31 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Setting extends MY_Controller {
- public function __construct()    {
+public function __construct()    {
         parent::__construct();
         $this->load->library('session');
         if(!$this->session->userdata('is_logged_in')){
             redirect(base_url());
         }
     }
-	public function index(){
-				
-				$admin_id = $this->session->userdata('admin_id');
-				$admin_type = $this->session->userdata('admin_type');
-				//$ListSelect = $this->Api_model->user_menu($admin_type);
-				$ListSelect = $this->Api_model_na->user_menu($admin_type);
-				$language = $this->lang->language;
-				$getMenu = $this->menufactory->getMenu();
+public function index(){
+$admin_id = $this->session->userdata('admin_id');
+$admin_type = $this->session->userdata('admin_type');
+$language = $this->lang->language;                     
+$input=@$this->input->post(); 
+if($input==null){ $input=@$this->input->get();} 
+$deletekey=@$input['deletekey']; //deletekey=1
+$cachetype=@$input['cachetype'];
+$dev=@$input['dev'];
+ #echo '<pre> $getMenu1-> '; print_r($getMenu); echo '</pre>'; die(); 
+      if($dev==1){$getMenu=$getMenu['data'];}
 				$breadcrumb[] = $language['settings'];
 				$setting =  array();
 				$setting = GetConfig1(); // form json_helper
+			//echo '<pre>  setting-> '; print_r($setting); echo '</pre>'; die(); 
+      if($dev==1){$getMenu=$getMenu['data'];}
 				$data = array(
-						"admin_menu" => $getMenu,
 						"setting" => $setting,
-						"ListSelect" => $ListSelect,
 						"breadcrumb" => $breadcrumb
 				);
 				$data['content_view'] = 'setting/setting';

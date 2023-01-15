@@ -1,19 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 class Api_model extends CI_Model {
+
     function __construct(){
         parent::__construct();
     }    
+    
     public function user_menu($type){
+    		
     		$lang = $this->lang->language['lang'];
-    		// $admin_id = $this->session->userdata('admin_id');
-			   // $admin_type = $this->session->userdata('admin_type');
-   			$loadfile = "admintype".$type.".json";
-   			$list_data = $title = '';
-   			//if($type == 1) $loadfile = "superadmin.json";
-   			$admin_menu = LoadJSON($loadfile);
-   			$subadmin_menu = $admin_menu;			
-			   if($admin_menu){
-				      foreach($admin_menu as $arr => $list_mainmenu){
+    		//debug( $lang);
+    		//$admin_id = $this->session->userdata('admin_id');
+			//$admin_type = $this->session->userdata('admin_type');
+			
+			$loadfile = "admintype".$type.".json";
+			$list_data = $title = '';
+			
+			//if($type == 1) $loadfile = "superadmin.json";
+			$admin_menu = LoadJSON($loadfile);
+			$subadmin_menu = $admin_menu;			
+			//Debug($subadmin_menu);
+			
+			if($admin_menu){
+				foreach($admin_menu as $arr => $list_mainmenu){
 						//debug($list_mainmenu);
 						
 						$sub_mainparent = '';
@@ -32,43 +41,52 @@ class Api_model extends CI_Model {
 									if($field == "parent") $mainparent = $title;									
 									if($field == "option") $havesub = $title;									
 							}
-                            $icon = ($icon !== '') ? $icon : ''.$icon ; 
-							//$icon = ($admin_menu_id2 == 28) ? $icon : 'fa '.$icon ;
+							$icon = ($admin_menu_id2 == 28) ? $icon : 'fa '.$icon ;
 							
-		if($mainparent == 0){
-		//$icon_menu = ($row->_icon != '') ? $row->_icon : 'fa-file-text';
-		$title = ($lang == 'th') ? $title_th : $title_en;
-       /*************Sub menu Active****************/
-                            $urlcerentrl=$this->uri->segment(1);
-                            $language= $this->lang->language;
-                            $lang = $language['lang'];
-                            $urlna=$this->uri->segment(1);
-                            $urlna = $this->Api_model_na->urlna($urlna,$lang); 
-                            $num_rowsna=(int)$urlna['num_rows'];
-                            //Debug($urlna); Die();
-        if($num_rowsna>0){
-        $admin_menu_id2na=$urlna['admin_menu_id2'];
-        $paramsna=$urlna['parent'];
-        if(($admin_menu_id2 == $paramsna) && ((strtolower($this->uri->segment(1)) == $urlcerentrl)	)){ 
-                                        $curactive = 'class="active open"';
-                                        $submenu= 'class="class="sub-menu"';
+							if($mainparent == 0){
+
+									//$icon_menu = ($row->_icon != '') ? $row->_icon : 'fa-file-text';
+									$title = ($lang == 'th') ? $title_th : $title_en;
+									
+									/*************Sub menu Active****************/
+									if(($admin_menu_id2 == 2) && ((strtolower($this->uri->segment(1)) == 'uploadfile')
+										|| (strtolower($this->uri->segment(1)) == 'category') || (strtolower($this->uri->segment(1)) == 'subcategory')
+										|| (strtolower($this->uri->segment(1)) == 'emergency') || (strtolower($this->uri->segment(1)) == 'tags')
+										|| (strtolower($this->uri->segment(1)) == 'brand') || (strtolower($this->uri->segment(1)) == 'credit') || (strtolower($this->uri->segment(1)) == 'columnist') 
+										|| (strtolower($this->uri->segment(1)) == 'channel') || (strtolower($this->uri->segment(1)) == 'belong_to') )){
+										//ข้อมูลพื้นฐาน
+											$curactive = 'class="hsub open"';
+											$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 27) && ((strtolower($this->uri->segment(1)) == 'admin_menu') || (strtolower($this->uri->segment(1)) == 'admin_delete')	 || (strtolower($this->uri->segment(1)) == 'activity_logs')	  || (strtolower($this->uri->segment(1)) == 'team')	)){
+										//ตั้งค่า
+
+										$curactive = 'class="hsub open"';
+										$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 28) && ((strtolower($this->uri->segment(1)) == 'json') || (strtolower($this->uri->segment(1)) == 'gen')	)){
+										//สร้างแคช
+
+										$curactive = 'class="hsub open"';
+										$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 41) && ((strtolower($this->uri->segment(1)) == 'homepage_menu') || (strtolower($this->uri->segment(1)) == 'block') || (strtolower($this->uri->segment(1)) == 'programtv') || (strtolower($this->uri->segment(1)) == 'highlight') || (strtolower($this->uri->segment(1)) == 'order') )){
+										//หน้าเวปแสดงผล
+
+										$curactive = 'class="hsub open"';
+										$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 87) && (strtolower($this->uri->segment(1)) == 'dev')){
+										//Dev tool
+
+										$curactive = 'class="hsub open"';
+										$submenu = 'style="display:block;"';
+
 									}else{
 										$curactive = '';
 										$submenu = '';
 									}
-            ////////// 
-        }else{
-            //////////////
-            if(($admin_menu_id2 == 1) && ((strtolower($this->uri->segment(1)) == $urlcerentrl))){
-                                        $curactive = 'class="active open"';
-                                        $submenu= 'class="class="sub-menu"';
-									}else{
-										$curactive = '';
-										$submenu = '';
-									}
-            //////////
-        }
-       /*************Sub menu Active****************/
+									/*************Sub menu Active****************/
 
 									$chkurl = ltrim($url,"/");
 									$classactive = '';
@@ -80,7 +98,7 @@ class Api_model extends CI_Model {
 									if($sub == 1)
 											$list_data .= '<li '.$curactive.'>
 												<a href="#" class="dropdown-toggle">
-														<i class="menu-icon fa '.$icon.'"></i><span class="menu-text">'.$title.'</span>
+														<i class="menu-icon '.$icon.'"></i><span class="menu-text">'.$title.'</span>
 														<b class="arrow fa fa-angle-down"></b>
 												</a>
 												<b class="arrow"></b>
@@ -88,7 +106,7 @@ class Api_model extends CI_Model {
 									else
 											$list_data .= '<li '.$classactive.'>
 													<a href="'.base_url($url).'">
-													<i class="menu-icon fa '.$icon.'"></i><span class="menu-text">'.$title.'</span></a>
+													<i class="menu-icon '.$icon.'"></i><span class="menu-text">'.$title.'</span></a>
 													<b class="arrow"></b>
 											
 											';
@@ -157,105 +175,79 @@ class Api_model extends CI_Model {
 							//echo "<hr>";						
 						}											
 				}
-				   //echo $list;
+				//echo $list;
 			}			
+			//Debug($admin_menu);
     		return $list_data;
     }
+
     public function notification_birthday(){
-     			//$language = $this->lang->language['lang'];
-     			$datenow = date('-m-d');
-     			//$thismonth = '-'.date('m').'-';
-        /////////////cache////////////
-    	   $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-        $time_cach_set_min=$this->config->item('time_cach_set_min');
-        $time_cach_set=$this->config->item('time_cach_set');
-        $time_cach_level0=$this->config->item('time_cach_level0');
-    	   $timecache=$time_cach_set;
-        $lang=$this->lang->line('lang'); 
-        $langs=$this->lang->line('langs'); 
-    	   $key='dara_profile'.$lang.'_'.$datenow;
-        if (!$data_cach= $this->cache->get($key)){
-    	       $this->db->select('dp.*');
-         			$this->db->from('_dara_profile as dp');
-         			if(isset($thismonth)) $this->db->like('birth_date', $thismonth, 'both');
-         			if(isset($datenow)) $this->db->like('birth_date', $datenow, 'before');
-         			//$this->db->where('birth_date >=', $datenow);
-    	    	  $query = $this->db->get();
-            $data_cach=$query->result_object();
-            $this->cache->file->save($key,$data_cach,$timecache);
-        }
-    	   /////////////cache////////////  
-	    	return $data_cach;    	
+
+			//$language = $this->lang->language['lang'];
+
+			$datenow = date('-m-d');
+			//$thismonth = '-'.date('m').'-';
+
+			$this->db->select('dp.*');
+			$this->db->from('_dara_profile as dp');
+
+			if(isset($thismonth)) $this->db->like('birth_date', $thismonth, 'both');
+			if(isset($datenow)) $this->db->like('birth_date', $datenow, 'before');
+
+			//$this->db->where('birth_date >=', $datenow);
+
+	    	$query = $this->db->get();
+	    	//Debug($this->db->last_query());
+	    	return $query->result_object();    	
     }
+
     public function notification_msg($mod = 'article', $count = 1){
-        /////////////cache////////////
-    	   $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-        $time_cach_set_min=$this->config->item('time_cach_set_min');
-        $time_cach_set=$this->config->item('time_cach_set');
-        $time_cach_level0=$this->config->item('time_cach_level0');
-    	   $timecache=$time_cach_set;
-        $lang=$this->lang->line('lang'); 
-        $langs=$this->lang->line('langs'); 
-    	   $key='count_approve'.$lang;
-        if(!$data_cach= $this->cache->get($key)){
-           #####################
-           			   $language = $this->lang->language['lang'];
-              		//	$language = 'th';
-              			if($count == 1) 
-              				$this->db->select('count(*) as count_approve');
-              			else
-              				$this->db->select('*');	
-              			if($mod == 'article'){
-              					$this->db->from('_article');
-              			}else if($mod == 'column'){
-              					$this->db->from('_column');
-              			}
-              			$this->db->where('status', 1);
-              			$this->db->where('approve', 0);
-              			if($mod != 'dara'){
-              				$this->db->where('lang', $language);
-              				//$this->db->where('create_date >', '2015-01-01');
-              			}
-           	    	$query = $this->db->get();
-           	    	//if($mod == 'vdo') Debug($this->db->last_query());
-           	    	$data_cach=$query->result_object();  
-           #####################
-            $this->cache->file->save($key,$data_cach,$timecache);
-        }
-    	   /////////////cache////////////  
-	    	return $data_cach;    	
+
+			//$language = $this->lang->language['lang'];
+			$language = 'th';
+
+			if($count == 1) 
+				$this->db->select('count(*) as count_approve');
+			else
+				$this->db->select('*');
+					
+			if($mod == 'article'){
+					$this->db->from('_article');
+			}else if($mod == 'column'){
+					$this->db->from('_column');
+			}
+
+			$this->db->where('status', 1);
+			$this->db->where('approve', 0);
+
+			if($mod != 'dara'){
+				$this->db->where('lang', $language);
+				//$this->db->where('create_date >', '2015-01-01');
+			}
+
+	    	$query = $this->db->get();
+	    	//if($mod == 'vdo') Debug($this->db->last_query());
+			//Debug($this->db->last_query());
+	    	return $query->result_object();    	
     }
+	
     public function notification_tags(){
-        /////////////cache////////////
-    	   $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-        $time_cach_set_min=$this->config->item('time_cach_set_min');
-        $time_cach_set=$this->config->item('time_cach_set');
-        $time_cach_level0=$this->config->item('time_cach_level0');
-    	   $timecache=$time_cach_set;
-        $lang=$this->lang->line('lang'); 
-        $langs=$this->lang->line('langs'); 
-        $lang='th';
-    	   $key='count_approve_tag_status_0_'.$lang;
-        if(!$data_cach= $this->cache->get($key)){
-           #####################
-           			      //$language = $this->lang->language['lang'];
-                 			$language = 'th';
-                 			$count = 0;
-                 			if($count == 1) 
-                 				$this->db->select('count(*) as count_approve');
-                 			else
-                 				$this->db->select('*');
-                 			$this->db->from('_tag');
-                 			$this->db->where('status', 0);
-                 	    	$query = $this->db->get();
-           	    	$data_cach=$query->result_object();  
-           #####################
-           $this->cache->file->save($key,$data_cach,$timecache);
-        }
-    	   /////////////cache////////////  
-	    	  return $data_cach;     	
+
+			//$language = $this->lang->language['lang'];
+			$language = 'th';
+			$count = 0;
+
+			if($count == 1) 
+				$this->db->select('count(*) as count_approve');
+			else
+				$this->db->select('*');
+
+			$this->db->from('_tag');
+			$this->db->where('status', 0);
+	    	$query = $this->db->get();
+	    	return $query->result_object();    	
     }
-    
+
     public function get_picture($ref_id, $picid = 0, $ref_type = 1 ){
 
 	    	$language = $this->lang->language['lang'];
@@ -293,6 +285,7 @@ class Api_model extends CI_Model {
 	    	//Debug($this->db->last_query());
 	    	return $query->result_array();    	
     }
+
     public function get_item($type = 0, $ref_id, $picid = 0){
 
 	    $language = $this->lang->language['lang'];
@@ -324,6 +317,7 @@ class Api_model extends CI_Model {
 	    	//Debug($this->db->last_query());
 	    	return $query->result_object();    	
     }
+    
     public function load_pic_bk($ref_id){
 
 				/*$this->db->select('*');
@@ -334,12 +328,24 @@ class Api_model extends CI_Model {
 				return $query->result_array();*/
 				return null;
     }
-    public function del_order_highlight($order){
+
+    /*function get_highlight($listpage = 15, $debug = 0){
+				$this->db->select('*');
+				$this->db->from('_highlight');
+				$this->db->order_by('order', 'Asc');
+				$this->db->limit($listpage, 0);
+				$query = $this->db->get();
+				if($debug == 1) Debug($this->db->last_query());
+				return $query->result_object();    	
+    }*/
+
+    function del_order_highlight($order){
 			$this->db->set('order', '`order`  - 1', FALSE); 
 			$this->db->where('order >', $order);
 			$this->db->update('_news_highlight');
 	}
-    public function get_highlight($ref_type = 0, $id = 0,  $debug = 0){
+
+    function get_highlight($ref_type = 0, $id = 0,  $debug = 0){
 
 			$language = $this->lang->language['lang'];
 			$prefix = 'sd';
@@ -442,7 +448,8 @@ class Api_model extends CI_Model {
 			if($debug == 1) Debug($this->db->last_query());
 			return $query->result_object();
 	}
-    public function setorder_highlight($id = 0, $ref_type=1, $data, $showdebug = 0){
+
+    function setorder_highlight($id = 0, $ref_type=1, $data, $showdebug = 0){
 
 			if($id > 0){
 					$this->db->where('article_id', $id);
@@ -450,8 +457,8 @@ class Api_model extends CI_Model {
 					$this->db->update('_highlight', $data);
 					if($showdebug == 1) Debug($this->db->last_query());
 					$report = array();
-					//$report['error'] = $this->db->_error_number();
-					//$report['message'] = $this->db->_error_message();
+					$report['error'] = $this->db->_error_number();
+					$report['message'] = $this->db->_error_message();
 					if($report !== 0){
 						//Debug($this->db->last_query());
 						return true;
@@ -460,7 +467,8 @@ class Api_model extends CI_Model {
 					}
 			}
 	}
-    public function setorder_editor_picks($id = 0, $ref_type=1, $data, $showdebug = 0){
+
+    function setorder_editor_picks($id = 0, $ref_type=1, $data, $showdebug = 0){
 
 			if($id > 0){
 					$this->db->where('article_id', $id);
@@ -468,8 +476,8 @@ class Api_model extends CI_Model {
 					$this->db->update('_editor_picks', $data);
 					if($showdebug == 1) Debug($this->db->last_query());
 					$report = array();
-					//$report['error'] = $this->db->_error_number();
-					//$report['message'] = $this->db->_error_message();
+					$report['error'] = $this->db->_error_number();
+					$report['message'] = $this->db->_error_message();
 					if($report !== 0){
 						//Debug($this->db->last_query());
 						return true;
@@ -621,6 +629,7 @@ class Api_model extends CI_Model {
 
         return json_encode($response);
 	}
+
     public function navigation($language){
 
         $response = array();
@@ -668,6 +677,7 @@ class Api_model extends CI_Model {
         return json_encode($response);
 
 	}
+
     public function dara($language = 'th'){
 		
 		$this->load->model('tags_model');
@@ -748,6 +758,7 @@ class Api_model extends CI_Model {
         return json_encode($response);
 
 	}
+
     public function category($language){
 
         $response = array();
@@ -800,6 +811,7 @@ class Api_model extends CI_Model {
         
         return json_encode($response);
 	}
+
     public function subcategory($language){
 
         $response = array();
@@ -852,6 +864,7 @@ class Api_model extends CI_Model {
         
         return json_encode($response);
 	}
+
     public function news($language, $id = null){
 
 		$this->load->model('news_model');
@@ -940,6 +953,7 @@ class Api_model extends CI_Model {
         return json_encode($response);
 
 	}
+
     public function column($language){
 
         $response = array();
@@ -1015,6 +1029,7 @@ class Api_model extends CI_Model {
         return json_encode($response);
 
 	}
+
     public function gallery($language){
 
         $response = array();
@@ -1093,7 +1108,8 @@ class Api_model extends CI_Model {
         return json_encode($response);
 
 	}
-    public function get_editorpick($ref_type = 0, $id = 0,  $debug = 0){
+
+    function get_editorpick($ref_type = 0, $id = 0,  $debug = 0){
 
 			$language = $this->lang->language['lang'];
 			$prefix = 'sd';

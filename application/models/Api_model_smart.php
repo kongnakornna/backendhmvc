@@ -42,42 +42,53 @@ class Api_model_smart extends CI_Model {
 									if($field == "parent") $mainparent = $title;					
 									if($field == "option") $havesub = $title;									
 							}
-//Debug($admin_menu);
-//die();	
-$icon = ($icon !== '') ? $icon : ''.$icon ; 
-if($mainparent == 0){
-$title = ($lang == 'th') ? $title_th : $title_en;
-       /*************Sub menu Active****************/
-                            $urlcerentrl=$this->uri->segment(1);
-                            $language= $this->lang->language;
-                            $lang = $language['lang'];
-                            $urlna=$this->uri->segment(1);
-                            $urlna = $this->Api_model_na->urlna($urlna,$lang); 
-                            $num_rowsna=(int)$urlna['num_rows'];
-                            //Debug($urlna); Die();
-        if($num_rowsna>0){
-        $admin_menu_id2na=$urlna['admin_menu_id2'];
-        $paramsna=$urlna['parent'];
-        if(($admin_menu_id2 == $paramsna) && ((strtolower($this->uri->segment(1)) == $urlcerentrl)	)){ 
-                                        $curactive = 'class="active open"';
-                                        $submenu= 'class="class="sub-menu"';
+							$icon = ($admin_menu_id2 == 28) ? $icon : 'fa '.$icon ;
+							
+							if($mainparent == 0){
+
+									//$icon_menu = ($row->_icon != '') ? $row->_icon : 'fa-file-text';
+									$title = ($lang == 'th') ? $title_th : $title_en;
+									
+									/*************Sub menu Active****************/
+									if(($admin_menu_id2 == 2) && ((strtolower($this->uri->segment(1)) == 'uploadfile')
+										|| (strtolower($this->uri->segment(1)) == 'dara_type') || (strtolower($this->uri->segment(1)) == 'dara')	
+										|| (strtolower($this->uri->segment(1)) == 'category') || (strtolower($this->uri->segment(1)) == 'subcategory')
+										|| (strtolower($this->uri->segment(1)) == 'emergency') || (strtolower($this->uri->segment(1)) == 'tags')
+										|| (strtolower($this->uri->segment(1)) == 'columnist') || (strtolower($this->uri->segment(1)) == 'credit') 
+										|| (strtolower($this->uri->segment(1)) == 'channel') || (strtolower($this->uri->segment(1)) == 'belong_to') )){
+										//ข้อมูลพื้นฐาน
+											$curactive = 'active"';
+											//$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 27) && ((strtolower($this->uri->segment(1)) == 'admin_menu') || (strtolower($this->uri->segment(1)) == 'admin_delete')	 || (strtolower($this->uri->segment(1)) == 'activity_logs')	  || (strtolower($this->uri->segment(1)) == 'team')	)){
+										//ตั้งค่า
+
+										$curactive = 'active"';
+										//$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 28) && ((strtolower($this->uri->segment(1)) == 'json') || (strtolower($this->uri->segment(1)) == 'gen')	)){
+										//สร้างแคช
+
+										$curactive = 'active"';
+										//$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 41) && ((strtolower($this->uri->segment(1)) == 'homepage_menu') || (strtolower($this->uri->segment(1)) == 'block') || (strtolower($this->uri->segment(1)) == 'programtv') || (strtolower($this->uri->segment(1)) == 'highlight') || (strtolower($this->uri->segment(1)) == 'order') )){
+										//หน้าเวปแสดงผล
+
+										$curactive = 'active"';
+										//$submenu = 'style="display:block;"';
+
+									}else if(($admin_menu_id2 == 87) && (strtolower($this->uri->segment(1)) == 'dev')){
+										//Dev tool
+
+										$curactive = 'active"';
+										//$submenu = 'style="display:block;"';
+
 									}else{
 										$curactive = '';
 										$submenu = '';
 									}
-            ////////// 
-        }else{
-            //////////////
-            if(($admin_menu_id2 == 1) && ((strtolower($this->uri->segment(1)) == $urlcerentrl))){
-                                        $curactive = 'class="active open"';
-                                        $submenu= 'class="class="sub-menu"';
-									}else{
-										$curactive = '';
-										$submenu = '';
-									}
-            //////////
-        }
-       /*************Sub menu Active****************/
+									/*************Sub menu Active****************/
 
 									$chkurl = ltrim($url,"/");
 									$classactive = '';
@@ -157,7 +168,7 @@ $title = ($lang == 'th') ? $title_th : $title_en;
 										}//if($subadmin_menu)
 											
 									/*************Sub menu Active****************/
-									if($sub == 1) $list_data .= '</ul>';
+									if($admin_menu_id2 == 2 || $admin_menu_id2 == 27 || $admin_menu_id2 == 28 || $admin_menu_id2 == 41 || $admin_menu_id2 == 87) $list_data .= '</ul>';
 									/*************Sub menu Active****************/
 									$list_data .= '</li>';
 							}	
@@ -389,8 +400,8 @@ $title = ($lang == 'th') ? $title_th : $title_en;
 					$this->db->update('_news_highlight', $data);
 					if($showdebug == 1) Debug($this->db->last_query());
 					$report = array();
-					//$report['error'] = $this->db->_error_number();
-					//$report['message'] = $this->db->_error_message();
+					$report['error'] = $this->db->_error_number();
+					$report['message'] = $this->db->_error_message();
 					if($report !== 0){
 						//Debug($this->db->last_query());
 						return true;

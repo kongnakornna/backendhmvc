@@ -57,5 +57,5 @@ $route['404_override'] = 'error404';
 $route['500_override'] = 'admin/error500';
 $route['translate_uri_dashes'] = FALSE;
 $route['settings'] = 'setting';
-
+$route['tmon/(:num)/(:any)']= "tmon/$1/$2";
 

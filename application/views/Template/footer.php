@@ -1,4 +1,5 @@
-<?php  
+<?php 
+########################################################################## 
 $setting = GetConfig1();
 $object = json_decode(json_encode($setting), TRUE);
 $systemname_crna=$object['systemname'];
@@ -22,13 +23,8 @@ $moo_crna=$object['moo'];
 $facebook_crna=$object['facebook'];
 $twitter_crna=$object['twitter'];
 $google_crna=$object['google'];
-# แปลภาษา
-# File THAI --> application\language\thai\app_lang.php
-# File English --> application\language\english\app_lang.php	
-
+##########################################################################
 $admin_id = 0;# 0=>เห็นทุกเมนู
-$navbar_fix = $breadcrumb_fix = '';
-
 $language = $this->lang->language;
 $lang=$this->lang->line('lang');
 $langs=$this->lang->line('langs');
@@ -65,9 +61,9 @@ $allrightsreserved=$this->lang->line('allrightsreserved');
 $home=$this->lang->line('home');
 $admin=$this->lang->line('admin');
 $togglesidebar=$this->lang->line('togglesidebar');
-
+##########################################################################
 $web_title=$titleweb;
-######################
+##########################################################################
 if($lang=='th'){
 	$langs_th='ภาษาไทย';
 	$langs_en='ภาษาอังกถษ';
@@ -85,6 +81,7 @@ $segment7=$this->uri->segment(7);
 $segment8=$this->uri->segment(8);
 $segment9=$this->uri->segment(9);
 $segment10=$this->uri->segment(10);
+##########################################################################
 ?>
 					</div><!-- /.page-content-area -->
 				</div><!-- /.page-content -->

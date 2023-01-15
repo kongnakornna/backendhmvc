@@ -1,7 +1,5 @@
 <?php
-
 class Admin_Model extends CI_Model{
-
 public $_admin_id;
 	//public $_admin_id2;
 	public $_admin_type_id;

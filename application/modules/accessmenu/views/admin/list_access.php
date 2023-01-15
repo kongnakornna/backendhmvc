@@ -1,4 +1,7 @@
-<?php $language = $this->lang->language; ?>
+<?php 
+$language = $this->lang->language;
+#echo '<pre> admintype=>'; print_r($admintype); echo '</pre>';  Die();
+?>
 <style type="text/css">
 #access_menu{height:400px;}	
 </style>
@@ -16,6 +19,7 @@
 										
 
 <?php
+  # echo '<pre><hr>data=>'; print_r($data); echo '</pre>';    die;
 				if(function_exists('Debug')){
 					//Debug($view_obj);
 					//Debug($view_subobj);
@@ -100,7 +104,11 @@
 															<div class="row">
 																<div class="col-sm-6">
 																	<span class="bigger-110"> <?php echo  $language['access_menu']?></span>
-																	<input type="hidden" name="admin_type_id" value="<?php echo $admintype->admin_type_id?>">
+																	<?php 
+																	$admin_type_id=$admintype->admin_type_id;
+																	//echo '<pre> $admin_type_id=>'; print_r($admin_type_id); echo '</pre>';  Die();
+																	?>
+																	<input type="hidden" name="admin_type_id" value="<?php echo $admin_type_id; ?>">
 																</div><!-- /.span -->
 															</div>
 
@@ -119,10 +127,10 @@
 ?>
 															</select> -->
 															
-															<select multiple="multiple" id="access_menu" name="access_menu[]" class="form-control">
-<?php
-echo $AccessMenu;
-?>
+					 <select multiple="multiple" id="access_menu" name="access_menu[]" class="form-control">
+					<?php
+					echo $AccessMenu;
+					?>
 															</select>
 											</div></div>
 											

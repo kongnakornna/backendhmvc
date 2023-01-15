@@ -4,8 +4,7 @@
  * @copyright kongnakorn  jantakun 2015
 */
 class User extends MY_Controller {
-
-	public function __construct()
+public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('session');
@@ -16,7 +15,7 @@ class User extends MY_Controller {
     * send him to the login page
     * @return void
     */	
-	function index(){
+public function index(){
 	    $language = $this->lang->language;  
 		if($this->session->userdata('is_logged_in')){
 			redirect('admin/dashboard');
@@ -38,7 +37,7 @@ class User extends MY_Controller {
     * check the username and the password with the database
     * @return void
     */
-	function validate_credentials(){	
+public function validate_credentials(){	
         	$this->load->library('session');
 		$this->load->model('Users_model');
 		$user_name = $this->input->post('user_name');
@@ -46,22 +45,21 @@ class User extends MY_Controller {
 		$remember = $this->input->post('remember') ? TRUE : FALSE;
 		$is_valid = $this->Users_model->validate($user_name, $password);
 		$admin = $this->Users_model->chkUser($user_name, $password,$remember);
-
-/*
-        echo 'admin_id='.$admin_id.'<br>';
-        echo 'user_name='.$username.'<br>';
-        echo 'admin_type='.$admin_type.'<br>';
-        echo 'name='.$name.'<br>';
-        echo 'lastname='.$lastname.'<br>';
-*/      
-/////////////////
+		/*
+				echo 'admin_id='.$admin_id.'<br>';
+				echo 'user_name='.$username.'<br>';
+				echo 'admin_type='.$admin_type.'<br>';
+				echo 'name='.$name.'<br>';
+				echo 'lastname='.$lastname.'<br>';
+		*/      
+		/////////////////
 		#Debug($admin);die();
 		
 		$admin_status=$admin['status'];
 		if($admin_status<>''&& $admin_status<>1){
 			echo 'Forbiden This User '; exit();
 		}
-/////////////////
+		/////////////////
 		if($admin){
 			$data = array(
 				'admin_id' => $admin['admin_id'],
@@ -79,7 +77,7 @@ class User extends MY_Controller {
 				'is_logged_in' => true
 			);
 			$this->session->set_userdata($data);
-/////////////////
+		/////////////////
         $session_id = $this->session->userdata('session_id');
         $remember = $this->session->userdata('remember');
 		$userinput=$this->session->userdata('user_name');
@@ -120,7 +118,9 @@ class User extends MY_Controller {
                $session_id_admin=$this->session->userdata('admin_id');
                $ref_id=$this->session->userdata('admin_type');
                ########IP#################	
-               $ipaddress=$_SERVER['REMOTE_ADDR'];	
+			$ipaddress=@$_SERVER['REMOTE_ADDR'];	
+			if($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
+			   /*
                $ipaddress1=$this->ip_address = array_key_exists('HTTP_CLIENT_IP',$_SERVER) ? $_SERVER['HTTP_CLIENT_IP'] : '127.0.0.1';
                $ipaddress2=$this->ip_address = array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '0.0.0.0';
                $ipaddress3=$this->ip_address = array_key_exists('HTTP_X_FORWARDED',$_SERVER) ? $_SERVER['HTTP_X_FORWARDED'] : '0.0.0.0';
@@ -134,7 +134,8 @@ class User extends MY_Controller {
                elseif($ipaddress5!==''){$ipaddress=$ipaddress5;}
                elseif($ipaddress6!==''){$ipaddress=$ipaddress6;}
                elseif($ipaddress = '127.0.0.1'||$ipaddress = '::1'){$ipaddress = '127.0.0.1';}else{$ipaddress='UNKNOWN';}
-               ########IP#################
+			 */
+			   ########IP#################
 						   $ref_type=1;
 						   $ref_title="LOGIN..  ".'[SYSTEM]'."";
 						   $action=2;
@@ -170,8 +171,7 @@ class User extends MY_Controller {
 		}
 	}	
 
-	function forgot_password(){
-
+public function forgot_password(){
 		$this->load->model('Users_model');
 		$this->load->library('email');
 		$email = $this->input->post('email');
@@ -185,24 +185,16 @@ class User extends MY_Controller {
 		$this->email->to($email);
 		//$this->email->cc('another@another-example.com');
 		//$this->email->bcc('them@their-example.com');
-
 		$this->email->subject('Email Tmon');
 		$this->email->message('Tmon the email class.');
-
 		$newpwd = $email.rand(100, 999);
 		$expire = time()+60*30;
-
 		echo "newpwd = $newpwd<br>";
 		echo "expire = $expire<br>";
-
-
 		//setcookie("ResetPWD", $value, time()+60*30);
-
 		echo $this->email->print_debugger();
 		//Debug($this->input->post());
 		//Debug($admin);
-
-
 		//$this->email->send();
 		//$this->load->view('admin/signup_form');	
 
@@ -211,11 +203,11 @@ class User extends MY_Controller {
     * The method just loads the signup view
     * @return void
     */
-	function signup(){
+public function signup(){
 		$this->load->view('admin/signup_form');	
 	}
 
-	function profile($id = 0){
+public function profile($id = 0){
 
 		$this->load->library("AdminFactory");
 		$this->load->model('Admin_team_model');
@@ -243,7 +235,7 @@ class User extends MY_Controller {
     * Create new user and store it in the database
     * @return void
     */	
-	function create_member(){
+public function create_member(){
 		$this->load->library('form_validation');
 		
 		// field name, error message, validation rules
@@ -272,7 +264,7 @@ class User extends MY_Controller {
     * Destroy the session, and logout the user.
     * @return void
     */		
-	function logout(){
+public function logout(){
                          //**************Log activity
                               $session_id_admin=$this->session->userdata('admin_id');
                               $ref_id=$this->session->userdata('admin_type');
@@ -285,7 +277,7 @@ class User extends MY_Controller {
                          	$log_activity = array(
                          					"admin_id" => $session_id_admin,
                          					"ref_id" => $ref_id,
-                         					"from_ip" => $ipaddress,
+                         					"from_ip" => '127.0.0.1',//$ipaddress,
                          					"ref_type" => $ref_type,
                          					"ref_title" => $ref_title,
                          					"action" => $action,

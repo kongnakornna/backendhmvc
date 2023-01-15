@@ -173,7 +173,7 @@
 							<!-- 
 									<td> &nbsp;<a href="<?php echo site_url('domains/show/'.$memberlist[$key]->_did); ?>"><b class="icon-pencil "></b> Edit</a> </td>
 							</tr> -->
-<?
+<?php
 							$i++;
 						//}
 				}

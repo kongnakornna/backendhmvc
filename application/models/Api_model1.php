@@ -351,8 +351,8 @@ class Api_model extends CI_Model {
 					$this->db->update('_news_highlight', $data);
 					if($showdebug == 1) Debug($this->db->last_query());
 					$report = array();
-					//$report['error'] = $this->db->_error_number();
-					//$report['message'] = $this->db->_error_message();
+					$report['error'] = $this->db->_error_number();
+					$report['message'] = $this->db->_error_message();
 					if($report !== 0){
 						//Debug($this->db->last_query());
 						return true;

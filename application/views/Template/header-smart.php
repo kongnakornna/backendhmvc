@@ -1,6 +1,18 @@
-<?php  
-$setting = GetConfig1();
-$object = json_decode(json_encode($setting), TRUE);
+<?php 
+$urlnodered=$this->config->item('urlnodered');
+$input=@$this->input->post(); 
+if($input==null){$input=@$this->input->get();}
+$debug=$input['debug'];
+ob_end_flush();
+$input=@$this->input->get();  
+if($input==null){$input=@$this->input->get(); } 
+$debug=$input['debug'];
+##############################################################################
+##############################################################################
+##############################################################################
+$setting=GetConfig1();
+$object=json_decode(json_encode($setting), TRUE);
+#echo'<hr><pre>  $object=>';print_r($object);echo'<pre> <hr>';  Die();
 $systemname_crna=$object['systemname'];
 $description_crna=$object['description'];
 $address_crna=$object['address'];
@@ -22,8 +34,13 @@ $moo_crna=$object['moo'];
 $facebook_crna=$object['facebook'];
 $twitter_crna=$object['twitter'];
 $google_crna=$object['google'];
-$admin_id = 0;# 0=>เห็นทุกเมนู
-$language = $this->lang->language;
+# แปลภาษา
+# File THAI --> application\language\thai\app_lang.php
+# File English --> application\language\english\app_lang.php	
+$admin_id=0;# 0=>เห็นทุกเมนู
+$navbar_fix='';
+$breadcrumb_fix='';
+$language=$this->lang->language;
 $lang=$this->lang->line('lang');
 $langs=$this->lang->line('langs');
 $dashboard=$this->lang->line('dashboard');
@@ -52,11 +69,13 @@ $newuserregistration=$this->lang->line('newuserregistration');
 $enteryourdetailstobegin=$this->lang->line('enteryourdetailstobegin');
 $useragreement=$this->lang->line('useragreement');
 $iaccept=$this->lang->line('iaccept');
+$dark=$this->lang->line('dark');
+$blur=$this->lang->line('blur');
+$light=$this->lang->line('light');
 $allrightsreserved=$this->lang->line('allrightsreserved');
 $home=$this->lang->line('home');
 $admin=$this->lang->line('admin');
 $togglesidebar=$this->lang->line('togglesidebar');
-$web_title=$titleweb;
 ######################
 if($lang=='th'){
 	$langs_th='ภาษาไทย';
@@ -75,9 +94,107 @@ $segment7=$this->uri->segment(7);
 $segment8=$this->uri->segment(8);
 $segment9=$this->uri->segment(9);
 $segment10=$this->uri->segment(10);
+##################################################################
+##################################################################
+		$admin_id = $this->session->userdata('admin_id');
+		$admin_type = $this->session->userdata('admin_type');
+		//$ListSelect = $this->Api_model->user_menu($admin_type);
+			/////////////cache////////////
+			$time_cach_set_min=$this->config->item('time_cach_set_min');
+			$time_cach_set=$this->config->item('time_cach_set');
+			#$cachetime=$time_cach_set_min;
+			$cachetime=60*60*24*365;
+			$lang=$this->lang->line('lang'); 
+			$langs=$this->lang->line('langs'); 
+			$cachekey='ListSelect_menu_'.$lang;
+			##Cach Toools Start######
+			//cachefile 
+			$input=@$this->input->post(); 
+			if($input==null){ $input=@$this->input->get();}
+			$deletekey=@$input['deletekey'];
+			if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+			$cachetype='2'; 
+			$this->load->model('Cachtool_model');
+			$sql=null;
+			$cachechk=$this->Cachtool_model->cachedbgetkey($sql,$cachekey,$cachetime,$cachetype,$deletekey);
+			$cachechklist=$cachechk['list'];
+			// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+			if($cachechklist!=null){    // IN CACHE
+				$temp = $cachechklist;
+				#echo'1 Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+			}else{
+				// NOT IN CACHE
+				///// ***** เอา FUNCTION ที่ทำงานท่อนเดิม มาใส่ตรงนี้ ******
+				#$ListSelect=$this->Api_model_na->user_menu($this->session->userdata('admin_type'));
+				$ListSelect= $this->Api_model_na->user_menu($admin_type);
+				$sql=null;
+				$cachechklist=$this->Cachtool_model->cachedbsetkey($sql,$ListSelect,$cachekey,$cachetime,$cachetype,$deletekey);
+				#echo'2 Form SQL <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+				$cachechklist= $this->Api_model_na->user_menu($admin_type);
+			}
+			$ListSelect=$cachechklist;
+	/////////////cache////////////
+ #echo '<pre> ListSelect-> '; print_r($ListSelect); echo '</pre>'; die(); 
+	$loadfile="admintype".$admin_type.".json";
+	$admin_menu=LoadJSON($loadfile);
+	#echo '<pre> admin_menu-> '; print_r($admin_menu); echo '</pre>'; die(); 
+	
+		if(!isset($breadcrumb)) $breadcrumb='';
+		if(!isset($ListSelect)) $ListSelect=null;
+		######## Cach Toools Start ################################################
+				$cachetype=2; $dev=0; $deletekey=0;
+				$lang=$this->lang->line('lang'); 
+				//	$langs=$this->lang->line('langs'); 
+					$cachekey='key-getMenu-'.'admin_type-'.$admin_type.'-lang-'.$lang;
+					$cachetime=60*60*60*24*365;
+					##Cach Toools Start######
+					//cachefile 
+					$input=@$this->input->post(); 
+					if($input==null){ $input=@$this->input->get();}
+					$deletekey=@$input['deletekey'];
+					if($deletekey==''){$deletekey=null;}else{$deletekey=1;}
+					/*
+					$this->load->model('Cachtool_model');
+					$cachechk=$this->Cachtool_model->cachedbgetkey($sql=null,$cachekey,$cachetime,$cachetype,$deletekey);
+					$cachechklist=$cachechk['list'];
+					// echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechk);echo'</pre>'; Die();
+					if($cachechklist!=null){
+						// IN CACHE
+						$cachechklist=$cachechklist;
+						#echo' Form Cache <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}else{                        
+							// NOT IN CACHE
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachetypedev=1;
+							$rs=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
+							// ############################# 
+							$cachechklist=$this->Cachtool_model->cachedbsetkey($sql=null,$rs,$cachekey,$cachetime,$cachetype,$deletekey);
+							// เอา FUNCTION ที่ทำงาน SQL มาใส่ตรงนี้ 
+							$cachechklist=$this->menufactory->getMenu(0,0,0,$cachetypedev,$deletekey,$dev);
 
-$strDate=date('Y-m-d H:i:s');
-function DateThai($strDate){
+							#echo' Form Sql <hr> <pre>   cachechklist =>';print_r($cachechklist);echo'</pre>'; Die();
+					}
+				$admin_menu=$cachechklist;
+				$getMenu=$cachechklist;
+				*/
+		######## Cach Toools END ################################################
+##################################################################
+##################################################################
+       $datenow=strtotime("now");
+       $datetomorrow=strtotime("tomorrow");
+       $yesterday=strtotime("yesterday");
+       $date1day=strtotime("+1 day");
+       $date1week=strtotime("+1 week");
+       $lastweek=strtotime("lastweek");
+       $date1week2day=strtotime("+1 week 2 days 4 hours 2 seconds");
+       $datenextthursday=strtotime("next Thursday");
+       $datenowlastmonday=strtotime("last Monday");
+       $date2pmyesterday=strtotime("2pm yesterday");
+       $date7am12daysago=strtotime("7am 12 days ago");
+       $yesterday =date("Y-m-d", $yesterday); 
+       $time=date('H:i:s');
+	      $strDate=date('Y-m-d H:i:s');
+		function DateThai($strDate){
 		$strYear=date("Y",strtotime($strDate))+543;
 		$strMonth= date("n",strtotime($strDate));
 		$strDay= date("j",strtotime($strDate));
@@ -87,15 +204,15 @@ function DateThai($strDate){
 		$strMonthCut=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay $strMonthThai $strYear, $strHour:$strMinute";
-	}
+		}
 		$strMonth1= date("n",strtotime($strDate));
 		$strMonthCut1=Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai1=$strMonthCut1[$strMonth1];
-	    $strYear2=date("Y",strtotime($strDate))+543;
+	 $strYear2=date("Y",strtotime($strDate))+543;
 		$strHour3= date("H",strtotime($strDate));
 		$strMinute3= date("i",strtotime($strDate));
 		$strSeconds3= date("s",strtotime($strDate));
-        $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
+  $timena=$strHour3.':'.$strMinute3.':'.$strSeconds3;
 		$strYear4=date("Y",strtotime($strDate))+543;
 		$strMonth4= date("n",strtotime($strDate));
 		$strDay4= date("j",strtotime($strDate));
@@ -103,8 +220,12 @@ function DateThai($strDate){
 		$strMonthThai3=$strMonthCut[$strMonth4];
 		$datena=$strDay4.' '.$strMonthThai3.' '.$strYear4;
 	####################
+$navbar_fix='navbar-fixed-top';
+$breadcrumb_fix='breadcrumbs-fixed';
+	//echo $segment1.':'.$web_title.':'.$userinput;
 	if(!$this->session->userdata('user_name')) {					
 		redirect('login/login');
+		die();
 	}else{
 		$userinput=$this->session->userdata('user_name');
 		$user_id= $this->session->userdata('admin_id');
@@ -119,6 +240,11 @@ function DateThai($strDate){
 	}
 	$total_execution_time_start=$this->benchmark->marker['total_execution_time_start'];
 	$attr=array();
+	
+##############################################################################
+##############################################################################
+##############################################################################
+
 ?>
 <!DOCTYPE html>
 <!-- Template Name: Clip-One - Responsive Admin Template build with Twitter Bootstrap 3.x Version: 1.4 Author: ClipTheme -->
@@ -279,9 +405,7 @@ if($this->session->userdata['avatar'] != ''){
 				<ul class="dropdown-menu">
 				
 <?php if($admin_type=='1'){?>
-								<li>
-									<a href="<?php echo base_url('overview'); ?>"><i class="fa fa-bar-chart-o"></i><?php echo'&nbsp;';?><?php echo $this->lang->line('overview'); ?></a>
-								</li>
+								 
 								<li>
 									<a href="<?php echo base_url('setting'); ?>"><i class="fa fa-code-fork "></i><?php echo'&nbsp;';?><?php echo $this->lang->line('settings'); ?></a>
 								</li>
@@ -300,20 +424,9 @@ if($this->session->userdata['avatar'] != ''){
 										<i class="fa fa-sitemap"></i><?php echo'&nbsp;';?><?php echo $this->lang->line('admin_menu'); ?>
 									</a>
 								</li>
-								<li>
-									<a href="<?php echo base_url('user_guide'); ?>">
-										<i class="fa fa-book"></i><?php echo'&nbsp;';?><?php echo $this->lang->line('help');?>
-									</a>
-								</li>
+								 
 
-								<li class="divider"></li>
-								<li>
-									
-										<a href="<?php echo base_url('hwdata'); ?>">
-										<i class="fa fa-tint"></i>
-										</i><?php echo'&nbsp;';?><?php echo $this->lang->line('hwdata');?> 
-									</a>
-								</li>
+								 
                                         <li>
                                         <a href="<?php echo base_url('lock_screen'); ?>">
                                         <i class="fa fa-retweet"></i><?php echo'&nbsp;';?>
@@ -405,11 +518,11 @@ if($this->session->userdata['avatar'] != ''){
 		}
 		//Debug($_SERVER);
 		
-		if($this->uri->segment(1) == "sensor")
+		if($this->uri->segment(2) == "sensor")
 			$action_form=@$_SERVER['PATH_INFO'];
 		else
-			$action_form=$this->uri->segment(1);
-		$method =$this->uri->segment(1);
+			$action_form=$this->uri->segment(2);
+		$method =$this->uri->segment(2);
 		switch($method){
 				case "overview" : $method=$language['overview']; break;
 				case "sensorreport" : $method=$language['sensorreport']; break;
@@ -521,11 +634,13 @@ if($this->session->userdata['avatar'] != ''){
 		<nav>
 			<ul>
 				<?php /***********Menu**************/
-					echo $ListSelect;
+					 //echo $ListSelect;
 				?>
 			</ul>
 		</nav>
+		<!--
 				<span class="minifyme"> <i class="fa fa-arrow-circle-left hit"></i> </span>
+		-->
 		
 </aside>
 <!-- END NAVIGATION -->
@@ -536,7 +651,11 @@ if($this->session->userdata['avatar'] != ''){
  <div id="main" role="main">
 	 <!-- RIBBON -->
 		 <div id="ribbon">
+		 
+	<!-- 	 
 	<span class="ribbon-button-alignment"> <span id="refresh" class="btn btn-ribbon" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true"><i class="fa fa-refresh"></i></span> </span>
+	-->
+	
 		<?php ##################################?>
 		<?php ##################################?>
 		<!--Start breadcrumb -->
@@ -546,7 +665,7 @@ if($this->session->userdata['avatar'] != ''){
 
 
  <?php if($this->uri->segment(1)=='overview'|| $this->uri->segment(1)=='workflow'){?> 
-  <li><a href="<?php echo base_url('control'); ?>"><?php echo $this->lang->line('control');?></a></li>
+  <li><a href="<?php echo base_url('tmon'); ?>"><?php echo $this->lang->line('control');?></a></li>
   <li><a href="<?php echo base_url('sensor'); ?>"><?php echo $this->lang->line('sensormonitor');?></a></li>
  <?php } if($this->uri->segment(1)=='control'){?> 
   <li><a href="<?php echo base_url('sensor'); ?>"><?php echo $this->lang->line('sensormonitor');?></a></li>

@@ -53,6 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
+    date_default_timezone_set("Asia/Bangkok");
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
@@ -63,6 +64,7 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
+ ob_clean();
 switch (ENVIRONMENT)
 {
 	case 'development':
@@ -289,4 +291,4 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+@require_once BASEPATH.'core/CodeIgniter.php';

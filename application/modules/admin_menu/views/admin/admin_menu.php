@@ -185,7 +185,7 @@
 														</a>
 														<ul role="menu" class="dropdown-menu pull-right">
 															<li role="presentation">
-																<a href="<?php echo site_url('admin_menu/edit/'.$menu_id); ?>" class="tooltip-success" data-rel="tooltip" title="Edit">
+																<a href="<?php echo site_url('admin_menu/edit/'.$menu_id).'?deletekey=1'; ?>" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span><?php $edit=$language['edit']; echo "<b><font color='blue'> $edit </font></b>";?>
@@ -208,9 +208,9 @@
 							<!-- 
 									<td> &nbsp;<a href="<?php //echo site_url('domains/show/'.$memberlist[$key]->_did); ?>"><b class="icon-pencil "></b> Edit</a> </td>
 							</tr> -->
-<?
+<?php
 							$i++;
-						//}
+				// }
 				}
 ?>
 	</tbody>

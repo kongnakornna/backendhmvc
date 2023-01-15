@@ -307,8 +307,8 @@ button.btn:active {
 .btn-default,
 .btn:focus,
 .btn-default:focus {
-  background-color: #abbac3 !important;
-  border-color: #abbac3;
+ // background-color: #abbac3 !important;
+ // border-color: #abbac3;
 }
 .btn:hover,
 .btn-default:hover,

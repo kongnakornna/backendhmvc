@@ -49,7 +49,7 @@
 										<div class="dd" id="nestable">									
 <?php ####Main###?>
 <?php
-			# debug($web_menu);#Die();
+	 # debug($web_menu);#Die();
 			$count=count($web_menu);
 			$i=1;
 			if($count>=1){
@@ -202,3 +202,224 @@ var list = e.length ? e : $(e.target), output = list.data('output');
 		<link rel="stylesheet" href="<?php echo base_url('theme/')?>/assets/css/ace.onpage-help.css" />
 		<script src="<?php echo base_url('theme/')?>/assets/js/ace/elements.onpage-help.js"></script>
 		<script src="<?php echo base_url('theme/')?>/assets/js/ace/ace.onpage-help.js"></script>
+  
+  
+  
+<?php
+/*
+
+#######CI
+public function savelist() {
+
+    if ($this->input->post('list')) {
+        $this->do_update($this->input->post('list'));
+    }
+}
+
+public function do_update($list, $parent_id = 0, &$m_order = 0) {
+    foreach ($list as $item) {
+        $m_order++;
+        $data = array(
+            'parent_id' => $parent_id,
+            'm_order' => $m_order,
+        );
+        if ($parent_id != $item['id']) {
+            $where = array('id' => $item['id']);
+            var_dump($data . ':' . $where);
+            $this->db->where($where);
+            $this->db->update('nav', $data);
+        }
+        if (array_key_exists("children", $item)) {
+            $this->do_update($item["children"], $item["id"], $m_order);
+        }
+    }
+}
+#######CI
+
+
+
+
+<script>
+        $(document).ready(function () {
+
+            var updateOutput = function (e) {
+                var list = e.length ? e : $(e.target), output = list.data('output');
+                $.ajax({
+                    method: "POST",
+                    url: "savelist",
+                    data: {
+                        list: list.nestable('serialize')
+                    }, success: function (data) { //, textStatus, jqXHR
+                        console.log(list.nestable('serialize'));
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(" Unable to save new list order: " + errorThrown);
+                });
+            };
+            $('#nestable').nestable({
+                group: 1,
+                maxDepth: 7,
+            }).on('change', updateOutput);
+        });
+    </script>
+
+
+REATE TABLE IF NOT EXISTS `nav` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) NOT NULL,
+  `text` varchar(500) NOT NULL,
+  `link` text NOT NULL,
+  `show_condition` int(5) NOT NULL,
+  `parent_id` int(5) NOT NULL,
+  `m_order` int(9) NOT NULL,
+  `class` varchar(50) NOT NULL,
+  `data` varchar(50) NOT NULL,
+  `des` text NOT NULL,
+  `lang` varchar(50) NOT NULL,
+  `accord` int(3) NOT NULL,
+  `footer` int(3) NOT NULL,
+  `f_sta` int(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+
+
+Here is my Controller:
+public function select_menu_priority() {
+        $data['product'] = $this->menu_model->select_menu_priority();
+
+        $data['li'] = $this->generate_li($data['product']);
+
+        $this->load->view("set_menu_priority_table", $data);
+    }
+
+function generate_li($product,$parent = NULL){
+
+        $li = "";
+
+        $p1 = array_filter($product, function($a)use($parent){ return $a['parent_menu_id'] == $parent; });
+
+        foreach ($p1 as $p){
+
+            $inner_li = "";
+
+            $p2 = array_filter($product,function($a)use($p){ return $a['parent_menu_id'] == $p['id']; });
+
+            if($p2){
+                $inner_li = $this->generate_li($product,$p['id']);
+            }
+
+            $li .= "<li class='dd-item' data-id='".$p['id']."'><div class='dd-handle'>".$p['title']."</div>".$inner_li."</li>";
+
+        }
+
+        $ol = "<ol class='dd-list'>".$li."</ol>";
+
+        return $ol;
+    }
+
+
+View set_menu_priority_table.php:
+
+<?php
+if (isset($product)) {    
+    $entity = $this->input->post("entity");
+    $entity = $entity['id'];
+    if (count($product) > 0) {
+        ?>
+        <div class="row-fluid" style="margin-bottom: 10px;">
+            <button class="btn btn-success btn-sm" tabindex="4" id="save">
+                <i class="fa fa-check"></i> Save
+            </button>
+            <p class="pull-right" style="margin-bottom: 10px;"><?php if ($entity == "product") { ?><a href="javascript:void(0)" id="show_category" class="text-success" style="margin-right:10px;font-weight: bold;text-decoration: underline">Go to Category Priority</a><?php } ?><span class="label label-info ">Drag Menu to set Priority.</span></p>            
+            <div class="clear"></div>
+        </div>
+        <div class="dd" id="product_list">
+            <input type="hidden" id="entity_type" name="entity" value="<?php echo $entity ?>" />    
+            <?php echo $li; ?>
+        </div>
+    <?php } else { ?>        
+        <p><span class="label label-warning">No <?php echo ($entity == "product") ? "product" : "category"; ?> found.</span><?php if ($entity == "product") { ?><a href="javascript:void(0)" id="show_category" class="text-success" style="margin-left:15px;font-weight: bold;text-decoration: underline">Go to Category Priority</a><?php } ?></p>            
+        <?php
+    }
+} else {
+    ?>
+    <p class="label label-info">Please select Category to Set Priority within the Category.</p>
+<?php } ?>
+
+<script type="text/javascript">
+$("#save").off("click").on("click", function() {
+            var product_data = $("#product_list").nestable("serialize");
+            var data = {product_data: product_data, entity: $("#entity_type").val()};
+            if ($.bbq.getState("product_category") !== undefined) {
+                data['product_category'] = $.bbq.getState("product_category");
+            }
+            ajax_call({
+                url: '<?php echo site_url("admin/menu/update_menu_priority");?>',
+                type: "post",
+                dataType: "json",
+                data: data,
+                beforeSend: function() { },
+                success: function(result) {
+                    if (result['status'] == "success") {
+                        alert("Priority Updated!");
+                    } 
+            });
+        });
+</script>
+
+
+For Update That Priority Add function update_menu_priority in Controller:
+
+public function update_menu_priority() {
+            $data = $this->input->post("product_data");
+            if (count($data)) {
+                $update = $this->menu_model->update_priority_data($data);
+                if ($update) {
+                    $result['status'] = "success";
+                } else {
+                    $result['status'] = "error";
+                }
+            } else {
+                $result['status'] = "error";
+            }
+            echo json_encode($result);
+
+    }
+
+And at last ad model function for that update_priority_data:
+function update_priority_data($data, $parent = NULL) {
+        $i = 1;
+        foreach ($data as $d) {
+            if (array_key_exists("children", $d)) {
+                $this->update_priority_data($d['children'], $d['id']);
+            }
+            $update_array = array("priority" => $i, "parent_menu_id" => $parent);
+            $update = $this->db->where("id", $d['id'])->update("menu", $update_array);
+            $i++;
+        }
+        return $update;
+    }
+
+
+foreach($featured as $key => $value){
+  echo $value['name'];
+}
+
+แก้ไข
+ข้อแรก
+foreach(array_keys($car) as $brand) echo "<br>".$brand;
+
+หรือ
+foreach($car as $brand => $model) echo "<br>".$brand;
+
+ข้อสอง
+foreach($car as $brand => $models){
+echo "<br>".$brand;
+foreach($models as $model) echo "<br>-".$model;
+}
+
+
+
+*/
+?> 
