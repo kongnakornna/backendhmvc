@@ -1,1 +1,0 @@
-<p><iframe frameborder="0" height="1000" scrolling="no" src="<?php //echo $DeleteCache.'&type=article' ?>" width="100%">Delete API Cache</iframe></p>

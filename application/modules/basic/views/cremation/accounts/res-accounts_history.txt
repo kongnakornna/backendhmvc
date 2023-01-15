@@ -1,5 +1,0 @@
-ค่าธรรมเนียม  fee
-
-year mounth date
-
-cremation_die_balance

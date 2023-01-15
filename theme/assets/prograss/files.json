@@ -1,9 +1,0 @@
-{
-  "files": [{
-    "source": "../files/test.js",
-    "type": "SCRIPT",
-    "size": 4.096,
-    "stopExecution": false
-  }]
-
-}
